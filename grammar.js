@@ -19,14 +19,24 @@ module.exports = grammar({
       $._ruby_block,
     ),
 
-    element: $ => seq(
-      choice(
-        seq(field('name', $.tag_name), field('shortcuts', optional($.tag_shortcuts))),
-        field('shortcuts', $.tag_shortcuts),
-      ),
-      optional($._newline_or_nested),
+    _block_nonterminated: $ => choice(
+      alias($._tag, $.element),
+      alias($._ruby_block_itself, $.ruby_block)
     ),
 
+    element: $ => seq(
+      $._tag,
+      $._newline_or_nested,
+    ),
+
+    _tag: $ => seq(
+      $._tag_name_and_shortcuts,
+      optional($._output_modifiers),
+    ),
+    _tag_name_and_shortcuts: $ => choice(
+      seq(field('name', $.tag_name), field('shortcuts', optional($.tag_shortcuts))),
+      field('shortcuts', $.tag_shortcuts),
+    ),
     tag_shortcuts: $ => repeat1($._tag_shortcut),
 
     // TODO: disallow spaces between shortcuts
@@ -39,7 +49,12 @@ module.exports = grammar({
     tag_id: $ => seq('#', $.css_identifier),
 
     _newline_or_nested: $ => choice($._newline, $._nested),
-    _nested: $ => seq($._indent, repeat1($._block), $._dedent),
+    _nested: $ => seq(
+      $._indent,
+      repeat($._block),
+      choice($._block, $._block_nonterminated),
+      $._dedent
+    ),
 
     // From css grammar https://github.com/tree-sitter/tree-sitter-css/blob/master/grammar.js
     // Slim uses other, \p{Word} - based regexp
@@ -63,16 +78,26 @@ module.exports = grammar({
     _doctype_xml: $ => seq('xml', optional($.doctype_xml_encoding)),
     doctype_xml_encoding: $ => /\w+/, // Not sure which chars
 
+    _ruby_block: $ => seq(
+      $._ruby_block_itself,
+      $._newline_or_nested
+    ),
 
-    // TODO: fix nesting
-    _ruby_block: $ => choice(
+    _ruby_block_itself: $ => choice(
       $.ruby_block_control,
       $.ruby_block_output,
       $.ruby_block_output_no_html_escaping,
     ),
-    ruby_block_control: $ => seq('-', $._ruby_block_body),
-    ruby_block_output: $ => seq('=', $._ruby_block_body), // TODO: modifiers
-    ruby_block_output_no_html_escaping: $ => seq('==', $._ruby_block_body), // TODO: modifiers
-    _ruby_block_body: $ => seq($.ruby, optional($._newline_or_nested)),
+    ruby_block_control: $ => seq('-', $.ruby),
+    ruby_block_output: $ => seq('=', $._output_modifiers, $.ruby),
+    ruby_block_output_no_html_escaping: $ => seq('==', $._output_modifiers, $.ruby),
+
+    _output_modifiers: $ => repeat1($._output_modifier),
+    _output_modifier: $ => choice(
+      $.output_modifier_leading_whitespace,
+      $.output_modifier_trailing_whitespace,
+    ),
+    output_modifier_leading_whitespace: $ => token.immediate('<'),
+    output_modifier_trailing_whitespace: $ => token.immediate('>'),
   }
 });

@@ -76,9 +76,9 @@ public:
       if (!indents.empty()) {
         uint16_t current_indent_length = indents.back();
 
-        std::cout << "current indent: " << current_indent_length << " indent: " << indent_length <<
-          " valid_symbols: " << valid_symbols[INDENT] << valid_symbols[DEDENT] << valid_symbols[NEWLINE]
-                  << std::endl;
+        // std::cout << "current indent: " << current_indent_length << " indent: " << indent_length <<
+        //   " valid_symbols: " << valid_symbols[INDENT] << valid_symbols[DEDENT] << valid_symbols[NEWLINE]
+        //           << std::endl;
 
         if (valid_symbols[INDENT] && indent_length > current_indent_length) {
           indents.push_back(indent_length);

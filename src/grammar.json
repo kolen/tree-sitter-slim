@@ -25,62 +25,102 @@
         }
       ]
     },
+    "_block_nonterminated": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_tag"
+          },
+          "named": true,
+          "value": "element"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_ruby_block_itself"
+          },
+          "named": true,
+          "value": "ruby_block"
+        }
+      ]
+    },
     "element": {
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "FIELD",
-                  "name": "name",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "tag_name"
-                  }
-                },
-                {
-                  "type": "FIELD",
-                  "name": "shortcuts",
-                  "content": {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "tag_shortcuts"
-                      },
-                      {
-                        "type": "BLANK"
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            {
-              "type": "FIELD",
-              "name": "shortcuts",
-              "content": {
-                "type": "SYMBOL",
-                "name": "tag_shortcuts"
-              }
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "_tag"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_newline_or_nested"
+        }
+      ]
+    },
+    "_tag": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_tag_name_and_shortcuts"
         },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_newline_or_nested"
+              "name": "_output_modifiers"
             },
             {
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "_tag_name_and_shortcuts": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "name",
+              "content": {
+                "type": "SYMBOL",
+                "name": "tag_name"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "shortcuts",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "tag_shortcuts"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "type": "FIELD",
+          "name": "shortcuts",
+          "content": {
+            "type": "SYMBOL",
+            "name": "tag_shortcuts"
+          }
         }
       ]
     },
@@ -155,11 +195,24 @@
           "name": "_indent"
         },
         {
-          "type": "REPEAT1",
+          "type": "REPEAT",
           "content": {
             "type": "SYMBOL",
             "name": "_block"
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_block"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_block_nonterminated"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
@@ -278,6 +331,19 @@
       "value": "\\w+"
     },
     "_ruby_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_ruby_block_itself"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_newline_or_nested"
+        }
+      ]
+    },
+    "_ruby_block_itself": {
       "type": "CHOICE",
       "members": [
         {
@@ -303,7 +369,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_ruby_block_body"
+          "name": "ruby"
         }
       ]
     },
@@ -316,7 +382,11 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_ruby_block_body"
+          "name": "_output_modifiers"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ruby"
         }
       ]
     },
@@ -329,30 +399,47 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_ruby_block_body"
-        }
-      ]
-    },
-    "_ruby_block_body": {
-      "type": "SEQ",
-      "members": [
+          "name": "_output_modifiers"
+        },
         {
           "type": "SYMBOL",
           "name": "ruby"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_newline_or_nested"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
         }
       ]
+    },
+    "_output_modifiers": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_output_modifier"
+      }
+    },
+    "_output_modifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "output_modifier_leading_whitespace"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "output_modifier_trailing_whitespace"
+        }
+      ]
+    },
+    "output_modifier_leading_whitespace": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "<"
+      }
+    },
+    "output_modifier_trailing_whitespace": {
+      "type": "IMMEDIATE_TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": ">"
+      }
     }
   },
   "extras": [
