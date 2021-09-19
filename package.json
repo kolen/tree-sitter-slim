@@ -1,0 +1,26 @@
+{
+  "name": "tree-sitter-slim",
+  "version": "0.0.1",
+  "description": "A tree-sitter based parser for slim template language",
+  "main": "bindings/node",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "tree-sitter",
+    "slim",
+    "slim-lang",
+    "templates",
+    "ruby",
+    "syntax",
+    "ide"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "nan": "^2.15.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.20.0"
+  }
+}

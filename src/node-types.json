@@ -1,0 +1,350 @@
+[
+  {
+    "type": "doctype",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "doctype_html5",
+          "named": true
+        },
+        {
+          "type": "doctype_xhtml",
+          "named": true
+        },
+        {
+          "type": "doctype_xml_encoding",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "doctype_html5",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "doctype_xhtml",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "doctype_xml_encoding",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "element",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "tag_name",
+            "named": true
+          }
+        ]
+      },
+      "shortcuts": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "tag_shortcuts",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "doctype",
+          "named": true
+        },
+        {
+          "type": "element",
+          "named": true
+        },
+        {
+          "type": "ruby_block_control",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output_no_html_escaping",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ruby_block_control",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "doctype",
+          "named": true
+        },
+        {
+          "type": "element",
+          "named": true
+        },
+        {
+          "type": "ruby",
+          "named": true
+        },
+        {
+          "type": "ruby_block_control",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output_no_html_escaping",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ruby_block_output",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "doctype",
+          "named": true
+        },
+        {
+          "type": "element",
+          "named": true
+        },
+        {
+          "type": "ruby",
+          "named": true
+        },
+        {
+          "type": "ruby_block_control",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output_no_html_escaping",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ruby_block_output_no_html_escaping",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "doctype",
+          "named": true
+        },
+        {
+          "type": "element",
+          "named": true
+        },
+        {
+          "type": "ruby",
+          "named": true
+        },
+        {
+          "type": "ruby_block_control",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output_no_html_escaping",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "doctype",
+          "named": true
+        },
+        {
+          "type": "element",
+          "named": true
+        },
+        {
+          "type": "ruby_block_control",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output_no_html_escaping",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tag_class",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "css_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tag_id",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "css_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "tag_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "tag_shortcuts",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "tag_class",
+          "named": true
+        },
+        {
+          "type": "tag_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "#",
+    "named": false
+  },
+  {
+    "type": "-",
+    "named": false
+  },
+  {
+    "type": ".",
+    "named": false
+  },
+  {
+    "type": "1.1",
+    "named": false
+  },
+  {
+    "type": "5",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
+    "named": false
+  },
+  {
+    "type": "basic",
+    "named": false
+  },
+  {
+    "type": "css_identifier",
+    "named": true
+  },
+  {
+    "type": "doctype",
+    "named": false
+  },
+  {
+    "type": "frameset",
+    "named": false
+  },
+  {
+    "type": "html",
+    "named": false
+  },
+  {
+    "type": "mobile",
+    "named": false
+  },
+  {
+    "type": "ruby",
+    "named": true
+  },
+  {
+    "type": "strict",
+    "named": false
+  },
+  {
+    "type": "transitional",
+    "named": false
+  },
+  {
+    "type": "xml",
+    "named": false
+  }
+]

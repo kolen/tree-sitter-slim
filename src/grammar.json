@@ -1,0 +1,387 @@
+{
+  "name": "slim",
+  "rules": {
+    "source_file": {
+      "type": "REPEAT",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_block"
+      }
+    },
+    "_block": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "element"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "doctype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_ruby_block"
+        }
+      ]
+    },
+    "element": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "FIELD",
+                  "name": "name",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "tag_name"
+                  }
+                },
+                {
+                  "type": "FIELD",
+                  "name": "shortcuts",
+                  "content": {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "tag_shortcuts"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "FIELD",
+              "name": "shortcuts",
+              "content": {
+                "type": "SYMBOL",
+                "name": "tag_shortcuts"
+              }
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_newline_or_nested"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "tag_shortcuts": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "_tag_shortcut"
+      }
+    },
+    "tag_name": {
+      "type": "PATTERN",
+      "value": "\\w+"
+    },
+    "_tag_shortcut": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "tag_class"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "tag_id"
+        }
+      ]
+    },
+    "tag_class": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "."
+        },
+        {
+          "type": "SYMBOL",
+          "name": "css_identifier"
+        }
+      ]
+    },
+    "tag_id": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "css_identifier"
+        }
+      ]
+    },
+    "_newline_or_nested": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_newline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_nested"
+        }
+      ]
+    },
+    "_nested": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_indent"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_block"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_dedent"
+        }
+      ]
+    },
+    "css_identifier": {
+      "type": "PATTERN",
+      "value": "(--|-?[a-zA-Z_])[a-zA-Z0-9-_]*"
+    },
+    "doctype": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "doctype"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_doctype_html"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_doctype_xml"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_newline"
+        }
+      ]
+    },
+    "_doctype_html": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "doctype_html5"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "doctype_xhtml"
+        }
+      ]
+    },
+    "doctype_html5": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "html"
+        },
+        {
+          "type": "STRING",
+          "value": "5"
+        }
+      ]
+    },
+    "doctype_xhtml": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "1.1"
+        },
+        {
+          "type": "STRING",
+          "value": "strict"
+        },
+        {
+          "type": "STRING",
+          "value": "frameset"
+        },
+        {
+          "type": "STRING",
+          "value": "mobile"
+        },
+        {
+          "type": "STRING",
+          "value": "basic"
+        },
+        {
+          "type": "STRING",
+          "value": "transitional"
+        }
+      ]
+    },
+    "_doctype_xml": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "xml"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "doctype_xml_encoding"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "doctype_xml_encoding": {
+      "type": "PATTERN",
+      "value": "\\w+"
+    },
+    "_ruby_block": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "ruby_block_control"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ruby_block_output"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ruby_block_output_no_html_escaping"
+        }
+      ]
+    },
+    "ruby_block_control": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "-"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_ruby_block_body"
+        }
+      ]
+    },
+    "ruby_block_output": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_ruby_block_body"
+        }
+      ]
+    },
+    "ruby_block_output_no_html_escaping": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "=="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_ruby_block_body"
+        }
+      ]
+    },
+    "_ruby_block_body": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "ruby"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_newline_or_nested"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s"
+    }
+  ],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [
+    {
+      "type": "SYMBOL",
+      "name": "_indent"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_dedent"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_newline"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "ruby"
+    }
+  ],
+  "inline": [],
+  "supertypes": []
+}
+

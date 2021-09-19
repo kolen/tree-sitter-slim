@@ -1,0 +1,20 @@
+===============
+Element nesting
+===============
+
+.foo
+  .bar
+  .baz
+.quux
+
+---
+
+(source_file
+  (element
+    shortcuts: (tag_shortcuts (tag_class (css_identifier)))
+    (element
+      shortcuts: (tag_shortcuts (tag_class (css_identifier))))
+    (element
+      shortcuts: (tag_shortcuts (tag_class (css_identifier)))))
+  (element
+    shortcuts: (tag_shortcuts (tag_class (css_identifier)))))
