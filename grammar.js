@@ -32,6 +32,8 @@ module.exports = grammar({
     _tag: $ => seq(
       $._tag_name_and_shortcuts,
       optional($._output_modifiers),
+      optional($.tag_attributes),
+      optional($.element_text),
     ),
     _tag_name_and_shortcuts: $ => choice(
       seq(field('name', $.tag_name), field('shortcuts', optional($.tag_shortcuts))),
@@ -55,6 +57,25 @@ module.exports = grammar({
       choice($._block, $._block_nonterminated),
       $._dedent
     ),
+
+    // TODO: wrapped
+    tag_attributes: $ => repeat1($.tag_attribute),
+    tag_attribute: $ => seq(
+      field('name', $.tag_attribute_name),
+      '=',
+      field('value', $.tag_attribute_value),
+    ),
+    tag_attribute_name: $ => /[a-zA-Z0-9_-]/, // TODO: very wrong
+    tag_attribute_value: $ => choice(
+      $._tag_attribute_value_quoted
+      // TODO: many more
+    ),
+    _tag_attribute_value_quoted: $ => choice(
+      /"[^"]*"/, // TODO: support escape
+      /'[^']*'/
+    ),
+
+    element_text: $ => /.+/, // TODO: very wrong
 
     // From css grammar https://github.com/tree-sitter/tree-sitter-css/blob/master/grammar.js
     // Slim uses other, \p{Word} - based regexp
@@ -88,9 +109,9 @@ module.exports = grammar({
       $.ruby_block_output,
       $.ruby_block_output_no_html_escaping,
     ),
-    ruby_block_control: $ => seq('-', $.ruby),
-    ruby_block_output: $ => seq('=', $._output_modifiers, $.ruby),
-    ruby_block_output_no_html_escaping: $ => seq('==', $._output_modifiers, $.ruby),
+    ruby_block_control: $ => seq('-', $._space, $.ruby),
+    ruby_block_output: $ => seq('=', optional($._output_modifiers), $._space, $.ruby),
+    ruby_block_output_no_html_escaping: $ => seq('==', optional($._output_modifiers), $._space, $.ruby),
 
     _output_modifiers: $ => repeat1($._output_modifier),
     _output_modifier: $ => choice(
@@ -99,5 +120,7 @@ module.exports = grammar({
     ),
     output_modifier_leading_whitespace: $ => token.immediate('<'),
     output_modifier_trailing_whitespace: $ => token.immediate('>'),
+
+    _space: $ => /[\s]+/,
   }
 });

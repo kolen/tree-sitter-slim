@@ -75,6 +75,10 @@
           "named": true
         },
         {
+          "type": "element_text",
+          "named": true
+        },
+        {
           "type": "output_modifier_leading_whitespace",
           "named": true
         },
@@ -96,6 +100,10 @@
         },
         {
           "type": "ruby_block_output_no_html_escaping",
+          "named": true
+        },
+        {
+          "type": "tag_attributes",
           "named": true
         }
       ]
@@ -221,6 +229,52 @@
     }
   },
   {
+    "type": "tag_attribute",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "tag_attribute_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "tag_attribute_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "tag_attribute_value",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "tag_attributes",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "tag_attribute",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "tag_class",
     "named": true,
     "fields": {},
@@ -315,6 +369,10 @@
     "named": false
   },
   {
+    "type": "element_text",
+    "named": true
+  },
+  {
     "type": "frameset",
     "named": false
   },
@@ -341,6 +399,10 @@
   {
     "type": "strict",
     "named": false
+  },
+  {
+    "type": "tag_attribute_name",
+    "named": true
   },
   {
     "type": "transitional",
