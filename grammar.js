@@ -13,6 +13,7 @@ module.exports = grammar({
   rules: {
     source_file: $ => repeat($._block),
 
+    // TODO: make newline not a part of block itself
     _block: $ => choice(
       $.element,
       $.doctype,
@@ -65,7 +66,7 @@ module.exports = grammar({
       '=',
       field('value', $.tag_attribute_value),
     ),
-    tag_attribute_name: $ => /[a-zA-Z0-9_-]/, // TODO: very wrong
+    tag_attribute_name: $ => /[a-zA-Z0-9_-]+/, // TODO: very wrong
     tag_attribute_value: $ => choice(
       $._tag_attribute_value_quoted
       // TODO: many more
