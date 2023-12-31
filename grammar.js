@@ -11,13 +11,13 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat($._block),
+    source_file: $ => seq(optional(/[\s]+/), repeat($._block)),
 
     // TODO: make newline not a part of block itself
     _block: $ => choice(
       $.element,
       $.doctype,
-      $._ruby_block,
+      //$._ruby_block,
     ),
 
     _block_nonterminated: $ => choice(
@@ -25,15 +25,33 @@ module.exports = grammar({
       alias($._ruby_block_itself, $.ruby_block)
     ),
 
-    element: $ => seq(
-      $._tag,
-      $._newline_or_nested,
+    _empty_line: $ => seq(
+      optional(/[\s]+/),
+      $._newline
     ),
 
+    element: $ => seq(
+      $._tag,
+      $._newline_or_nested
+    ),
+
+    // Original regex for tag: /\A(?:
+    //   #{keys}|
+    //   \*(?=[^\s]+)|
+    //   ( \p{Word}(?:\p{Word}|:|-)*\p{Word} | \p{Word}+ )
+    // )/
+    // keys are custom tag shortcuts
+    //
+
+    // No custom tag shortcut support
     _tag: $ => seq(
       $._tag_name_and_shortcuts,
-      $._space,
-      $.tag_attributes,
+      optional(
+        seq(
+          $._space,
+          $.tag_attributes
+        )
+      )
     ),
 
     _tag_name_and_shortcuts: $ => choice(
@@ -43,7 +61,7 @@ module.exports = grammar({
     tag_shortcuts: $ => repeat1($._tag_shortcut),
 
     // TODO: disallow spaces between shortcuts
-    tag_name: $ => /\w+/,
+    tag_name: $ => /\w+/, // TODO: Originally \p{Word}(?:\p{Word}|:|-)*\p{Word} | \p{Word}+
     _tag_shortcut: $ => choice(
       $.tag_class,
       $.tag_id
@@ -79,7 +97,7 @@ module.exports = grammar({
     element_text: $ => /.+/, // TODO: very wrong
 
     // From css grammar https://github.com/tree-sitter/tree-sitter-css/blob/master/grammar.js
-    // Slim uses other, \p{Word} - based regexp
+    // Originally: /\A(#{keys}+)((?:\p{Word}|-|\/\d+|:(\w|-)+)*)/
     css_identifier: $ => /(--|-?[a-zA-Z_])[a-zA-Z0-9-_]*/,
 
     // From doc, mostly unclear, which means which
