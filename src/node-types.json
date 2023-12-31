@@ -75,31 +75,7 @@
           "named": true
         },
         {
-          "type": "element_text",
-          "named": true
-        },
-        {
-          "type": "output_modifier_leading_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_trailing_whitespace",
-          "named": true
-        },
-        {
           "type": "ruby_block",
-          "named": true
-        },
-        {
-          "type": "ruby_block_control",
-          "named": true
-        },
-        {
-          "type": "ruby_block_output",
-          "named": true
-        },
-        {
-          "type": "ruby_block_output_no_html_escaping",
           "named": true
         },
         {
@@ -207,22 +183,6 @@
         },
         {
           "type": "element",
-          "named": true
-        },
-        {
-          "type": "ruby_block",
-          "named": true
-        },
-        {
-          "type": "ruby_block_control",
-          "named": true
-        },
-        {
-          "type": "ruby_block_output",
-          "named": true
-        },
-        {
-          "type": "ruby_block_output_no_html_escaping",
           "named": true
         }
       ]
@@ -367,10 +327,6 @@
   {
     "type": "doctype",
     "named": false
-  },
-  {
-    "type": "element_text",
-    "named": true
   },
   {
     "type": "frameset",
