@@ -32,10 +32,10 @@ module.exports = grammar({
 
     _tag: $ => seq(
       $._tag_name_and_shortcuts,
-      optional($._output_modifiers),
-      optional($.tag_attributes),
-      optional($.element_text),
+      $._space,
+      $.tag_attributes,
     ),
+
     _tag_name_and_shortcuts: $ => choice(
       seq(field('name', $.tag_name), field('shortcuts', optional($.tag_shortcuts))),
       field('shortcuts', $.tag_shortcuts),
@@ -123,5 +123,7 @@ module.exports = grammar({
     output_modifier_trailing_whitespace: $ => token.immediate('>'),
 
     _space: $ => /[\s]+/,
-  }
+  },
+
+  extras: $ => []
 });
