@@ -62,7 +62,7 @@ public:
         found_end_of_line = true;
         indent_length = 0;
         lexer->advance(lexer, true);
-      } else if (lexer->lookahead == 0) {
+      } else if (lexer->eof(lexer)) {
         found_end_of_line = true;
         indent_length = 0;
         break;
