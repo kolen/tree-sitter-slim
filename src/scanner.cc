@@ -55,8 +55,7 @@ public:
         indent_length++;
         lexer->advance(lexer, true);
       } else if (lexer->lookahead == '\t') {
-        // TODO: is tab size always 4?
-        // https://github.com/slim-template/slim/blob/39cc3fb82b34092ec9e92b8057c5b60c426ffca5/lib/slim/parser.rb#L7
+        // Tab size is configurable in slim, we support only tab size of 4
         indent_length += 4;
         lexer->advance(lexer, true);
       } else if (lexer->lookahead == '\n') {
