@@ -6,16 +6,17 @@
 #include <ostream>
 #include <vector>
 #include <iostream>
+#include <cassert>
 
 enum TokenType {
   INDENT,
   DEDENT,
-  NEWLINE,
   RUBY
 };
 
 class Scanner {
   std::vector<uint16_t> indents;
+  int dedents_to_output = 0;
 
 public:
   unsigned serialize(char *buffer) {
@@ -23,7 +24,7 @@ public:
 
     size_t i = 0;
     for (; iter != end && i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE; ++iter) {
-      buffer[i++] = *iter;
+      buffer[i++] = (char)*iter; // FIXME: write 16-bit values
     }
     return i;
   }
@@ -38,7 +39,7 @@ public:
 
     size_t i = 0;
     for (; i < length; i++) {
-      indents.push_back(buffer[i]);
+      indents.push_back((uint16_t)buffer[i]); // FIXME: read 16-bit values
     }
   }
 
@@ -46,38 +47,32 @@ public:
     bool found_end_of_line = false;
     int indent_length = 0;
 
-    if(valid_symbols[RUBY]) {
-      return scan_ruby(lexer, valid_symbols);
-    }
+    // if(valid_symbols[RUBY]) {
+    //   return scan_ruby(lexer, valid_symbols);
+    // }
 
-    for(;;) {
-      if (lexer->lookahead == ' ') {
-        indent_length++;
-        lexer->advance(lexer, true);
-      } else if (lexer->lookahead == '\t') {
-        // Tab size is configurable in slim, we support only tab size of 4
-        indent_length += 4;
-        lexer->advance(lexer, true);
-      } else if (lexer->lookahead == '\n') {
-        found_end_of_line = true;
-        indent_length = 0;
-        lexer->advance(lexer, true);
-      } else if (lexer->eof(lexer)) {
-        found_end_of_line = true;
-        indent_length = 0;
-        break;
-      } else {
-        break;
+    if (valid_symbols[INDENT] || valid_symbols[DEDENT]) {
+      for(;;) {
+        // Skip and count spaces
+        if (lexer->lookahead == ' ') {
+          indent_length++;
+          lexer->advance(lexer, true);
+        } else if (lexer->lookahead == '\t') {
+          // Tab size is configurable in slim, we support only tab size of 4
+          indent_length += 4;
+          lexer->advance(lexer, true);
+        } else if (lexer->lookahead == '\n' || lexer->eof(lexer)) {
+          dedents_to_output = 0;
+          return false;
+        } else {
+          break;
+        }
       }
-    }
 
-    if (found_end_of_line) {
+      assert(!indents.empty());
+
       if (!indents.empty()) {
         uint16_t current_indent_length = indents.back();
-
-        // std::cout << "current indent: " << current_indent_length << " indent: " << indent_length <<
-        //   " valid_symbols: " << valid_symbols[INDENT] << valid_symbols[DEDENT] << valid_symbols[NEWLINE]
-        //           << std::endl;
 
         if (valid_symbols[INDENT] && indent_length > current_indent_length) {
           indents.push_back(indent_length);
@@ -86,15 +81,34 @@ public:
         }
 
         if (valid_symbols[DEDENT] && indent_length < current_indent_length) {
-          indents.pop_back();
-          lexer->result_symbol = DEDENT;
-          return true;
-        }
-      }
+          auto indent = indents.end();
+          for (;;) {
+            if (indent == indents.begin()) {
+              break;
+            }
+            indent--;
 
-      if (valid_symbols[NEWLINE]) {
-        lexer->result_symbol = NEWLINE;
-        return true;
+            if (indent_length == *indent) {
+              break;
+            } else if (indent_length > *indent) {
+              // We didn't found matching indent
+              dedents_to_output = 0;
+              return false;
+            }
+
+            dedents_to_output++;
+          }
+
+          if (dedents_to_output > 0) {
+            lexer->result_symbol = DEDENT;
+            dedents_to_output--;
+            return true;
+          } else {
+            // Shouldn't happen probably
+            assert(false && "No dedents to output");
+            return false;
+          }
+        }
       }
     }
 

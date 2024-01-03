@@ -6,74 +6,55 @@ module.exports = grammar({
   externals: $ => [
     $._indent,
     $._dedent,
-    $._newline,
-    $.ruby,
+    $._ruby
   ],
 
   rules: {
-    source_file: $ => seq(optional(/[\s]+/), repeat($._block)),
+    source_file: $ => repeat($._block),
 
     // TODO: make newline not a part of block itself
     _block: $ => choice(
+      $._empty_line,
       $.element,
-      $.doctype,
-      //$._ruby_block,
+      $.doctype
+      //$._ruby_block
     ),
 
-    _block_nonterminated: $ => choice(
-      alias($._tag, $.element),
-      alias($._ruby_block_itself, $.ruby_block)
-    ),
-
-    _empty_line: $ => seq(
+    _empty_line: $ => prec(1, seq(
       optional(/[\s]+/),
       $._newline
-    ),
+    )),
 
-    element: $ => seq(
-      $._tag,
-      $._newline_or_nested
-    ),
-
-    // Original regex for tag: /\A(?:
-    //   #{keys}|
-    //   \*(?=[^\s]+)|
-    //   ( \p{Word}(?:\p{Word}|:|-)*\p{Word} | \p{Word}+ )
-    // )/
-    // keys are custom tag shortcuts
-    //
-
-    // No custom tag shortcut support
-    _tag: $ => seq(
-      $._tag_name_and_shortcuts,
-      optional(
+    element: $ => prec.right(seq(
+      choice(
         seq(
-          $._space,
-          $.tag_attributes
+          field('name', $.tag_name),
+          field('shortcuts', optional($.attr_shortcuts)),
+        ),
+        seq(
+          field('name', optional($.tag_name)),
+          field('shortcuts', $.attr_shortcuts),
         )
-      )
-    ),
+      ),
+      optional(seq($._space, $.tag_attributes)),
+      optional(seq($._space, $.element_text)),
+      optional($._nested)
+    )),
 
-    _tag_name_and_shortcuts: $ => choice(
-      seq(field('name', $.tag_name), field('shortcuts', optional($.tag_shortcuts))),
-      field('shortcuts', $.tag_shortcuts),
-    ),
-    tag_shortcuts: $ => repeat1($._tag_shortcut),
+    attr_shortcuts: $ => prec.right(repeat1($._attr_shortcut)),
 
-    // TODO: disallow spaces between shortcuts
-    tag_name: $ => /\w+/, // TODO: Originally \p{Word}(?:\p{Word}|:|-)*\p{Word} | \p{Word}+
-    _tag_shortcut: $ => choice(
+    tag_name: $ => /(\w+|\w[\w:-]+\w)/,
+    _attr_shortcut: $ => choice(
       $.tag_class,
       $.tag_id
     ),
     tag_class: $ => seq('.', $.css_identifier),
     tag_id: $ => seq('#', $.css_identifier),
 
-    _newline_or_nested: $ => choice($._newline, $._nested),
     _nested: $ => seq(
+      $._newline,
       $._indent,
-      repeat($._block),
-      choice($._block, $._block_nonterminated),
+      repeat1($._block),
       $._dedent
     ),
 
@@ -84,7 +65,7 @@ module.exports = grammar({
       '=',
       field('value', $.tag_attribute_value),
     ),
-    tag_attribute_name: $ => /[a-zA-Z0-9_-]+/, // TODO: very wrong
+    tag_attribute_name: $ => token(prec(1, /[a-zA-Z0-9_-]+/)), // TODO: very wrong
     tag_attribute_value: $ => choice(
       $._tag_attribute_value_quoted
       // TODO: many more
@@ -103,6 +84,7 @@ module.exports = grammar({
     // From doc, mostly unclear, which means which
     doctype: $ => seq(
       'doctype',
+      $._space,
       choice(
         $._doctype_html,
         $._doctype_xml,
@@ -120,7 +102,8 @@ module.exports = grammar({
 
     _ruby_block: $ => seq(
       $._ruby_block_itself,
-      $._newline_or_nested
+      $._newline,
+      optional($._nested)
     ),
 
     _ruby_block_itself: $ => choice(
@@ -128,19 +111,22 @@ module.exports = grammar({
       $.ruby_block_output,
       $.ruby_block_output_no_html_escaping,
     ),
-    ruby_block_control: $ => seq('-', $._space, $.ruby),
-    ruby_block_output: $ => seq('=', optional($._output_modifiers), $._space, $.ruby),
-    ruby_block_output_no_html_escaping: $ => seq('==', optional($._output_modifiers), $._space, $.ruby),
+    ruby_block_control: $ => seq('-', $._space, $._ruby),
+    ruby_block_output: $ => seq('=', optional($._output_modifiers), $._space, $._ruby),
+    ruby_block_output_no_html_escaping: $ => seq('==', optional($._output_modifiers), $._space, $._ruby),
 
     _output_modifiers: $ => repeat1($._output_modifier),
     _output_modifier: $ => choice(
       $.output_modifier_leading_whitespace,
       $.output_modifier_trailing_whitespace,
+      $.output_modifier_single_trailing_whitespace
     ),
     output_modifier_leading_whitespace: $ => token.immediate('<'),
     output_modifier_trailing_whitespace: $ => token.immediate('>'),
+    output_modifier_single_trailing_whitespace: $ => token.immediate("'"),
 
     _space: $ => /[\s]+/,
+    _newline: $ => "\n"
   },
 
   extras: $ => []
