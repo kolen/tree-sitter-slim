@@ -11,12 +11,16 @@
 enum TokenType {
   INDENT,
   DEDENT,
-  RUBY
+  LINE_START,
+  LINE_END,
+  RUBY,
+  ERROR_SENTINEL
 };
 
 class Scanner {
   std::vector<uint16_t> indents;
   int dedents_to_output = 0;
+  bool line_start_to_output = false;
 
 public:
   unsigned serialize(char *buffer) {
@@ -44,26 +48,76 @@ public:
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    bool found_end_of_line = false;
-    int indent_length = 0;
+    if (valid_symbols[ERROR_SENTINEL]) {
+      std::cerr << "error sentinel" << std::endl;
+    }
+
+    if (dedents_to_output > 0) {
+      if (valid_symbols[DEDENT]) {
+        lexer->result_symbol = DEDENT;
+        dedents_to_output--;
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    if (line_start_to_output) {
+      if (valid_symbols[LINE_START]) {
+        std::cerr << "line start" << std::endl;
+        lexer->result_symbol = LINE_START;
+        line_start_to_output = false;
+        return true;
+      } else {
+        return false;
+      }
+    }
 
     // if(valid_symbols[RUBY]) {
     //   return scan_ruby(lexer, valid_symbols);
     // }
 
+    if (valid_symbols[LINE_END]) {
+      if (lexer->lookahead == '\n') {
+        lexer->advance(lexer, false);
+        lexer->result_symbol = LINE_END;
+        return true;
+      } else if (lexer->eof(lexer)) {
+        lexer->result_symbol = LINE_END;
+        return true;
+      }
+    }
+
+    if (valid_symbols[LINE_START]) {
+      if (lexer->lookahead != ' ' && lexer->lookahead != '\t' &&
+          lexer->lookahead != '\n' && !lexer->eof(lexer)) {
+        std::cerr << "line start (initial)" << std::endl;
+        lexer->result_symbol = LINE_START;
+        return true;
+      }
+    }
+
     if (valid_symbols[INDENT] || valid_symbols[DEDENT]) {
+      // This condition should only occur during error recovery
+      if (lexer->get_column(lexer) != 0) {
+        return false;
+      }
+
+      // Skip and count spaces
+      int indent_length = 0;
       for(;;) {
-        // Skip and count spaces
         if (lexer->lookahead == ' ') {
           indent_length++;
-          lexer->advance(lexer, true);
+          lexer->advance(lexer, false);
         } else if (lexer->lookahead == '\t') {
           // Tab size is configurable in slim, we support only tab size of 4
           indent_length += 4;
-          lexer->advance(lexer, true);
-        } else if (lexer->lookahead == '\n' || lexer->eof(lexer)) {
-          dedents_to_output = 0;
+          lexer->advance(lexer, false);
+        } else if (lexer->lookahead == '\n') {
           return false;
+        } else if (lexer->eof(lexer)) {
+          indent_length = 0;
+          break;
         } else {
           break;
         }
@@ -71,43 +125,51 @@ public:
 
       assert(!indents.empty());
 
-      if (!indents.empty()) {
-        uint16_t current_indent_length = indents.back();
+      uint16_t last_indent_length = indents.back();
 
-        if (valid_symbols[INDENT] && indent_length > current_indent_length) {
-          indents.push_back(indent_length);
-          lexer->result_symbol = INDENT;
-          return true;
-        }
+      if (indent_length == last_indent_length) {
+        std::cerr << "line start (immediate)" << std::endl;
+        lexer->result_symbol = LINE_START;
+        return true;
+      }
 
-        if (valid_symbols[DEDENT] && indent_length < current_indent_length) {
-          auto indent = indents.end();
-          for (;;) {
-            if (indent == indents.begin()) {
-              break;
-            }
-            indent--;
+      if (valid_symbols[INDENT] && indent_length > last_indent_length) {
+        indents.push_back(indent_length);
+        lexer->result_symbol = INDENT;
+        line_start_to_output = true;
+        return true;
+      }
 
-            if (indent_length == *indent) {
-              break;
-            } else if (indent_length > *indent) {
-              // We didn't found matching indent
-              dedents_to_output = 0;
-              return false;
-            }
-
-            dedents_to_output++;
+      if (valid_symbols[DEDENT] && indent_length < last_indent_length) {
+        auto indent = indents.end();
+        for (;;) {
+          if (indent == indents.begin()) {
+            break;
           }
+          indent--;
 
-          if (dedents_to_output > 0) {
-            lexer->result_symbol = DEDENT;
-            dedents_to_output--;
-            return true;
-          } else {
-            // Shouldn't happen probably
-            assert(false && "No dedents to output");
+          if (indent_length == *indent) {
+            break;
+          } else if (indent_length > *indent) {
+            // We didn't found matching indent
+            dedents_to_output = 0;
             return false;
           }
+
+          dedents_to_output++;
+        }
+        assert(indents.size() > dedents_to_output); // First element is 0 and non-removable
+        indents.resize(indents.size() - dedents_to_output);
+
+        if (dedents_to_output > 0) {
+          lexer->result_symbol = DEDENT;
+          dedents_to_output--;
+          line_start_to_output = true;
+          return true;
+        } else {
+          // Shouldn't happen probably
+          assert(false && "No dedents to output");
+          return false;
         }
       }
     }

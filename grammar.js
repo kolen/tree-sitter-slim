@@ -4,28 +4,34 @@ module.exports = grammar({
   name: 'slim',
 
   externals: $ => [
-    $._indent,
-    $._dedent,
-    $._ruby
+    $.indent,
+    $.dedent,
+    $.start_of_line,
+    $.end_of_line,
+    $._ruby,
+    $.error_sentinel
   ],
 
   rules: {
-    source_file: $ => repeat($._block),
+    source_file: $ => repeat(choice($._block, $.empty_line)),
 
     // TODO: make newline not a part of block itself
-    _block: $ => choice(
-      $._empty_line,
-      $.element,
-      $.doctype
-      //$._ruby_block
+    _block: $ => seq(
+      $.start_of_line,
+      choice(
+        $.element,
+        //$.doctype
+        //$._ruby_block
+      ),
     ),
 
-    _empty_line: $ => prec(1, seq(
-      optional(/[\s]+/),
-      $._newline
+    empty_line: $ => prec(1, seq(
+      $.start_of_line,
+      optional($._space),
+      $.end_of_line
     )),
 
-    element: $ => prec.right(seq(
+    element: $ => prec.left(seq(
       choice(
         seq(
           field('name', $.tag_name),
@@ -38,7 +44,8 @@ module.exports = grammar({
       ),
       optional(seq($._space, $.tag_attributes)),
       optional(seq($._space, $.element_text)),
-      optional($._nested)
+      $.end_of_line,
+      optional($.nested)
     )),
 
     attr_shortcuts: $ => prec.right(repeat1($._attr_shortcut)),
@@ -51,11 +58,10 @@ module.exports = grammar({
     tag_class: $ => seq('.', $.css_identifier),
     tag_id: $ => seq('#', $.css_identifier),
 
-    _nested: $ => seq(
-      $._newline,
-      $._indent,
+    nested: $ => seq(
+      $.indent,
       repeat1($._block),
-      $._dedent
+      $.dedent
     ),
 
     // TODO: wrapped
@@ -89,7 +95,7 @@ module.exports = grammar({
         $._doctype_html,
         $._doctype_xml,
       ),
-      $._newline
+      $.end_of_line
     ),
     _doctype_html: $ => choice(
       $.doctype_html5,
@@ -102,8 +108,8 @@ module.exports = grammar({
 
     _ruby_block: $ => seq(
       $._ruby_block_itself,
-      $._newline,
-      optional($._nested)
+      $.end_of_line,
+      optional($.nested)
     ),
 
     _ruby_block_itself: $ => choice(
@@ -125,8 +131,7 @@ module.exports = grammar({
     output_modifier_trailing_whitespace: $ => token.immediate('>'),
     output_modifier_single_trailing_whitespace: $ => token.immediate("'"),
 
-    _space: $ => /[\s]+/,
-    _newline: $ => "\n"
+    _space: $ => /[ \t]+/
   },
 
   extras: $ => []

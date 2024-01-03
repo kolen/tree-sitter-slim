@@ -4,39 +4,53 @@
     "source_file": {
       "type": "REPEAT",
       "content": {
-        "type": "SYMBOL",
-        "name": "_block"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_block"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "empty_line"
+          }
+        ]
       }
     },
     "_block": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_empty_line"
+          "name": "start_of_line"
         },
         {
-          "type": "SYMBOL",
-          "name": "element"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "doctype"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "element"
+            }
+          ]
         }
       ]
     },
-    "_empty_line": {
+    "empty_line": {
       "type": "PREC",
       "value": 1,
       "content": {
         "type": "SEQ",
         "members": [
           {
+            "type": "SYMBOL",
+            "name": "start_of_line"
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
-                "type": "PATTERN",
-                "value": "[\\s]+"
+                "type": "SYMBOL",
+                "name": "_space"
               },
               {
                 "type": "BLANK"
@@ -45,13 +59,13 @@
           },
           {
             "type": "SYMBOL",
-            "name": "_newline"
+            "name": "end_of_line"
           }
         ]
       }
     },
     "element": {
-      "type": "PREC_RIGHT",
+      "type": "PREC_LEFT",
       "value": 0,
       "content": {
         "type": "SEQ",
@@ -162,11 +176,15 @@
             ]
           },
           {
+            "type": "SYMBOL",
+            "name": "end_of_line"
+          },
+          {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_nested"
+                "name": "nested"
               },
               {
                 "type": "BLANK"
@@ -230,16 +248,12 @@
         }
       ]
     },
-    "_nested": {
+    "nested": {
       "type": "SEQ",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_newline"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_indent"
+          "name": "indent"
         },
         {
           "type": "REPEAT1",
@@ -250,7 +264,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_dedent"
+          "name": "dedent"
         }
       ]
     },
@@ -353,7 +367,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_newline"
+          "name": "end_of_line"
         }
       ]
     },
@@ -446,14 +460,14 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_newline"
+          "name": "end_of_line"
         },
         {
           "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_nested"
+              "name": "nested"
             },
             {
               "type": "BLANK"
@@ -601,11 +615,7 @@
     },
     "_space": {
       "type": "PATTERN",
-      "value": "[\\s]+"
-    },
-    "_newline": {
-      "type": "STRING",
-      "value": "\n"
+      "value": "[ \\t]+"
     }
   },
   "extras": [],
@@ -614,15 +624,27 @@
   "externals": [
     {
       "type": "SYMBOL",
-      "name": "_indent"
+      "name": "indent"
     },
     {
       "type": "SYMBOL",
-      "name": "_dedent"
+      "name": "dedent"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "start_of_line"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "end_of_line"
     },
     {
       "type": "SYMBOL",
       "name": "_ruby"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "error_sentinel"
     }
   ],
   "inline": [],

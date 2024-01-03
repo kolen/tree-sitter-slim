@@ -19,29 +19,6 @@
     }
   },
   {
-    "type": "doctype",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "doctype_html5",
-          "named": true
-        },
-        {
-          "type": "doctype_xhtml",
-          "named": true
-        },
-        {
-          "type": "doctype_xml_encoding",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "doctype_html5",
     "named": true,
     "fields": {}
@@ -78,10 +55,56 @@
     },
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "doctype",
+          "type": "element_text",
+          "named": true
+        },
+        {
+          "type": "end_of_line",
+          "named": true
+        },
+        {
+          "type": "nested",
+          "named": true
+        },
+        {
+          "type": "tag_attributes",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "empty_line",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "end_of_line",
+          "named": true
+        },
+        {
+          "type": "start_of_line",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nested",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dedent",
           "named": true
         },
         {
@@ -89,11 +112,11 @@
           "named": true
         },
         {
-          "type": "element_text",
+          "type": "indent",
           "named": true
         },
         {
-          "type": "tag_attributes",
+          "type": "start_of_line",
           "named": true
         }
       ]
@@ -159,11 +182,15 @@
       "required": false,
       "types": [
         {
-          "type": "doctype",
+          "type": "element",
           "named": true
         },
         {
-          "type": "element",
+          "type": "empty_line",
+          "named": true
+        },
+        {
+          "type": "start_of_line",
           "named": true
         }
       ]
@@ -282,6 +309,10 @@
     "named": true
   },
   {
+    "type": "dedent",
+    "named": true
+  },
+  {
     "type": "doctype",
     "named": false
   },
@@ -294,12 +325,20 @@
     "named": true
   },
   {
+    "type": "end_of_line",
+    "named": true
+  },
+  {
     "type": "frameset",
     "named": false
   },
   {
     "type": "html",
     "named": false
+  },
+  {
+    "type": "indent",
+    "named": true
   },
   {
     "type": "mobile",
@@ -315,6 +354,10 @@
   },
   {
     "type": "output_modifier_trailing_whitespace",
+    "named": true
+  },
+  {
+    "type": "start_of_line",
     "named": true
   },
   {
