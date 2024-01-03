@@ -62,7 +62,7 @@
           "named": true
         },
         {
-          "type": "end_of_line",
+          "type": "line_end",
           "named": true
         },
         {
@@ -85,11 +85,11 @@
       "required": true,
       "types": [
         {
-          "type": "end_of_line",
+          "type": "line_end",
           "named": true
         },
         {
-          "type": "start_of_line",
+          "type": "line_start",
           "named": true
         }
       ]
@@ -116,7 +116,7 @@
           "named": true
         },
         {
-          "type": "start_of_line",
+          "type": "line_start",
           "named": true
         }
       ]
@@ -190,7 +190,7 @@
           "named": true
         },
         {
-          "type": "start_of_line",
+          "type": "line_start",
           "named": true
         }
       ]
@@ -325,10 +325,6 @@
     "named": true
   },
   {
-    "type": "end_of_line",
-    "named": true
-  },
-  {
     "type": "frameset",
     "named": false
   },
@@ -338,6 +334,14 @@
   },
   {
     "type": "indent",
+    "named": true
+  },
+  {
+    "type": "line_end",
+    "named": true
+  },
+  {
+    "type": "line_start",
     "named": true
   },
   {
@@ -354,10 +358,6 @@
   },
   {
     "type": "output_modifier_trailing_whitespace",
-    "named": true
-  },
-  {
-    "type": "start_of_line",
     "named": true
   },
   {

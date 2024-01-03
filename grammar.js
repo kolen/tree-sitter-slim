@@ -6,8 +6,8 @@ module.exports = grammar({
   externals: $ => [
     $.indent,
     $.dedent,
-    $.start_of_line,
-    $.end_of_line,
+    $.line_start,
+    $.line_end,
     $._ruby,
     $.error_sentinel
   ],
@@ -17,7 +17,7 @@ module.exports = grammar({
 
     // TODO: make newline not a part of block itself
     _block: $ => seq(
-      $.start_of_line,
+      $.line_start,
       choice(
         $.element,
         //$.doctype
@@ -26,9 +26,9 @@ module.exports = grammar({
     ),
 
     empty_line: $ => prec(1, seq(
-      $.start_of_line,
+      $.line_start,
       optional($._space),
-      $.end_of_line
+      $.line_end
     )),
 
     element: $ => prec.left(seq(
@@ -44,7 +44,7 @@ module.exports = grammar({
       ),
       optional(seq($._space, $.tag_attributes)),
       optional(seq($._space, $.element_text)),
-      $.end_of_line,
+      $.line_end,
       optional($.nested)
     )),
 
@@ -95,7 +95,7 @@ module.exports = grammar({
         $._doctype_html,
         $._doctype_xml,
       ),
-      $.end_of_line
+      $.line_end
     ),
     _doctype_html: $ => choice(
       $.doctype_html5,
@@ -108,7 +108,7 @@ module.exports = grammar({
 
     _ruby_block: $ => seq(
       $._ruby_block_itself,
-      $.end_of_line,
+      $.line_end,
       optional($.nested)
     ),
 
