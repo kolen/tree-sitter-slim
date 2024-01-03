@@ -8,12 +8,11 @@ module.exports = grammar({
     $._dedent,
     $._line_start,
     $._line_end,
-    $._ruby,
-    $.error_sentinel
+    $._ruby
   ],
 
   rules: {
-    source_file: $ => repeat(choice($._block, $.empty_line)),
+    source_file: $ => repeat($._block),
 
     // TODO: make newline not a part of block itself
     _block: $ => seq(
@@ -22,41 +21,38 @@ module.exports = grammar({
         $.element,
         //$.doctype
         //$._ruby_block
+        $._empty_line
       ),
     ),
 
-    empty_line: $ => prec(1, seq(
-      $._line_start,
-      optional($._space),
-      $._line_end
-    )),
+    _empty_line: $ => $._line_end,
 
     element: $ => prec.left(seq(
       choice(
         seq(
           field('name', $.tag_name),
-          field('shortcuts', optional($.attr_shortcuts)),
+          field('attr_shortcuts', optional($.attr_shortcuts)),
         ),
         seq(
           field('name', optional($.tag_name)),
-          field('shortcuts', $.attr_shortcuts),
+          field('attr_shortcuts', $.attr_shortcuts),
         )
       ),
-      optional(seq($._space, $.tag_attributes)),
+      optional(seq($._space, field('attributes', $.tag_attributes))),
       optional(seq($._space, $.element_text)),
       $._line_end,
-      optional($.nested)
+      optional(field('children', $.nested))
     )),
 
     attr_shortcuts: $ => prec.right(repeat1($._attr_shortcut)),
 
     tag_name: $ => /(\w+|\w[\w:-]+\w)/,
     _attr_shortcut: $ => choice(
-      $.tag_class,
-      $.tag_id
+      $.shortcut_class,
+      $.shortcut_id
     ),
-    tag_class: $ => seq('.', $.css_identifier),
-    tag_id: $ => seq('#', $.css_identifier),
+    shortcut_class: $ => seq('.', $.css_identifier),
+    shortcut_id: $ => seq('#', $.css_identifier),
 
     nested: $ => seq(
       $._indent,

@@ -4,17 +4,8 @@
     "source_file": {
       "type": "REPEAT",
       "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_block"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "empty_line"
-          }
-        ]
+        "type": "SYMBOL",
+        "name": "_block"
       }
     },
     "_block": {
@@ -30,39 +21,18 @@
             {
               "type": "SYMBOL",
               "name": "element"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_empty_line"
             }
           ]
         }
       ]
     },
-    "empty_line": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_line_start"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "_space"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_line_end"
-          }
-        ]
-      }
+    "_empty_line": {
+      "type": "SYMBOL",
+      "name": "_line_end"
     },
     "element": {
       "type": "PREC_LEFT",
@@ -86,7 +56,7 @@
                   },
                   {
                     "type": "FIELD",
-                    "name": "shortcuts",
+                    "name": "attr_shortcuts",
                     "content": {
                       "type": "CHOICE",
                       "members": [
@@ -123,7 +93,7 @@
                   },
                   {
                     "type": "FIELD",
-                    "name": "shortcuts",
+                    "name": "attr_shortcuts",
                     "content": {
                       "type": "SYMBOL",
                       "name": "attr_shortcuts"
@@ -144,8 +114,12 @@
                     "name": "_space"
                   },
                   {
-                    "type": "SYMBOL",
-                    "name": "tag_attributes"
+                    "type": "FIELD",
+                    "name": "attributes",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "tag_attributes"
+                    }
                   }
                 ]
               },
@@ -183,8 +157,12 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "nested"
+                "type": "FIELD",
+                "name": "children",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "nested"
+                }
               },
               {
                 "type": "BLANK"
@@ -214,15 +192,15 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "tag_class"
+          "name": "shortcut_class"
         },
         {
           "type": "SYMBOL",
-          "name": "tag_id"
+          "name": "shortcut_id"
         }
       ]
     },
-    "tag_class": {
+    "shortcut_class": {
       "type": "SEQ",
       "members": [
         {
@@ -235,7 +213,7 @@
         }
       ]
     },
-    "tag_id": {
+    "shortcut_id": {
       "type": "SEQ",
       "members": [
         {
@@ -641,10 +619,6 @@
     {
       "type": "SYMBOL",
       "name": "_ruby"
-    },
-    {
-      "type": "SYMBOL",
-      "name": "error_sentinel"
     }
   ],
   "inline": [],

@@ -13,8 +13,7 @@ enum TokenType {
   DEDENT,
   LINE_START,
   LINE_END,
-  RUBY,
-  ERROR_SENTINEL
+  RUBY
 };
 
 class Scanner {
@@ -48,10 +47,6 @@ public:
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
-    if (valid_symbols[ERROR_SENTINEL]) {
-      std::cerr << "error sentinel" << std::endl;
-    }
-
     if (dedents_to_output > 0) {
       if (valid_symbols[DEDENT]) {
         lexer->result_symbol = DEDENT;
@@ -64,7 +59,6 @@ public:
 
     if (line_start_to_output) {
       if (valid_symbols[LINE_START]) {
-        std::cerr << "line start" << std::endl;
         lexer->result_symbol = LINE_START;
         line_start_to_output = false;
         return true;
@@ -79,7 +73,7 @@ public:
 
     if (valid_symbols[LINE_END]) {
       if (lexer->lookahead == '\n') {
-        lexer->advance(lexer, false);
+        lexer->advance(lexer, true);
         lexer->result_symbol = LINE_END;
         return true;
       } else if (lexer->eof(lexer)) {
@@ -91,17 +85,20 @@ public:
     if (valid_symbols[LINE_START]) {
       if (lexer->lookahead != ' ' && lexer->lookahead != '\t' &&
           lexer->lookahead != '\n' && !lexer->eof(lexer)) {
-        std::cerr << "line start (initial)" << std::endl;
         lexer->result_symbol = LINE_START;
         return true;
       }
     }
 
     if (valid_symbols[INDENT] || valid_symbols[DEDENT]) {
+      bool scan_start_at_eof = lexer->eof(lexer);
+
       // This condition should only occur during error recovery
       if (lexer->get_column(lexer) != 0) {
         return false;
       }
+
+      uint16_t last_indent_length = indents.back();
 
       // Skip and count spaces
       int indent_length = 0;
@@ -113,10 +110,8 @@ public:
           // Tab size is configurable in slim, we support only tab size of 4
           indent_length += 4;
           lexer->advance(lexer, false);
-        } else if (lexer->lookahead == '\n') {
-          return false;
-        } else if (lexer->eof(lexer)) {
-          indent_length = 0;
+        } else if (lexer->lookahead == '\n' || lexer->eof(lexer)) {
+          indent_length = last_indent_length;
           break;
         } else {
           break;
@@ -125,10 +120,11 @@ public:
 
       assert(!indents.empty());
 
-      uint16_t last_indent_length = indents.back();
-
       if (indent_length == last_indent_length) {
-        std::cerr << "line start (immediate)" << std::endl;
+        if (scan_start_at_eof) {
+          return false;
+        }
+
         lexer->result_symbol = LINE_START;
         return true;
       }
