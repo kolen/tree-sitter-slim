@@ -4,10 +4,10 @@ module.exports = grammar({
   name: 'slim',
 
   externals: $ => [
-    $.indent,
-    $.dedent,
-    $.line_start,
-    $.line_end,
+    $._indent,
+    $._dedent,
+    $._line_start,
+    $._line_end,
     $._ruby,
     $.error_sentinel
   ],
@@ -17,7 +17,7 @@ module.exports = grammar({
 
     // TODO: make newline not a part of block itself
     _block: $ => seq(
-      $.line_start,
+      $._line_start,
       choice(
         $.element,
         //$.doctype
@@ -26,9 +26,9 @@ module.exports = grammar({
     ),
 
     empty_line: $ => prec(1, seq(
-      $.line_start,
+      $._line_start,
       optional($._space),
-      $.line_end
+      $._line_end
     )),
 
     element: $ => prec.left(seq(
@@ -44,7 +44,7 @@ module.exports = grammar({
       ),
       optional(seq($._space, $.tag_attributes)),
       optional(seq($._space, $.element_text)),
-      $.line_end,
+      $._line_end,
       optional($.nested)
     )),
 
@@ -59,9 +59,9 @@ module.exports = grammar({
     tag_id: $ => seq('#', $.css_identifier),
 
     nested: $ => seq(
-      $.indent,
+      $._indent,
       repeat1($._block),
-      $.dedent
+      $._dedent
     ),
 
     // TODO: wrapped
@@ -95,7 +95,7 @@ module.exports = grammar({
         $._doctype_html,
         $._doctype_xml,
       ),
-      $.line_end
+      $._line_end
     ),
     _doctype_html: $ => choice(
       $.doctype_html5,
@@ -108,7 +108,7 @@ module.exports = grammar({
 
     _ruby_block: $ => seq(
       $._ruby_block_itself,
-      $.line_end,
+      $._line_end,
       optional($.nested)
     ),
 

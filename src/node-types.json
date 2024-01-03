@@ -55,14 +55,10 @@
     },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "element_text",
-          "named": true
-        },
-        {
-          "type": "line_end",
           "named": true
         },
         {
@@ -79,21 +75,7 @@
   {
     "type": "empty_line",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "line_end",
-          "named": true
-        },
-        {
-          "type": "line_start",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "nested",
@@ -104,19 +86,7 @@
       "required": true,
       "types": [
         {
-          "type": "dedent",
-          "named": true
-        },
-        {
           "type": "element",
-          "named": true
-        },
-        {
-          "type": "indent",
-          "named": true
-        },
-        {
-          "type": "line_start",
           "named": true
         }
       ]
@@ -187,10 +157,6 @@
         },
         {
           "type": "empty_line",
-          "named": true
-        },
-        {
-          "type": "line_start",
           "named": true
         }
       ]
@@ -309,10 +275,6 @@
     "named": true
   },
   {
-    "type": "dedent",
-    "named": true
-  },
-  {
     "type": "doctype",
     "named": false
   },
@@ -331,18 +293,6 @@
   {
     "type": "html",
     "named": false
-  },
-  {
-    "type": "indent",
-    "named": true
-  },
-  {
-    "type": "line_end",
-    "named": true
-  },
-  {
-    "type": "line_start",
-    "named": true
   },
   {
     "type": "mobile",
