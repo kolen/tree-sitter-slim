@@ -9,7 +9,7 @@ img src="1.png"
 (source_file
   (element
     name: (tag_name)
-    (tag_attributes
+    attributes: (tag_attributes
       (tag_attribute
         name: (tag_attribute_name)
         value: (tag_attribute_value)))))

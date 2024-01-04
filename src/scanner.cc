@@ -47,8 +47,11 @@ public:
   }
 
   bool scan(TSLexer *lexer, const bool *valid_symbols) {
+    //std::cerr << "scan " << valid_symbols[0] << valid_symbols[1] << valid_symbols[2] << valid_symbols[3] << valid_symbols[4] << std::endl;
+
     if (dedents_to_output > 0) {
       if (valid_symbols[DEDENT]) {
+        debug("dedent (deferred)");
         lexer->result_symbol = DEDENT;
         dedents_to_output--;
         return true;
@@ -59,6 +62,7 @@ public:
 
     if (line_start_to_output) {
       if (valid_symbols[LINE_START]) {
+        debug("line_start (deferred)");
         lexer->result_symbol = LINE_START;
         line_start_to_output = false;
         return true;
@@ -73,19 +77,13 @@ public:
 
     if (valid_symbols[LINE_END]) {
       if (lexer->lookahead == '\n') {
+        debug("line_end (initial)");
         lexer->advance(lexer, true);
         lexer->result_symbol = LINE_END;
         return true;
       } else if (lexer->eof(lexer)) {
+        debug("line_end (initial, eof)");
         lexer->result_symbol = LINE_END;
-        return true;
-      }
-    }
-
-    if (valid_symbols[LINE_START]) {
-      if (lexer->lookahead != ' ' && lexer->lookahead != '\t' &&
-          lexer->lookahead != '\n' && !lexer->eof(lexer)) {
-        lexer->result_symbol = LINE_START;
         return true;
       }
     }
@@ -125,11 +123,13 @@ public:
           return false;
         }
 
+        debug("line_start (indent matched)");
         lexer->result_symbol = LINE_START;
         return true;
       }
 
       if (valid_symbols[INDENT] && indent_length > last_indent_length) {
+        debug("indent");
         indents.push_back(indent_length);
         lexer->result_symbol = INDENT;
         line_start_to_output = true;
@@ -147,6 +147,7 @@ public:
           if (indent_length == *indent) {
             break;
           } else if (indent_length > *indent) {
+            debug("no matching indents");
             // We didn't found matching indent
             dedents_to_output = 0;
             return false;
@@ -158,6 +159,7 @@ public:
         indents.resize(indents.size() - dedents_to_output);
 
         if (dedents_to_output > 0) {
+          debug("dedent (immediate)");
           lexer->result_symbol = DEDENT;
           dedents_to_output--;
           line_start_to_output = true;
@@ -167,6 +169,14 @@ public:
           assert(false && "No dedents to output");
           return false;
         }
+      }
+    }
+
+    if (valid_symbols[LINE_START]) {
+      if (lexer->lookahead != ' ' && lexer->lookahead != '\t' && !lexer->eof(lexer)) {
+        debug("line_start (initial)");
+        lexer->result_symbol = LINE_START;
+        return true;
       }
     }
 
@@ -197,6 +207,10 @@ public:
         lexer->advance(lexer, false);
       }
     }
+  }
+
+  void debug(const char* message) {
+    //std::cerr << message << std::endl;
   }
 };
 
