@@ -64,10 +64,11 @@ module.exports = grammar({
     tag_attributes: $ => repeat1($.tag_attribute),
     tag_attribute: $ => seq(
       field('name', $.tag_attribute_name),
-      '=',
+      $._tag_attribute_assignment,
       field('value', $.tag_attribute_value),
     ),
     tag_attribute_name: $ => token(prec(1, /[a-zA-Z0-9_-]+/)), // TODO: very wrong
+    _tag_attribute_assignment: $ => token(prec(1, "=")),
     tag_attribute_value: $ => choice(
       $._tag_attribute_value_quoted
       // TODO: many more
@@ -77,7 +78,13 @@ module.exports = grammar({
       /'[^']*'/
     ),
 
-    element_text: $ => /.+/, // TODO: very wrong
+    element_text: $ => choice(
+      seq($.tag_attribute_name, $._tag_attribute_assignment, repeat($._element_rest_text)),
+      seq($.tag_attribute_name, repeat($._element_rest_text)),
+      repeat1($._element_rest_text)
+    ),
+
+    _element_rest_text: $ => /[^\n]+/, // TODO: very wrong
 
     // From css grammar https://github.com/tree-sitter/tree-sitter-css/blob/master/grammar.js
     // Originally: /\A(#{keys}+)((?:\p{Word}|-|\/\d+|:(\w|-)+)*)/

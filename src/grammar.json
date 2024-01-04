@@ -24,6 +24,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "doctype"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_empty_line"
             }
           ]
@@ -265,8 +269,8 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "="
+          "type": "SYMBOL",
+          "name": "_tag_attribute_assignment"
         },
         {
           "type": "FIELD",
@@ -286,6 +290,17 @@
         "content": {
           "type": "PATTERN",
           "value": "[a-zA-Z0-9_-]+"
+        }
+      }
+    },
+    "_tag_attribute_assignment": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "STRING",
+          "value": "="
         }
       }
     },
@@ -312,8 +327,56 @@
       ]
     },
     "element_text": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "tag_attribute_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "_tag_attribute_assignment"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_element_rest_text"
+              }
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "tag_attribute_name"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_element_rest_text"
+              }
+            }
+          ]
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_element_rest_text"
+          }
+        }
+      ]
+    },
+    "_element_rest_text": {
       "type": "PATTERN",
-      "value": ".+"
+      "value": "[^\\n]+"
     },
     "css_identifier": {
       "type": "PATTERN",
