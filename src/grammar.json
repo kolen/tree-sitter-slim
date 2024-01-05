@@ -251,11 +251,29 @@
       ]
     },
     "attrs": {
-      "type": "REPEAT1",
-      "content": {
-        "type": "SYMBOL",
-        "name": "attr"
-      }
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "attr"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_space"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "attr"
+              }
+            ]
+          }
+        }
+      ]
     },
     "attr": {
       "type": "SEQ",
@@ -296,12 +314,8 @@
       ]
     },
     "attr_name": {
-      "type": "PREC",
-      "value": 1,
-      "content": {
-        "type": "SYMBOL",
-        "name": "_attr_name"
-      }
+      "type": "SYMBOL",
+      "name": "_attr_name"
     },
     "_attr_name": {
       "type": "TOKEN",
@@ -659,7 +673,11 @@
     }
   },
   "extras": [],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "attrs"
+    ]
+  ],
   "precedences": [],
   "externals": [
     {

@@ -195,12 +195,25 @@ public:
   bool scan_attr_quoted(TSLexer *lexer, char quote_type) {
     int braces_level = 0;
 
-    while (braces_level == 0 && !(lexer->eof(lexer) || lexer->lookahead == quote_type)) {
+    for(;;) {
+      if (lexer->eof(lexer)) {
+        return false;
+      }
+
+      if (braces_level == 0 && lexer->lookahead == quote_type) {
+        lexer->advance(lexer, false);
+        lexer->result_symbol = ATTR_VALUE_QUOTED;
+        return true;
+      }
+
       if (lexer->lookahead == '{') {
         braces_level += 1;
       } else if (lexer->lookahead == '}') {
-        braces_level += 1;
+        if (braces_level > 0) {
+          braces_level -= 1;
+        }
       }
+
       lexer->advance(lexer, false);
     }
 

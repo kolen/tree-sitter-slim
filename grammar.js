@@ -62,13 +62,13 @@ module.exports = grammar({
     ),
 
     // TODO: wrapped
-    attrs: $ => repeat1($.attr),
+    attrs: $ => seq($.attr, repeat(seq($._space, $.attr))),
     attr: $ => seq(
       field('name', $.attr_name),
       field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
       field('value', $.attr_value),
     ),
-    attr_name: $ => prec(1, $._attr_name),
+    attr_name: $ => $._attr_name,
     _attr_name: $ => token(prec(1, /[a-zA-Z0-9_-]+/)), // TODO: very wrong
     attr_assignment: $ => token(prec(1, /\s*=\s*/)),
     attr_assignment_noescape: $ => token(prec(1, /\s*==\s*/)),
@@ -134,6 +134,10 @@ module.exports = grammar({
 
     _space: $ => /[ \t]+/
   },
+
+  conflicts: $ => [
+    [$.attrs] // Not sure if can be avoided
+  ],
 
   extras: $ => []
 });
