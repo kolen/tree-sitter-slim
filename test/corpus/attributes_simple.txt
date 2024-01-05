@@ -12,4 +12,5 @@ img src="1.png"
     attrs: (attrs
       (attr
         name: (attr_name)
+        assignment: (attr_assignment)
         value: (attr_value)))))

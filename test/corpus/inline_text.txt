@@ -16,5 +16,6 @@ span title="example" example text
     (attrs
       (attr
         (attr_name)
+        (attr_assignment)
         (attr_value)))
     (element_text)))

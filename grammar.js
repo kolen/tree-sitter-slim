@@ -64,12 +64,13 @@ module.exports = grammar({
     attrs: $ => repeat1($.attr),
     attr: $ => seq(
       field('name', $.attr_name),
-      $._attr_assignment,
+      field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
       field('value', $.attr_value),
     ),
     attr_name: $ => prec(1, $._attr_name),
     _attr_name: $ => token(prec(1, /[a-zA-Z0-9_-]+/)), // TODO: very wrong
-    _attr_assignment: $ => token(prec(1, /\s*=\s*/)),
+    attr_assignment: $ => token(prec(1, /\s*=\s*/)),
+    attr_assignment_noescape: $ => token(prec(1, /\s*==\s*/)),
     attr_value: $ => choice(
       $._attr_value_quoted
       // TODO: many more
@@ -80,7 +81,6 @@ module.exports = grammar({
     ),
 
     element_text: $ => choice(
-      seq($._attr_name, $._attr_assignment, repeat($._element_rest_text)),
       seq($._attr_name, repeat($._element_rest_text)),
       repeat1($._element_rest_text)
     ),

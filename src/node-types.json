@@ -3,6 +3,20 @@
     "type": "attr",
     "named": true,
     "fields": {
+      "assignment": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "attr_assignment",
+            "named": true
+          },
+          {
+            "type": "attr_assignment_noescape",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -309,6 +323,14 @@
   {
     "type": "==",
     "named": false
+  },
+  {
+    "type": "attr_assignment",
+    "named": true
+  },
+  {
+    "type": "attr_assignment_noescape",
+    "named": true
   },
   {
     "type": "basic",
