@@ -13,8 +13,8 @@ span title="example" example text
     (element_text))
   (element
     (tag_name)
-    (tag_attributes
-      (tag_attribute
-        (tag_attribute_name)
-        (tag_attribute_value)))
+    (attrs
+      (attr
+        (attr_name)
+        (attr_value)))
     (element_text)))

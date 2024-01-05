@@ -1,5 +1,36 @@
 [
   {
+    "type": "attr",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "attr_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "attr_value",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "attr_name",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "attr_shortcuts",
     "named": true,
     "fields": {},
@@ -13,6 +44,26 @@
         },
         {
           "type": "shortcut_id",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attr_value",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "attrs",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "attr",
           "named": true
         }
       ]
@@ -65,12 +116,12 @@
           }
         ]
       },
-      "attributes": {
+      "attrs": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "tag_attributes",
+            "type": "attrs",
             "named": true
           }
         ]
@@ -226,57 +277,6 @@
         },
         {
           "type": "element",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "tag_attribute",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "tag_attribute_name",
-            "named": true
-          }
-        ]
-      },
-      "value": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "tag_attribute_value",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "tag_attribute_name",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "tag_attribute_value",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "tag_attributes",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "tag_attribute",
           "named": true
         }
       ]

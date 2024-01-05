@@ -119,10 +119,10 @@
                   },
                   {
                     "type": "FIELD",
-                    "name": "attributes",
+                    "name": "attrs",
                     "content": {
                       "type": "SYMBOL",
-                      "name": "tag_attributes"
+                      "name": "attrs"
                     }
                   }
                 ]
@@ -250,14 +250,14 @@
         }
       ]
     },
-    "tag_attributes": {
+    "attrs": {
       "type": "REPEAT1",
       "content": {
         "type": "SYMBOL",
-        "name": "tag_attribute"
+        "name": "attr"
       }
     },
-    "tag_attribute": {
+    "attr": {
       "type": "SEQ",
       "members": [
         {
@@ -265,32 +265,32 @@
           "name": "name",
           "content": {
             "type": "SYMBOL",
-            "name": "tag_attribute_name"
+            "name": "attr_name"
           }
         },
         {
           "type": "SYMBOL",
-          "name": "_tag_attribute_assignment"
+          "name": "_attr_assignment"
         },
         {
           "type": "FIELD",
           "name": "value",
           "content": {
             "type": "SYMBOL",
-            "name": "tag_attribute_value"
+            "name": "attr_value"
           }
         }
       ]
     },
-    "tag_attribute_name": {
+    "attr_name": {
       "type": "PREC",
       "value": 1,
       "content": {
         "type": "SYMBOL",
-        "name": "_tag_attribute_name"
+        "name": "_attr_name"
       }
     },
-    "_tag_attribute_name": {
+    "_attr_name": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",
@@ -301,7 +301,7 @@
         }
       }
     },
-    "_tag_attribute_assignment": {
+    "_attr_assignment": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",
@@ -312,16 +312,16 @@
         }
       }
     },
-    "tag_attribute_value": {
+    "attr_value": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_tag_attribute_value_quoted"
+          "name": "_attr_value_quoted"
         }
       ]
     },
-    "_tag_attribute_value_quoted": {
+    "_attr_value_quoted": {
       "type": "CHOICE",
       "members": [
         {
@@ -342,11 +342,11 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_tag_attribute_name"
+              "name": "_attr_name"
             },
             {
               "type": "SYMBOL",
-              "name": "_tag_attribute_assignment"
+              "name": "_attr_assignment"
             },
             {
               "type": "REPEAT",
@@ -362,7 +362,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_tag_attribute_name"
+              "name": "_attr_name"
             },
             {
               "type": "REPEAT",

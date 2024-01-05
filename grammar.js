@@ -38,7 +38,7 @@ module.exports = grammar({
           field('attr_shortcuts', $.attr_shortcuts),
         )
       ),
-      optional(seq($._space, field('attributes', $.tag_attributes))),
+      optional(seq($._space, field('attrs', $.attrs))),
       optional(seq($._space, $.element_text)),
       $._line_end,
       optional(field('children', $.nested))
@@ -61,27 +61,27 @@ module.exports = grammar({
     ),
 
     // TODO: wrapped
-    tag_attributes: $ => repeat1($.tag_attribute),
-    tag_attribute: $ => seq(
-      field('name', $.tag_attribute_name),
-      $._tag_attribute_assignment,
-      field('value', $.tag_attribute_value),
+    attrs: $ => repeat1($.attr),
+    attr: $ => seq(
+      field('name', $.attr_name),
+      $._attr_assignment,
+      field('value', $.attr_value),
     ),
-    tag_attribute_name: $ => prec(1, $._tag_attribute_name),
-    _tag_attribute_name: $ => token(prec(1, /[a-zA-Z0-9_-]+/)), // TODO: very wrong
-    _tag_attribute_assignment: $ => token(prec(1, "=")),
-    tag_attribute_value: $ => choice(
-      $._tag_attribute_value_quoted
+    attr_name: $ => prec(1, $._attr_name),
+    _attr_name: $ => token(prec(1, /[a-zA-Z0-9_-]+/)), // TODO: very wrong
+    _attr_assignment: $ => token(prec(1, "=")),
+    attr_value: $ => choice(
+      $._attr_value_quoted
       // TODO: many more
     ),
-    _tag_attribute_value_quoted: $ => choice(
+    _attr_value_quoted: $ => choice(
       /"[^"]*"/, // TODO: support escape
       /'[^']*'/
     ),
 
     element_text: $ => choice(
-      seq($._tag_attribute_name, $._tag_attribute_assignment, repeat($._element_rest_text)),
-      seq($._tag_attribute_name, repeat($._element_rest_text)),
+      seq($._attr_name, $._attr_assignment, repeat($._element_rest_text)),
+      seq($._attr_name, repeat($._element_rest_text)),
       repeat1($._element_rest_text)
     ),
 
