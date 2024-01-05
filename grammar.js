@@ -19,7 +19,7 @@ module.exports = grammar({
       $._line_start,
       choice(
         $.element,
-        //$.doctype
+        $.doctype,
         //$._ruby_block
         $._empty_line
       ),
