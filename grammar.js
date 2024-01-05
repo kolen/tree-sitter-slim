@@ -69,7 +69,7 @@ module.exports = grammar({
     ),
     attr_name: $ => prec(1, $._attr_name),
     _attr_name: $ => token(prec(1, /[a-zA-Z0-9_-]+/)), // TODO: very wrong
-    _attr_assignment: $ => token(prec(1, "=")),
+    _attr_assignment: $ => token(prec(1, /\s*=\s*/)),
     attr_value: $ => choice(
       $._attr_value_quoted
       // TODO: many more
