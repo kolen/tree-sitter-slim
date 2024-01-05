@@ -37,11 +37,7 @@ html
 ---
 
 (source_file
-  (doctype (doctyle_html5))
-  (tag_name
-    name: (tag_name (element_text))
-    name: (tag_name (tag_attributes
-      (tag_attribute name: (tag_attribute_name) value: (tag_attribute_value))
-      (tag_attribute name: (tag_attribute_name) value: (tag_attribute_value))
-)))
-)
+  (doctype (doctype_html5))
+  (element name: (tag_name) children: (nested
+    (element name: (tag_name) children: (nested
+      (element name: (tag_name) (element_text)))))))
