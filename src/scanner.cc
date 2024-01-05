@@ -13,6 +13,7 @@ enum TokenType {
   DEDENT,
   LINE_START,
   LINE_END,
+  ATTR_VALUE_QUOTED,
   RUBY
 };
 
@@ -172,6 +173,14 @@ public:
       }
     }
 
+    if (valid_symbols[ATTR_VALUE_QUOTED]) {
+      char quote_type = lexer->lookahead;
+      if (quote_type == '\'' || quote_type == '"') {
+        lexer->advance(lexer, false);
+        return scan_attr_quoted(lexer, quote_type);
+      }
+    }
+
     if (valid_symbols[LINE_START]) {
       if (lexer->lookahead != ' ' && lexer->lookahead != '\t' && !lexer->eof(lexer)) {
         debug("line_start (initial)");
@@ -181,6 +190,27 @@ public:
     }
 
     return false;
+  }
+
+  bool scan_attr_quoted(TSLexer *lexer, char quote_type) {
+    int braces_level = 0;
+
+    while (braces_level == 0 && !(lexer->eof(lexer) || lexer->lookahead == quote_type)) {
+      if (lexer->lookahead == '{') {
+        braces_level += 1;
+      } else if (lexer->lookahead == '}') {
+        braces_level += 1;
+      }
+      lexer->advance(lexer, false);
+    }
+
+    if (!lexer->eof(lexer)) {
+      lexer->advance(lexer, false);
+      lexer->result_symbol = ATTR_VALUE_QUOTED;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   bool scan_ruby(TSLexer *lexer, const bool *valid_symbols) {

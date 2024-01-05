@@ -345,19 +345,6 @@
         }
       ]
     },
-    "_attr_value_quoted": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "PATTERN",
-          "value": "\"[^\"]*\""
-        },
-        {
-          "type": "PATTERN",
-          "value": "'[^']*'"
-        }
-      ]
-    },
     "element_text": {
       "type": "CHOICE",
       "members": [
@@ -690,6 +677,10 @@
     {
       "type": "SYMBOL",
       "name": "_line_end"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_attr_value_quoted"
     },
     {
       "type": "SYMBOL",

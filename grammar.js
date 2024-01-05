@@ -8,6 +8,7 @@ module.exports = grammar({
     $._dedent,
     $._line_start,
     $._line_end,
+    $._attr_value_quoted,
     $._ruby
   ],
 
@@ -74,10 +75,6 @@ module.exports = grammar({
     attr_value: $ => choice(
       $._attr_value_quoted
       // TODO: many more
-    ),
-    _attr_value_quoted: $ => choice(
-      /"[^"]*"/, // TODO: support escape
-      /'[^']*'/
     ),
 
     element_text: $ => choice(
