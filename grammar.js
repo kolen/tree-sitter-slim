@@ -1,5 +1,19 @@
 // See: https://github.com/slim-template/slim/blob/master/lib/slim/parser.rb
 // Also: https://rdoc.info/gems/slim/frames
+
+const make_attrs_delimited = (delim_open, delim_close, token_suffix) => {
+  return ($) => seq(
+    delim_open,
+    field('name', $.attr_name),
+    field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
+    field('value', choice(
+      $._attr_value_quoted,
+      $[`_attr_value_ruby_${token_suffix}`]
+    )),
+    delim_close
+  )
+};
+
 module.exports = grammar({
   name: 'slim',
 
@@ -9,7 +23,10 @@ module.exports = grammar({
     $._line_start,
     $._line_end,
     $._attr_value_quoted,
-    $._ruby
+    $._attr_value_ruby,
+    $._attr_value_ruby_p, // ()
+    $._attr_value_ruby_s, // []
+    $._attr_value_ruby_b, // {}
   ],
 
   rules: {
@@ -39,7 +56,7 @@ module.exports = grammar({
           field('attr_shortcuts', $.attr_shortcuts),
         )
       ),
-      optional(seq($._space, field('attrs', $.attrs))),
+      optional(field('attrs', $.attrs)),
       optional(seq($._space, $.element_text)),
       $._line_end,
       optional(field('children', $.nested))
@@ -61,8 +78,20 @@ module.exports = grammar({
       $._dedent
     ),
 
-    // TODO: wrapped
-    attrs: $ => seq($.attr, repeat(seq($._space, $.attr))),
+    attrs: $ => choice(
+      $._attrs_plain,
+      $._attrs_delimited
+    ),
+    _attrs_plain: $ => repeat1(seq($._space, $.attr)),
+    _attrs_delimited: $ => choice(
+      $._attrs_delimited_p,
+      $._attrs_delimited_s,
+      $._attrs_delimited_b,
+    ),
+    _attrs_delimited_p: make_attrs_delimited('(', ')', 'p'),
+    _attrs_delimited_s: make_attrs_delimited('[', ']', 's'),
+    _attrs_delimited_b: make_attrs_delimited('{', '}', 'b'),
+
     attr: $ => seq(
       field('name', $.attr_name),
       field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
@@ -107,20 +136,20 @@ module.exports = grammar({
     _doctype_xml: $ => seq('xml', optional($.doctype_xml_encoding)),
     doctype_xml_encoding: $ => /\w+/, // Not sure which chars
 
-    _ruby_block: $ => seq(
-      $._ruby_block_itself,
-      $._line_end,
-      optional($.nested)
-    ),
+    /* _ruby_block: $ => seq(
+     *   $._ruby_block_itself,
+     *   $._line_end,
+     *   optional($.nested)
+     * ),
 
-    _ruby_block_itself: $ => choice(
-      $.ruby_block_control,
-      $.ruby_block_output,
-      $.ruby_block_output_no_html_escaping,
-    ),
-    ruby_block_control: $ => seq('-', $._space, $._ruby),
-    ruby_block_output: $ => seq('=', optional($._output_modifiers), $._space, $._ruby),
-    ruby_block_output_no_html_escaping: $ => seq('==', optional($._output_modifiers), $._space, $._ruby),
+     * _ruby_block_itself: $ => choice(
+     *   $.ruby_block_control,
+     *   $.ruby_block_output,
+     *   $.ruby_block_output_no_html_escaping,
+     * ),
+     * ruby_block_control: $ => seq('-', $._space, $._ruby),
+     * ruby_block_output: $ => seq('=', optional($._output_modifiers), $._space, $._ruby),
+     * ruby_block_output_no_html_escaping: $ => seq('==', optional($._output_modifiers), $._space, $._ruby), */
 
     _output_modifiers: $ => repeat1($._output_modifier),
     _output_modifier: $ => choice(

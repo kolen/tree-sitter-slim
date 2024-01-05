@@ -71,10 +71,35 @@
   {
     "type": "attrs",
     "named": true,
-    "fields": {},
+    "fields": {
+      "assignment": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attr_assignment",
+            "named": true
+          },
+          {
+            "type": "attr_assignment_noescape",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "attr_name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "attr",
@@ -197,57 +222,6 @@
     }
   },
   {
-    "type": "ruby_block_control",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "ruby_block_output",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "output_modifier_leading_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_single_trailing_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_trailing_whitespace",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "ruby_block_output_no_html_escaping",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "output_modifier_leading_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_single_trailing_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_trailing_whitespace",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "shortcut_class",
     "named": true,
     "fields": {},
@@ -301,7 +275,11 @@
     "named": false
   },
   {
-    "type": "-",
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
     "named": false
   },
   {
@@ -317,11 +295,11 @@
     "named": false
   },
   {
-    "type": "=",
+    "type": "[",
     "named": false
   },
   {
-    "type": "==",
+    "type": "]",
     "named": false
   },
   {
@@ -386,6 +364,14 @@
   },
   {
     "type": "xml",
+    "named": false
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
     "named": false
   }
 ]

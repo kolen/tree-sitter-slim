@@ -111,21 +111,12 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "_space"
-                  },
-                  {
-                    "type": "FIELD",
-                    "name": "attrs",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "attrs"
-                    }
-                  }
-                ]
+                "type": "FIELD",
+                "name": "attrs",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "attrs"
+                }
               },
               {
                 "type": "BLANK"
@@ -251,27 +242,213 @@
       ]
     },
     "attrs": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "attr"
+          "name": "_attrs_plain"
         },
         {
-          "type": "REPEAT",
+          "type": "SYMBOL",
+          "name": "_attrs_delimited"
+        }
+      ]
+    },
+    "_attrs_plain": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "_space"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "attr"
+          }
+        ]
+      }
+    },
+    "_attrs_delimited": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_attrs_delimited_p"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_attrs_delimited_s"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_attrs_delimited_b"
+        }
+      ]
+    },
+    "_attrs_delimited_p": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
           "content": {
-            "type": "SEQ",
+            "type": "SYMBOL",
+            "name": "attr_name"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "assignment",
+          "content": {
+            "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "_space"
+                "name": "attr_assignment"
               },
               {
                 "type": "SYMBOL",
-                "name": "attr"
+                "name": "attr_assignment_noescape"
               }
             ]
           }
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_attr_value_quoted"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_attr_value_ruby_p"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "_attrs_delimited_s": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "attr_name"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "assignment",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "attr_assignment"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "attr_assignment_noescape"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_attr_value_quoted"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_attr_value_ruby_s"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
+    "_attrs_delimited_b": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "attr_name"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "assignment",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "attr_assignment"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "attr_assignment_noescape"
+              }
+            ]
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "value",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "_attr_value_quoted"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_attr_value_ruby_b"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -505,123 +682,6 @@
       "type": "PATTERN",
       "value": "\\w+"
     },
-    "_ruby_block": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_ruby_block_itself"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_line_end"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "nested"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "_ruby_block_itself": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "ruby_block_control"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "ruby_block_output"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "ruby_block_output_no_html_escaping"
-        }
-      ]
-    },
-    "ruby_block_control": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "-"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_space"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ruby"
-        }
-      ]
-    },
-    "ruby_block_output": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_output_modifiers"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_space"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ruby"
-        }
-      ]
-    },
-    "ruby_block_output_no_html_escaping": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "=="
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "_output_modifiers"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_space"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_ruby"
-        }
-      ]
-    },
     "_output_modifiers": {
       "type": "REPEAT1",
       "content": {
@@ -702,7 +762,19 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_ruby"
+      "name": "_attr_value_ruby"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_attr_value_ruby_p"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_attr_value_ruby_s"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "_attr_value_ruby_b"
     }
   ],
   "inline": [],
