@@ -1,0 +1,20 @@
+===========
+Inline text
+===========
+
+span first example text
+span title="example" example text
+
+----
+
+(source_file
+  (element
+    (tag_name)
+    (element_text))
+  (element
+    (tag_name)
+    (tag_attributes
+      (tag_attribute
+        (tag_attribute_name)
+        (tag_attribute_value)))
+    (element_text)))

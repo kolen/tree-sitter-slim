@@ -283,6 +283,14 @@
       ]
     },
     "tag_attribute_name": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "SYMBOL",
+        "name": "_tag_attribute_name"
+      }
+    },
+    "_tag_attribute_name": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",
@@ -334,7 +342,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "tag_attribute_name"
+              "name": "_tag_attribute_name"
             },
             {
               "type": "SYMBOL",
@@ -354,7 +362,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "tag_attribute_name"
+              "name": "_tag_attribute_name"
             },
             {
               "type": "REPEAT",

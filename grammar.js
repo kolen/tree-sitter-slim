@@ -67,7 +67,8 @@ module.exports = grammar({
       $._tag_attribute_assignment,
       field('value', $.tag_attribute_value),
     ),
-    tag_attribute_name: $ => token(prec(1, /[a-zA-Z0-9_-]+/)), // TODO: very wrong
+    tag_attribute_name: $ => prec(1, $._tag_attribute_name),
+    _tag_attribute_name: $ => token(prec(1, /[a-zA-Z0-9_-]+/)), // TODO: very wrong
     _tag_attribute_assignment: $ => token(prec(1, "=")),
     tag_attribute_value: $ => choice(
       $._tag_attribute_value_quoted
@@ -79,8 +80,8 @@ module.exports = grammar({
     ),
 
     element_text: $ => choice(
-      seq($.tag_attribute_name, $._tag_attribute_assignment, repeat($._element_rest_text)),
-      seq($.tag_attribute_name, repeat($._element_rest_text)),
+      seq($._tag_attribute_name, $._tag_attribute_assignment, repeat($._element_rest_text)),
+      seq($._tag_attribute_name, repeat($._element_rest_text)),
       repeat1($._element_rest_text)
     ),
 
