@@ -533,6 +533,10 @@
         {
           "type": "SYMBOL",
           "name": "_attr_value_quoted"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_attr_value_ruby"
         }
       ]
     },

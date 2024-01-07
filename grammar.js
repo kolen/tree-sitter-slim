@@ -102,7 +102,8 @@ module.exports = grammar({
     attr_assignment: $ => token(prec(1, /\s*=\s*/)),
     attr_assignment_noescape: $ => token(prec(1, /\s*==\s*/)),
     attr_value: $ => choice(
-      $._attr_value_quoted
+      $._attr_value_quoted,
+      $._attr_value_ruby
       // TODO: many more
     ),
 

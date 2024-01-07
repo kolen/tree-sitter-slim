@@ -14,6 +14,7 @@ enum TokenType {
   LINE_START,
   LINE_END,
   ATTR_VALUE_QUOTED,
+  ATTR_VALUE_RUBY,
   ATTR_VALUE_RUBY_P,
   ATTR_VALUE_RUBY_S,
   ATTR_VALUE_RUBY_B,
@@ -184,7 +185,8 @@ public:
       }
     }
 
-    if (valid_symbols[ATTR_VALUE_RUBY_P] ||
+    if (valid_symbols[ATTR_VALUE_RUBY] ||
+        valid_symbols[ATTR_VALUE_RUBY_P] ||
         valid_symbols[ATTR_VALUE_RUBY_S] ||
         valid_symbols[ATTR_VALUE_RUBY_B]) {
       if (lexer->lookahead != ' ' &&
@@ -196,14 +198,15 @@ public:
         if (valid_symbols[ATTR_VALUE_RUBY_P]) {
           closing_delimiter = ')';
           result_symbol = ATTR_VALUE_RUBY_P;
-        }
-        else if (valid_symbols[ATTR_VALUE_RUBY_S]) {
+        } else if (valid_symbols[ATTR_VALUE_RUBY_S]) {
           closing_delimiter = ']';
           result_symbol = ATTR_VALUE_RUBY_S;
-        }
-        else {
+        } else if (valid_symbols[ATTR_VALUE_RUBY_B]) {
           closing_delimiter = '}';
           result_symbol = ATTR_VALUE_RUBY_B;
+        } else {
+          closing_delimiter = 0;
+          result_symbol = ATTR_VALUE_RUBY;
         }
 
         return scan_attr_ruby(lexer, closing_delimiter, result_symbol);
