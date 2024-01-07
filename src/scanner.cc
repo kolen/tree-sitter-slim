@@ -76,10 +76,6 @@ public:
       }
     }
 
-    if (valid_symbols[RUBY]) {
-      return scan_ruby(lexer);
-    }
-
     if (valid_symbols[LINE_END]) {
       if (lexer->lookahead == '\n') {
         debug("line_end (initial)");
@@ -178,6 +174,10 @@ public:
           return false;
         }
       }
+    }
+
+    if (valid_symbols[RUBY]) {
+      return scan_ruby(lexer);
     }
 
     if (valid_symbols[ATTR_VALUE_QUOTED]) {
