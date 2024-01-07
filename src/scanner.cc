@@ -272,6 +272,10 @@ public:
         } else {
           break;
         }
+      } else if (closing_delimiter && lexer->lookahead == closing_delimiter) {
+        if (!internal_delimiter_nesting) {
+          break;
+        }
       } else if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
         if (line_continuation) {
           lexer->advance(lexer, true);

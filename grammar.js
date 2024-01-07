@@ -1,15 +1,27 @@
 // See: https://github.com/slim-template/slim/blob/master/lib/slim/parser.rb
 // Also: https://rdoc.info/gems/slim/frames
 
-const make_attrs_delimited = (delim_open, delim_close, token_suffix) => {
+const make_attr_delimited = (token_suffix) => {
   return ($) => seq(
-    delim_open,
     field('name', $.attr_name),
     field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
     field('value', choice(
-      $._attr_value_quoted,
-      $[`_attr_value_ruby_${token_suffix}`]
-    )),
+      alias($._attr_value_quoted, $.attr_value),
+      alias($[`_attr_value_ruby_${token_suffix}`], $.attr_value)
+    ))
+  )
+}
+
+const make_attrs_delimited = (delim_open, delim_close, token_suffix) => {
+  return ($) => seq(
+    delim_open,
+    optional($._space),
+    optional(
+      seq(
+        alias($[`_attr_delimited_${token_suffix}`], $.attr),
+        repeat(seq($._space, alias($[`_attr_delimited_${token_suffix}`], $.attr))),
+      )
+    ),
     delim_close
   )
 };
@@ -91,6 +103,9 @@ module.exports = grammar({
     _attrs_delimited_p: make_attrs_delimited('(', ')', 'p'),
     _attrs_delimited_s: make_attrs_delimited('[', ']', 's'),
     _attrs_delimited_b: make_attrs_delimited('{', '}', 'b'),
+    _attr_delimited_p: make_attr_delimited('p'),
+    _attr_delimited_s: make_attr_delimited('s'),
+    _attr_delimited_b: make_attr_delimited('b'),
 
     attr: $ => seq(
       field('name', $.attr_name),

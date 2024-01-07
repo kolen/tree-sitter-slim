@@ -71,32 +71,7 @@
   {
     "type": "attrs",
     "named": true,
-    "fields": {
-      "assignment": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "attr_assignment",
-            "named": true
-          },
-          {
-            "type": "attr_assignment_noescape",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "attr_name",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
