@@ -91,9 +91,11 @@ public:
 
     if (valid_symbols[INDENT] || valid_symbols[DEDENT]) {
       bool scan_start_at_eof = lexer->eof(lexer);
+      debug("valid_symbols indent dedent");
 
       // This condition should only occur during error recovery
       if (lexer->get_column(lexer) != 0) {
+        debug("indent/dedent not at first column");
         return false;
       }
 
