@@ -194,10 +194,6 @@
           "named": true
         },
         {
-          "type": "nested",
-          "named": true
-        },
-        {
           "type": "ruby_block_control",
           "named": true
         },
@@ -215,7 +211,18 @@
   {
     "type": "ruby_block_control",
     "named": true,
-    "fields": {},
+    "fields": {
+      "nested": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "nested",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -230,7 +237,18 @@
   {
     "type": "ruby_block_output",
     "named": true,
-    "fields": {},
+    "fields": {
+      "nested": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "nested",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -257,7 +275,18 @@
   {
     "type": "ruby_block_output_noescape",
     "named": true,
-    "fields": {},
+    "fields": {
+      "nested": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "nested",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
@@ -325,10 +354,6 @@
         },
         {
           "type": "element",
-          "named": true
-        },
-        {
-          "type": "nested",
           "named": true
         },
         {

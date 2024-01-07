@@ -901,31 +901,6 @@
       "value": "\\w+"
     },
     "_ruby_block": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_ruby_block_itself"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_line_end"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "nested"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "_ruby_block_itself": {
       "type": "CHOICE",
       "members": [
         {
@@ -952,6 +927,26 @@
         {
           "type": "SYMBOL",
           "name": "ruby"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_line_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "nested",
+              "content": {
+                "type": "SYMBOL",
+                "name": "nested"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -977,6 +972,26 @@
         {
           "type": "SYMBOL",
           "name": "ruby"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_line_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "nested",
+              "content": {
+                "type": "SYMBOL",
+                "name": "nested"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -1002,6 +1017,26 @@
         {
           "type": "SYMBOL",
           "name": "ruby"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_line_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "nested",
+              "content": {
+                "type": "SYMBOL",
+                "name": "nested"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

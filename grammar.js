@@ -153,20 +153,34 @@ module.exports = grammar({
     _doctype_xml: $ => seq('xml', optional($.doctype_xml_encoding)),
     doctype_xml_encoding: $ => /\w+/, // Not sure which chars
 
-    _ruby_block: $ => seq(
-      $._ruby_block_itself,
-      $._line_end,
-      optional($.nested)
-    ),
-
-    _ruby_block_itself: $ => choice(
+    _ruby_block: $ => choice(
       $.ruby_block_control,
       $.ruby_block_output,
       $.ruby_block_output_noescape
     ),
-    ruby_block_control: $ => seq('-', $.ruby),
-    ruby_block_output: $ => seq('=', optional($._output_modifiers), $.ruby),
-    ruby_block_output_noescape: $ => seq('==', optional($._output_modifiers), $.ruby),
+
+    ruby_block_control: $ => seq(
+      '-',
+      $.ruby,
+      $._line_end,
+      optional(field('nested', $.nested))
+    ),
+
+    ruby_block_output: $ => seq(
+      '=',
+      optional($._output_modifiers),
+      $.ruby,
+      $._line_end,
+      optional(field('nested', $.nested))
+    ),
+
+    ruby_block_output_noescape: $ => seq(
+      '==',
+      optional($._output_modifiers),
+      $.ruby,
+      $._line_end,
+      optional(field('nested', $.nested))
+    ),
 
     _output_modifiers: $ => repeat1($._output_modifier),
     _output_modifier: $ => choice(
