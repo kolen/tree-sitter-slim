@@ -105,19 +105,22 @@ public:
 
       // Skip and count spaces
       int indent_length = 0;
-      for(;;) {
-        if (lexer->lookahead == ' ') {
-          indent_length++;
-          lexer->advance(lexer, false);
-        } else if (lexer->lookahead == '\t') {
-          // Tab size is configurable in slim, we support only tab size of 4
-          indent_length += 4;
-          lexer->advance(lexer, false);
-        } else if (lexer->lookahead == '\n' || lexer->eof(lexer)) {
-          indent_length = last_indent_length;
-          break;
-        } else {
-          break;
+
+      if (!lexer->eof(lexer)) {
+        for(;;) {
+          if (lexer->lookahead == ' ') {
+            indent_length++;
+            lexer->advance(lexer, false);
+          } else if (lexer->lookahead == '\t') {
+            // Tab size is configurable in slim, we support only tab size of 4
+            indent_length += 4;
+            lexer->advance(lexer, false);
+          } else if (lexer->lookahead == '\n' || lexer->eof(lexer)) {
+            indent_length = last_indent_length;
+            break;
+          } else {
+            break;
+          }
         }
       }
 

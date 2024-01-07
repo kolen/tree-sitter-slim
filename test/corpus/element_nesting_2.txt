@@ -1,0 +1,15 @@
+===================
+Element nesting (2)
+===================
+
+span
+  span
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (nested
+      (element
+        (tag_name)))))
