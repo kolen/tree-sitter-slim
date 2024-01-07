@@ -192,6 +192,91 @@
         {
           "type": "element",
           "named": true
+        },
+        {
+          "type": "nested",
+          "named": true
+        },
+        {
+          "type": "ruby_block_control",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output_noescape",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ruby_block_control",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ruby",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ruby_block_output",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "output_modifier_leading_whitespace",
+          "named": true
+        },
+        {
+          "type": "output_modifier_legacy_trailing_whitespace",
+          "named": true
+        },
+        {
+          "type": "output_modifier_trailing_whitespace",
+          "named": true
+        },
+        {
+          "type": "ruby",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ruby_block_output_noescape",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "output_modifier_leading_whitespace",
+          "named": true
+        },
+        {
+          "type": "output_modifier_legacy_trailing_whitespace",
+          "named": true
+        },
+        {
+          "type": "output_modifier_trailing_whitespace",
+          "named": true
+        },
+        {
+          "type": "ruby",
+          "named": true
         }
       ]
     }
@@ -241,6 +326,22 @@
         {
           "type": "element",
           "named": true
+        },
+        {
+          "type": "nested",
+          "named": true
+        },
+        {
+          "type": "ruby_block_control",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output_noescape",
+          "named": true
         }
       ]
     }
@@ -258,6 +359,10 @@
     "named": false
   },
   {
+    "type": "-",
+    "named": false
+  },
+  {
     "type": ".",
     "named": false
   },
@@ -267,6 +372,14 @@
   },
   {
     "type": "5",
+    "named": false
+  },
+  {
+    "type": "=",
+    "named": false
+  },
+  {
+    "type": "==",
     "named": false
   },
   {
@@ -318,11 +431,15 @@
     "named": true
   },
   {
-    "type": "output_modifier_single_trailing_whitespace",
+    "type": "output_modifier_legacy_trailing_whitespace",
     "named": true
   },
   {
     "type": "output_modifier_trailing_whitespace",
+    "named": true
+  },
+  {
+    "type": "ruby",
     "named": true
   },
   {

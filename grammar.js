@@ -39,6 +39,7 @@ module.exports = grammar({
     $._attr_value_ruby_p, // ()
     $._attr_value_ruby_s, // []
     $._attr_value_ruby_b, // {}
+    $.ruby
   ],
 
   rules: {
@@ -48,9 +49,9 @@ module.exports = grammar({
     _block: $ => seq(
       $._line_start,
       choice(
+        $._ruby_block,
         $.element,
         $.doctype,
-        //$._ruby_block
         $._empty_line
       ),
     ),
@@ -152,30 +153,30 @@ module.exports = grammar({
     _doctype_xml: $ => seq('xml', optional($.doctype_xml_encoding)),
     doctype_xml_encoding: $ => /\w+/, // Not sure which chars
 
-    /* _ruby_block: $ => seq(
-     *   $._ruby_block_itself,
-     *   $._line_end,
-     *   optional($.nested)
-     * ),
+    _ruby_block: $ => seq(
+      $._ruby_block_itself,
+      $._line_end,
+      optional($.nested)
+    ),
 
-     * _ruby_block_itself: $ => choice(
-     *   $.ruby_block_control,
-     *   $.ruby_block_output,
-     *   $.ruby_block_output_no_html_escaping,
-     * ),
-     * ruby_block_control: $ => seq('-', $._space, $._ruby),
-     * ruby_block_output: $ => seq('=', optional($._output_modifiers), $._space, $._ruby),
-     * ruby_block_output_no_html_escaping: $ => seq('==', optional($._output_modifiers), $._space, $._ruby), */
+    _ruby_block_itself: $ => choice(
+      $.ruby_block_control,
+      $.ruby_block_output,
+      $.ruby_block_output_noescape
+    ),
+    ruby_block_control: $ => seq('-', $.ruby),
+    ruby_block_output: $ => seq('=', optional($._output_modifiers), $.ruby),
+    ruby_block_output_noescape: $ => seq('==', optional($._output_modifiers), $.ruby),
 
     _output_modifiers: $ => repeat1($._output_modifier),
     _output_modifier: $ => choice(
       $.output_modifier_leading_whitespace,
       $.output_modifier_trailing_whitespace,
-      $.output_modifier_single_trailing_whitespace
+      $.output_modifier_legacy_trailing_whitespace
     ),
     output_modifier_leading_whitespace: $ => token.immediate('<'),
     output_modifier_trailing_whitespace: $ => token.immediate('>'),
-    output_modifier_single_trailing_whitespace: $ => token.immediate("'"),
+    output_modifier_legacy_trailing_whitespace: $ => token.immediate("'"),
 
     _space: $ => /[ \t]+/
   },

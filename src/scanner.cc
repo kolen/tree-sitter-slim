@@ -76,9 +76,9 @@ public:
       }
     }
 
-    // if(valid_symbols[RUBY]) {
-    //   return scan_ruby(lexer, valid_symbols);
-    // }
+    if (valid_symbols[RUBY]) {
+      return scan_ruby(lexer);
+    }
 
     if (valid_symbols[LINE_END]) {
       if (lexer->lookahead == '\n') {
@@ -265,13 +265,15 @@ public:
     bool line_continuation = false;
 
     for(;;) {
-      if (lexer->lookahead == '\n' || lexer->eof(lexer)) {
+      if (lexer->lookahead == '\n') {
         if (line_continuation) {
           lexer->advance(lexer, true);
           continue;
         } else {
           break;
         }
+      } else if (lexer->eof(lexer)) {
+        break;
       } else if (closing_delimiter && lexer->lookahead == closing_delimiter) {
         if (!internal_delimiter_nesting) {
           break;
@@ -331,30 +333,29 @@ public:
     }
   }
 
-  bool scan_ruby(TSLexer *lexer, const bool *valid_symbols) {
-    bool ruby_continue_line = false;
+  // parse_broken_line in original
+  bool scan_ruby(TSLexer *lexer) {
+    bool line_continuation = false;
+
     for(;;) {
       if (lexer->lookahead == '\n') {
-        if (!ruby_continue_line) {
-          lexer->result_symbol = RUBY;
-          return true;
-        } else {
-          ruby_continue_line = false;
-          lexer->advance(lexer, false); // TODO: maybe don't treat as space
+        if (!line_continuation) {
+          break;
         }
-      } else if (lexer->lookahead == ',' || lexer->lookahead == '\\') {
-        lexer->advance(lexer, false);
-        ruby_continue_line = true;
+      } else if (lexer->eof(lexer)) {
+        break;
       } else if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
-        lexer->advance(lexer, false);  // TODO: maybe don't treat as space
-      } else if (lexer->lookahead == 0) {
-        lexer->result_symbol = RUBY;
-        return true;
+      } else if (lexer->lookahead == '\\' || lexer->lookahead == ',') {
+        line_continuation = true;
       } else {
-        ruby_continue_line = false;
-        lexer->advance(lexer, false);
+        line_continuation = false;
       }
+
+      lexer->advance(lexer, false);
     }
+
+    lexer->result_symbol = RUBY;
+    return true;
   }
 
   void debug(const char* message) {

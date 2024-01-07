@@ -1,0 +1,14 @@
+==========
+Ruby block
+==========
+
+- items = [ \
+    :item1,
+    :item2,
+  ]
+
+---
+
+(source_file
+  (ruby_block_control
+    (ruby)))

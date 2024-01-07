@@ -20,6 +20,10 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "_ruby_block"
+            },
+            {
+              "type": "SYMBOL",
               "name": "element"
             },
             {
@@ -896,6 +900,111 @@
       "type": "PATTERN",
       "value": "\\w+"
     },
+    "_ruby_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_ruby_block_itself"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_line_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "nested"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "_ruby_block_itself": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "ruby_block_control"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ruby_block_output"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ruby_block_output_noescape"
+        }
+      ]
+    },
+    "ruby_block_control": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "-"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ruby"
+        }
+      ]
+    },
+    "ruby_block_output": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_output_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ruby"
+        }
+      ]
+    },
+    "ruby_block_output_noescape": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "=="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_output_modifiers"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ruby"
+        }
+      ]
+    },
     "_output_modifiers": {
       "type": "REPEAT1",
       "content": {
@@ -916,7 +1025,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "output_modifier_single_trailing_whitespace"
+          "name": "output_modifier_legacy_trailing_whitespace"
         }
       ]
     },
@@ -934,7 +1043,7 @@
         "value": ">"
       }
     },
-    "output_modifier_single_trailing_whitespace": {
+    "output_modifier_legacy_trailing_whitespace": {
       "type": "IMMEDIATE_TOKEN",
       "content": {
         "type": "STRING",
@@ -989,6 +1098,10 @@
     {
       "type": "SYMBOL",
       "name": "_attr_value_ruby_b"
+    },
+    {
+      "type": "SYMBOL",
+      "name": "ruby"
     }
   ],
   "inline": [],
