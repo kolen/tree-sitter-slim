@@ -184,6 +184,32 @@ public:
       }
     }
 
+    if (valid_symbols[ATTR_VALUE_RUBY_P] ||
+        valid_symbols[ATTR_VALUE_RUBY_S] ||
+        valid_symbols[ATTR_VALUE_RUBY_B]) {
+      if (lexer->lookahead != ' ' &&
+          lexer->lookahead != '\t' &&
+          lexer->lookahead != '\n') {
+        char closing_delimiter;
+        TSSymbol result_symbol;
+
+        if (valid_symbols[ATTR_VALUE_RUBY_P]) {
+          closing_delimiter = ')';
+          result_symbol = ATTR_VALUE_RUBY_P;
+        }
+        else if (valid_symbols[ATTR_VALUE_RUBY_S]) {
+          closing_delimiter = ']';
+          result_symbol = ATTR_VALUE_RUBY_S;
+        }
+        else {
+          closing_delimiter = '}';
+          result_symbol = ATTR_VALUE_RUBY_B;
+        }
+
+        return scan_attr_ruby(lexer, closing_delimiter, result_symbol);
+      }
+    }
+
     if (valid_symbols[LINE_START]) {
       if (lexer->lookahead != ' ' && lexer->lookahead != '\t' && !lexer->eof(lexer)) {
         debug("line_start (initial)");
@@ -226,6 +252,75 @@ public:
       return true;
     } else {
       return false;
+    }
+  }
+
+  bool scan_attr_ruby(TSLexer *lexer, char closing_delimiter, TSSymbol result_symbol) {
+    char internal_delimiter_open = 0;
+    char internal_delimiter_close = 0;
+    int internal_delimiter_nesting = 0;
+    bool line_continuation = false;
+
+    for(;;) {
+      if (lexer->lookahead == '\n' || lexer->eof(lexer)) {
+        if (line_continuation) {
+          lexer->advance(lexer, true);
+          continue;
+        } else {
+          break;
+        }
+      } else if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+        if (line_continuation) {
+          lexer->advance(lexer, true);
+          continue;
+        } else if (!internal_delimiter_nesting) {
+          break;
+        }
+      } else if (lexer->lookahead == '\\' || lexer->lookahead == ',') {
+        line_continuation = true;
+        lexer->advance(lexer, true);
+        continue;
+      } else if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
+        if (!line_continuation && !internal_delimiter_nesting) {
+          break;
+        }
+      }
+
+      if (internal_delimiter_nesting) {
+        if (lexer->lookahead == internal_delimiter_open) {
+          internal_delimiter_nesting++;
+        } else if (lexer->lookahead == internal_delimiter_close) {
+          internal_delimiter_nesting--;
+        }
+      } else {
+        switch (lexer->lookahead) {
+        case '(':
+          internal_delimiter_open = '(';
+          internal_delimiter_close = ')';
+          internal_delimiter_nesting = 1;
+          break;
+        case '[':
+          internal_delimiter_open = '[';
+          internal_delimiter_close = ']';
+          internal_delimiter_nesting = 1;
+          break;
+        case '{':
+          internal_delimiter_open = '{';
+          internal_delimiter_close = '}';
+          internal_delimiter_nesting = 1;
+          break;
+        }
+      }
+
+      line_continuation = false;
+      lexer->advance(lexer, true);
+    }
+
+    if (internal_delimiter_nesting) {
+      return false;
+    } else {
+      lexer->result_symbol = result_symbol;
+      return true;
     }
   }
 
