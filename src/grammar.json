@@ -32,6 +32,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "embedded_engine"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_empty_line"
             }
           ]
@@ -1084,6 +1088,154 @@
         "type": "STRING",
         "value": "'"
       }
+    },
+    "embedded_engine": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_embedded_engine_name"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "attrs"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_text_block"
+        }
+      ]
+    },
+    "_embedded_engine_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "markdown"
+        },
+        {
+          "type": "STRING",
+          "value": "textile"
+        },
+        {
+          "type": "STRING",
+          "value": "rdoc"
+        },
+        {
+          "type": "STRING",
+          "value": "coffee"
+        },
+        {
+          "type": "STRING",
+          "value": "less"
+        },
+        {
+          "type": "STRING",
+          "value": "sass"
+        },
+        {
+          "type": "STRING",
+          "value": "scss"
+        },
+        {
+          "type": "STRING",
+          "value": "javascript"
+        },
+        {
+          "type": "STRING",
+          "value": "css"
+        },
+        {
+          "type": "STRING",
+          "value": "ruby"
+        }
+      ]
+    },
+    "_text_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[^\\n]*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_line_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_text_block_nested"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "_text_block_continuation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_line_start"
+        },
+        {
+          "type": "PATTERN",
+          "value": "[^\\n]*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_line_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_text_block_nested"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "_text_block_nested": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_indent"
+        },
+        {
+          "type": "REPEAT1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_text_block_continuation"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_dedent"
+        }
+      ]
     },
     "_space": {
       "type": "PATTERN",

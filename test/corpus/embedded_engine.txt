@@ -1,0 +1,13 @@
+=====================
+Embedded engine block
+=====================
+
+javascript:
+  function example() {
+    console.log("test");
+  }
+
+---
+
+(source_file
+  (embedded_engine))

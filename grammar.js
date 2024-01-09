@@ -52,6 +52,7 @@ module.exports = grammar({
         $._ruby_block,
         $.element,
         $.doctype,
+        $.embedded_engine,
         $._empty_line
       ),
     ),
@@ -191,6 +192,36 @@ module.exports = grammar({
     output_modifier_leading_whitespace: $ => token.immediate('<'),
     output_modifier_trailing_whitespace: $ => token.immediate('>'),
     output_modifier_legacy_trailing_whitespace: $ => token.immediate("'"),
+
+    embedded_engine: $ => seq(
+      $._embedded_engine_name,
+      optional($.attrs),
+      ':',
+      $._text_block
+    ),
+
+    _embedded_engine_name: $ => choice(
+      'markdown', 'textile', 'rdoc', 'coffee', 'less', 'sass', 'scss', 'javascript', 'css', 'ruby'
+    ),
+
+    _text_block: $ => seq(
+      /[^\n]*/,
+      $._line_end,
+      optional($._text_block_nested)
+    ),
+
+    _text_block_continuation: $ => seq(
+      $._line_start,
+      /[^\n]*/,
+      $._line_end,
+      optional($._text_block_nested)
+    ),
+
+    _text_block_nested: $ => seq(
+      $._indent,
+      repeat1($._text_block_continuation),
+      $._dedent
+    ),
 
     _space: $ => /[ \t]+/
   },
