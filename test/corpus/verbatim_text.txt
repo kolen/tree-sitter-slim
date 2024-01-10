@@ -1,0 +1,10 @@
+=============
+Verbatim text
+=============
+
+| Example text
+
+---
+
+(source_file
+  (verbatim_text))

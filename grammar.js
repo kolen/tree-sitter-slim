@@ -53,6 +53,7 @@ module.exports = grammar({
         $.element,
         $.doctype,
         $.embedded_engine,
+        $.verbatim_text,
         $._empty_line
       ),
     ),
@@ -203,6 +204,13 @@ module.exports = grammar({
     _embedded_engine_name: $ => choice(
       'markdown', 'textile', 'rdoc', 'coffee', 'less', 'sass', 'scss', 'javascript', 'css', 'ruby'
     ),
+
+    verbatim_text: $ => seq(
+      choice('|', $.verbatim_text_modifier_trailing_whitespace),
+      $._text_block
+    ),
+
+    verbatim_text_modifier_trailing_whitespace: $ => "'",
 
     _text_block: $ => seq(
       /[^\n]*/,

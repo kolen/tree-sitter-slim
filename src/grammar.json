@@ -36,6 +36,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "verbatim_text"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_empty_line"
             }
           ]
@@ -1162,6 +1166,32 @@
           "value": "ruby"
         }
       ]
+    },
+    "verbatim_text": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "|"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "verbatim_text_modifier_trailing_whitespace"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_text_block"
+        }
+      ]
+    },
+    "verbatim_text_modifier_trailing_whitespace": {
+      "type": "STRING",
+      "value": "'"
     },
     "_text_block": {
       "type": "SEQ",
