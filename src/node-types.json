@@ -140,16 +140,6 @@
           }
         ]
       },
-      "children": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "nested",
-            "named": true
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": false,
@@ -167,6 +157,10 @@
       "types": [
         {
           "type": "element_text",
+          "named": true
+        },
+        {
+          "type": "nested",
           "named": true
         }
       ]

@@ -12,7 +12,7 @@ Element nesting
 (source_file
   (element
     attr_shortcuts: (attr_shortcuts (shortcut_class (css_identifier)))
-    children: (nested
+    (nested
       (element
         attr_shortcuts: (attr_shortcuts (shortcut_class (css_identifier))))
       (element

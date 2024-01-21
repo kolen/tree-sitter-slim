@@ -72,10 +72,19 @@ module.exports = grammar({
         )
       ),
       optional(field('attrs', $.attrs)),
-      optional(seq($._space, $.element_text)),
-      $._line_end,
-      optional(field('children', $.nested))
+      choice(
+        $._inline,
+        seq(
+          optional($._space),
+          $._line_end,
+          optional($.nested)
+        )
+      )
     )),
+
+    _inline: $ => choice(
+      $.element_text
+    ),
 
     attr_shortcuts: $ => prec.right(repeat1($._attr_shortcut)),
 
@@ -97,7 +106,7 @@ module.exports = grammar({
       $._attrs_plain,
       $._attrs_delimited
     ),
-    _attrs_plain: $ => repeat1(seq($._space, $.attr)),
+    _attrs_plain: $ => repeat1($._attr_with_space),
     _attrs_delimited: $ => choice(
       $._attrs_delimited_p,
       $._attrs_delimited_s,
@@ -115,22 +124,29 @@ module.exports = grammar({
       field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
       field('value', $.attr_value),
     ),
+    _attr_with_space: $ => seq($._space, $.attr),
     attr_name: $ => $._attr_name,
-    _attr_name: $ => token(prec(1, /[a-zA-Z0-9_-]+/)), // TODO: very wrong
-    attr_assignment: $ => token(prec(1, /\s*=\s*/)),
-    attr_assignment_noescape: $ => token(prec(1, /\s*==\s*/)),
+    _attr_name: $ => /[a-zA-Z0-9_-]+/, // TODO: very wrong
+    attr_assignment: $ => /[ \t]*=[ \t]*/,
+    attr_assignment_noescape: $ => /[ \t]*==[ \t]*/,
     attr_value: $ => choice(
       $._attr_value_quoted,
       $._attr_value_ruby
       // TODO: many more
     ),
 
-    element_text: $ => choice(
-      seq($._attr_name, repeat($._element_rest_text)),
-      repeat1($._element_rest_text)
+    element_text: $ => seq(
+      optional($._space),
+      choice(
+        // Allow to match attribute token expected at this point
+        seq($._attr_name, optional($._space), optional($._element_rest_text)),
+        repeat1($._element_rest_text)
+      ),
+      $._line_end,
+      optional($._text_block_nested)
     ),
 
-    _element_rest_text: $ => /[^\n]+/, // TODO: very wrong
+    _element_rest_text: $ => token(prec(-1, /\S[^\n]+/)),
 
     // From css grammar https://github.com/tree-sitter/tree-sitter-css/blob/master/grammar.js
     // Originally: /\A(#{keys}+)((?:\p{Word}|-|\/\d+|:(\w|-)+)*)/
@@ -231,11 +247,11 @@ module.exports = grammar({
       $._dedent
     ),
 
-    _space: $ => /[ \t]+/
+    _space: $ => token(prec(-1, /[ \t]+/))
   },
 
   conflicts: $ => [
-    [$.attrs] // Not sure if can be avoided
+    [$.attrs]
   ],
 
   extras: $ => []

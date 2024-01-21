@@ -139,45 +139,55 @@
             "type": "CHOICE",
             "members": [
               {
+                "type": "SYMBOL",
+                "name": "_inline"
+              },
+              {
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "_space"
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "_space"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   },
                   {
                     "type": "SYMBOL",
-                    "name": "element_text"
+                    "name": "_line_end"
+                  },
+                  {
+                    "type": "CHOICE",
+                    "members": [
+                      {
+                        "type": "SYMBOL",
+                        "name": "nested"
+                      },
+                      {
+                        "type": "BLANK"
+                      }
+                    ]
                   }
                 ]
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
-          },
-          {
-            "type": "SYMBOL",
-            "name": "_line_end"
-          },
-          {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "FIELD",
-                "name": "children",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "nested"
-                }
-              },
-              {
-                "type": "BLANK"
               }
             ]
           }
         ]
       }
+    },
+    "_inline": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "element_text"
+        }
+      ]
     },
     "attr_shortcuts": {
       "type": "PREC_RIGHT",
@@ -269,17 +279,8 @@
     "_attrs_plain": {
       "type": "REPEAT1",
       "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_space"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "attr"
-          }
-        ]
+        "type": "SYMBOL",
+        "name": "_attr_with_space"
       }
     },
     "_attrs_delimited": {
@@ -712,42 +713,34 @@
         }
       ]
     },
+    "_attr_with_space": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_space"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attr"
+        }
+      ]
+    },
     "attr_name": {
       "type": "SYMBOL",
       "name": "_attr_name"
     },
     "_attr_name": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "PATTERN",
-          "value": "[a-zA-Z0-9_-]+"
-        }
-      }
+      "type": "PATTERN",
+      "value": "[a-zA-Z0-9_-]+"
     },
     "attr_assignment": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "PATTERN",
-          "value": "\\s*=\\s*"
-        }
-      }
+      "type": "PATTERN",
+      "value": "[ \\t]*=[ \\t]*"
     },
     "attr_assignment_noescape": {
-      "type": "TOKEN",
-      "content": {
-        "type": "PREC",
-        "value": 1,
-        "content": {
-          "type": "PATTERN",
-          "value": "\\s*==\\s*"
-        }
-      }
+      "type": "PATTERN",
+      "value": "[ \\t]*==[ \\t]*"
     },
     "attr_value": {
       "type": "CHOICE",
@@ -763,17 +756,58 @@
       ]
     },
     "element_text": {
-      "type": "CHOICE",
+      "type": "SEQ",
       "members": [
         {
-          "type": "SEQ",
+          "type": "CHOICE",
           "members": [
             {
               "type": "SYMBOL",
-              "name": "_attr_name"
+              "name": "_space"
             },
             {
-              "type": "REPEAT",
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "_attr_name"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_space"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_element_rest_text"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "REPEAT1",
               "content": {
                 "type": "SYMBOL",
                 "name": "_element_rest_text"
@@ -782,17 +816,33 @@
           ]
         },
         {
-          "type": "REPEAT1",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_element_rest_text"
-          }
+          "type": "SYMBOL",
+          "name": "_line_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_text_block_nested"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
     "_element_rest_text": {
-      "type": "PATTERN",
-      "value": "[^\\n]+"
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": -1,
+        "content": {
+          "type": "PATTERN",
+          "value": "\\S[^\\n]+"
+        }
+      }
     },
     "css_identifier": {
       "type": "PATTERN",
@@ -1268,8 +1318,15 @@
       ]
     },
     "_space": {
-      "type": "PATTERN",
-      "value": "[ \\t]+"
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": -1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[ \\t]+"
+        }
+      }
     }
   },
   "extras": [],
