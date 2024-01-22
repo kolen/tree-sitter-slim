@@ -244,6 +244,14 @@
         {
           "type": "embedded_engine",
           "named": true
+        },
+        {
+          "type": "ruby_block_output",
+          "named": true
+        },
+        {
+          "type": "ruby_block_output_noescape",
+          "named": true
         }
       ]
     }
@@ -464,14 +472,6 @@
   },
   {
     "type": ":",
-    "named": false
-  },
-  {
-    "type": "=",
-    "named": false
-  },
-  {
-    "type": "==",
     "named": false
   },
   {

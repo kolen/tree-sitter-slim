@@ -86,11 +86,17 @@ module.exports = grammar({
       $.nested_inline,
     ),
 
-    nested_inline: $ => seq(
+    nested_inline: $ => choice(
+      $._nested_inline_expansion,
+      $.ruby_block_output,
+      $.ruby_block_output_noescape
+    ),
+
+    _nested_inline_expansion: $ => seq(
       /[ \t]*:[ \t]*/,
       choice(
         $.element,
-        $.embedded_engine
+        $.embedded_engine,
       )
     ),
 
@@ -193,7 +199,7 @@ module.exports = grammar({
     ),
 
     ruby_block_output: $ => seq(
-      '=',
+      /[ \t]*=/,
       optional($._output_modifiers),
       $.ruby,
       $._line_end,
@@ -201,7 +207,7 @@ module.exports = grammar({
     ),
 
     ruby_block_output_noescape: $ => seq(
-      '==',
+      /[ \t]*==/,
       optional($._output_modifiers),
       $.ruby,
       $._line_end,
