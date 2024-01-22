@@ -201,8 +201,17 @@
           "value": "[ \\t]*:[ \\t]*"
         },
         {
-          "type": "SYMBOL",
-          "name": "element"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "element"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "embedded_engine"
+            }
+          ]
         }
       ]
     },

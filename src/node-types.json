@@ -240,6 +240,10 @@
         {
           "type": "element",
           "named": true
+        },
+        {
+          "type": "embedded_engine",
+          "named": true
         }
       ]
     }

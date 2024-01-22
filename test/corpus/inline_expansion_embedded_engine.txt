@@ -1,0 +1,14 @@
+==================================
+Inline expansion - embedded engine
+==================================
+
+p: javascript:
+  alert("Example");
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (nested_inline
+      (embedded_engine))))

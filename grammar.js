@@ -84,12 +84,15 @@ module.exports = grammar({
 
     _inline: $ => choice(
       $.element_text,
-      $.nested_inline
+      $.nested_inline,
     ),
 
     nested_inline: $ => seq(
       /[ \t]*:[ \t]*/,
-      $.element
+      choice(
+        $.element,
+        $.embedded_engine
+      )
     ),
 
     attr_shortcuts: $ => prec.right(repeat1($._attr_shortcut)),
