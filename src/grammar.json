@@ -186,6 +186,23 @@
         {
           "type": "SYMBOL",
           "name": "element_text"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "nested_inline"
+        }
+      ]
+    },
+    "nested_inline": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "[ \\t]*:[ \\t]*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "element"
         }
       ]
     },

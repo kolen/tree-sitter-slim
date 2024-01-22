@@ -1,0 +1,15 @@
+======================
+Inline expansion - tag
+======================
+
+p: b Example
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (nested_inline
+      (element
+        (tag_name)
+        (element_text)))))

@@ -162,6 +162,10 @@
         {
           "type": "nested",
           "named": true
+        },
+        {
+          "type": "nested_inline",
+          "named": true
         }
       ]
     }
@@ -220,6 +224,21 @@
         },
         {
           "type": "verbatim_text",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "nested_inline",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "element",
           "named": true
         }
       ]
