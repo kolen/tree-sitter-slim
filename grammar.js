@@ -45,7 +45,6 @@ module.exports = grammar({
   rules: {
     source_file: $ => repeat($._block),
 
-    // TODO: make newline not a part of block itself
     _block: $ => seq(
       $._line_start,
       choice(
