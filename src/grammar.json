@@ -40,6 +40,14 @@
             },
             {
               "type": "SYMBOL",
+              "name": "code_comment"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "html_comment"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_empty_line"
             }
           ]
@@ -1365,6 +1373,56 @@
         {
           "type": "SYMBOL",
           "name": "_dedent"
+        }
+      ]
+    },
+    "html_comment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\/![^\\n]*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_line_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_text_block_nested"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "code_comment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "PATTERN",
+          "value": "\\/[^\\n]*"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_line_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_text_block_nested"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

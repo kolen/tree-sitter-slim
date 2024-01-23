@@ -53,6 +53,8 @@ module.exports = grammar({
         $.doctype,
         $.embedded_engine,
         $.verbatim_text,
+        $.code_comment,
+        $.html_comment,
         $._empty_line
       ),
     ),
@@ -262,6 +264,18 @@ module.exports = grammar({
       $._indent,
       repeat1($._text_block_continuation),
       $._dedent
+    ),
+
+    html_comment: $ => seq(
+      /\/![^\n]*/,
+      $._line_end,
+      optional($._text_block_nested)
+    ),
+
+    code_comment: $ => seq(
+      /\/[^\n]*/,
+      $._line_end,
+      optional($._text_block_nested)
     ),
 
     _space: $ => token(prec(-1, /[ \t]+/))

@@ -1,0 +1,13 @@
+============
+Code comment
+============
+
+/ Example
+  Continued example
+
+  End of comment
+
+---
+
+(source_file
+  (code_comment))
