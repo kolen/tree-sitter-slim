@@ -48,6 +48,10 @@
             },
             {
               "type": "SYMBOL",
+              "name": "html_comment_conditional"
+            },
+            {
+              "type": "SYMBOL",
               "name": "_empty_line"
             }
           ]
@@ -1376,6 +1380,91 @@
         }
       ]
     },
+    "html_comment_conditional": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_html_comment_conditional_marker"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "html_comment_condition"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_line_end"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "nested",
+              "content": {
+                "type": "SYMBOL",
+                "name": "nested"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "_html_comment_conditional_marker": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": 1,
+        "content": {
+          "type": "STRING",
+          "value": "/["
+        }
+      }
+    },
+    "html_comment_condition": {
+      "type": "SYMBOL",
+      "name": "_html_comment_condition"
+    },
+    "_html_comment_condition": {
+      "type": "PATTERN",
+      "value": "[^\\]\\n]+"
+    },
+    "_html_comment_conditional_incomplete": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_html_comment_conditional_marker"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_html_comment_condition"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
     "html_comment": {
       "type": "SEQ",
       "members": [
@@ -1405,8 +1494,17 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "\\/[^\\n]*"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_html_comment_conditional_incomplete"
+            },
+            {
+              "type": "PATTERN",
+              "value": "\\/[^\\n]*"
+            }
+          ]
         },
         {
           "type": "SYMBOL",

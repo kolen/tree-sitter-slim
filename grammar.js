@@ -55,6 +55,7 @@ module.exports = grammar({
         $.verbatim_text,
         $.code_comment,
         $.html_comment,
+        $.html_comment_conditional,
         $._empty_line
       ),
     ),
@@ -266,6 +267,24 @@ module.exports = grammar({
       $._dedent
     ),
 
+    html_comment_conditional: $ => seq(
+      $._html_comment_conditional_marker,
+      optional($.html_comment_condition),
+      ']',
+      $._line_end,
+      optional(field('nested', $.nested))
+    ),
+
+    _html_comment_conditional_marker: $ => token(prec(1, '/[')),
+
+    html_comment_condition: $ => $._html_comment_condition,
+    _html_comment_condition: $ => /[^\]\n]+/,
+
+    _html_comment_conditional_incomplete: $ => seq(
+      $._html_comment_conditional_marker,
+      optional($._html_comment_condition)
+    ),
+
     html_comment: $ => seq(
       /\/![^\n]*/,
       $._line_end,
@@ -273,7 +292,10 @@ module.exports = grammar({
     ),
 
     code_comment: $ => seq(
-      /\/[^\n]*/,
+      choice(
+        $._html_comment_conditional_incomplete,
+        /\/[^\n]*/
+      ),
       $._line_end,
       optional($._text_block_nested)
     ),
@@ -282,7 +304,7 @@ module.exports = grammar({
   },
 
   conflicts: $ => [
-    [$.attrs]
+    [$.attrs],
   ],
 
   extras: $ => []

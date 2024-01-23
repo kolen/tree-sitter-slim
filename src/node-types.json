@@ -201,6 +201,37 @@
     "fields": {}
   },
   {
+    "type": "html_comment_condition",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "html_comment_conditional",
+    "named": true,
+    "fields": {
+      "nested": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "nested",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "html_comment_condition",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "nested",
     "named": true,
     "fields": {},
@@ -226,6 +257,10 @@
         },
         {
           "type": "html_comment",
+          "named": true
+        },
+        {
+          "type": "html_comment_conditional",
           "named": true
         },
         {
@@ -432,6 +467,10 @@
         },
         {
           "type": "html_comment",
+          "named": true
+        },
+        {
+          "type": "html_comment_conditional",
           "named": true
         },
         {
