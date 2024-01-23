@@ -84,6 +84,7 @@ module.exports = grammar({
     _inline: $ => choice(
       $.element_text,
       $.nested_inline,
+      $._closed_tag
     ),
 
     nested_inline: $ => choice(
@@ -99,6 +100,8 @@ module.exports = grammar({
         $.embedded_engine,
       )
     ),
+
+    _closed_tag: $ => /[ \t]*\/[ \t]*/,
 
     attr_shortcuts: $ => prec.right(repeat1($._attr_shortcut)),
 

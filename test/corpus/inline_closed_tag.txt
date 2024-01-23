@@ -1,0 +1,11 @@
+=================
+Inline closed tag
+=================
+
+p /
+
+---
+
+(source_file
+  (element
+    (tag_name)))

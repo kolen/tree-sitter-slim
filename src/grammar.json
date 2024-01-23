@@ -190,6 +190,10 @@
         {
           "type": "SYMBOL",
           "name": "nested_inline"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_closed_tag"
         }
       ]
     },
@@ -231,6 +235,10 @@
           ]
         }
       ]
+    },
+    "_closed_tag": {
+      "type": "PATTERN",
+      "value": "[ \\t]*\\/[ \\t]*"
     },
     "attr_shortcuts": {
       "type": "PREC_RIGHT",

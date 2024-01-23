@@ -1,0 +1,16 @@
+=================================
+Inline closed tag with attributes
+=================================
+
+p title=example /
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value)))))
