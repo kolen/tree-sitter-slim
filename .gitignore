@@ -1,3 +1,5 @@
 /src/parser.c
 /node_modules
 /*.wasm
+/log.html
+/*.org
