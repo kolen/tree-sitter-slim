@@ -22,5 +22,13 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.20.0"
-  }
+  },
+  "tree-sitter": [
+    {
+      "scope": "text.slim",
+      "file-types": [
+        "slim"
+      ]
+    }
+  ]
 }
