@@ -30,29 +30,47 @@ class Scanner {
 public:
   unsigned serialize(char *buffer) {
     std::vector<uint16_t>::iterator iter = indents.begin(), end = indents.end();
+    uint16_t *writer = (uint16_t*)buffer;
+    size_t left_to_write = TREE_SITTER_SERIALIZATION_BUFFER_SIZE / sizeof(uint16_t);
+    size_t length = 0;
 
-    buffer[0] = (char)dedents_to_output; // FIXME: write 16-bit value
-
-    size_t i = 1;
-    for (; iter != end && i < TREE_SITTER_SERIALIZATION_BUFFER_SIZE; ++iter) {
-      buffer[i++] = (char)*iter; // FIXME: write 16-bit values
+    if (left_to_write < 1) {
+      return 0;
     }
-    return i;
+
+    *writer = (uint16_t)dedents_to_output;
+    left_to_write--;
+    length += sizeof(uint16_t);
+    writer++;
+
+    while(left_to_write > 0 && iter != end) {
+      *writer = *iter;
+      left_to_write--;
+      length += sizeof(uint16_t);
+      iter++;
+      writer++;
+    }
+
+    return length;
   }
 
   void deserialize(const char *buffer, unsigned length) {
     indents.clear();
+    uint16_t *reader = (uint16_t*)buffer;
+    size_t left_to_read = length / sizeof(uint16_t);
 
-    if (length == 0) {
+    if (left_to_read < 1) {
       dedents_to_output = 0;
       return;
     }
+    dedents_to_output = (int)(*reader);
+    left_to_read--;
+    reader++;
 
-    dedents_to_output = (int)buffer[0]; // FIXME: read 16-bit value
-
-    size_t i = 1;
-    for (; i < length; i++) {
-      indents.push_back((uint16_t)buffer[i]); // FIXME: read 16-bit values
+    while(left_to_read > 0) {
+      indents.push_back(*reader);
+      left_to_read--;
+      reader++;
     }
   }
 
