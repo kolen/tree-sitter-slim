@@ -1,0 +1,21 @@
+==========================
+Ruby block - nested blocks
+==========================
+
+- cache things do
+  - things.each do |thing|
+    .thing
+
+---
+
+(source_file
+  (ruby_block_control
+    (ruby)
+    (nested
+      (ruby_block_control
+        (ruby)
+        (nested
+          (element
+            (attr_shortcuts
+              (shortcut_class
+                (css_identifier)))))))))

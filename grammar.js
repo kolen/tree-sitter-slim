@@ -30,10 +30,10 @@ module.exports = grammar({
   name: 'slim',
 
   externals: $ => [
-    $._indent,
-    $._dedent,
-    $._line_start,
-    $._line_end,
+    $._block_start,
+    $._block_end,
+    $._line_separator,
+
     $._attr_value_quoted,
     $._attr_value_ruby,
     $._attr_value_ruby_p, // ()
@@ -43,24 +43,29 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => repeat($._block),
+    source_file: $ => seq($._block),
 
     _block: $ => seq(
-      $._line_start,
-      choice(
-        $._ruby_block,
-        $.element,
-        $.doctype,
-        $.embedded_engine,
-        $.verbatim_text,
-        $.code_comment,
-        $.html_comment,
-        $.html_comment_conditional,
-        $._empty_line
+      $._block_start,
+      seq(
+        $._line,
+        repeat(seq($._line_separator, $._line)),
+        // TODO: don't generate _line_separator token here if possible
+        optional($._line_separator)
       ),
+      $._block_end
     ),
 
-    _empty_line: $ => $._line_end,
+    _line: $ => choice(
+      $._ruby_block,
+      $.element,
+      $.doctype,
+      $.embedded_engine,
+      $.verbatim_text,
+      $.code_comment,
+      $.html_comment,
+      $.html_comment_conditional,
+    ),
 
     element: $ => prec.left(seq(
       choice(
@@ -78,7 +83,6 @@ module.exports = grammar({
         $._inline,
         seq(
           optional($._space),
-          $._line_end,
           optional($.nested)
         )
       )
@@ -116,11 +120,7 @@ module.exports = grammar({
     shortcut_class: $ => seq('.', $.css_identifier),
     shortcut_id: $ => seq('#', $.css_identifier),
 
-    nested: $ => seq(
-      $._indent,
-      repeat1($._block),
-      $._dedent
-    ),
+    nested: $ => $._block,
 
     attrs: $ => choice(
       $._attrs_plain,
@@ -162,8 +162,7 @@ module.exports = grammar({
         seq($._attr_name, optional($._space), optional($._element_rest_text)),
         repeat1($._element_rest_text)
       ),
-      $._line_end,
-      optional($._text_block_nested)
+      optional($._text_nested)
     ),
 
     _element_rest_text: $ => token(prec(-1, /\S[^\n]+/)),
@@ -180,7 +179,6 @@ module.exports = grammar({
         $._doctype_html,
         $._doctype_xml,
       ),
-      $._line_end
     ),
     _doctype_html: $ => choice(
       $.doctype_html5,
@@ -200,7 +198,6 @@ module.exports = grammar({
     ruby_block_control: $ => seq(
       '-',
       $.ruby,
-      $._line_end,
       optional(field('nested', $.nested))
     ),
 
@@ -208,7 +205,6 @@ module.exports = grammar({
       /[ \t]*=/,
       optional($._output_modifiers),
       $.ruby,
-      $._line_end,
       optional(field('nested', $.nested))
     ),
 
@@ -216,7 +212,6 @@ module.exports = grammar({
       /[ \t]*==/,
       optional($._output_modifiers),
       $.ruby,
-      $._line_end,
       optional(field('nested', $.nested))
     ),
 
@@ -234,7 +229,7 @@ module.exports = grammar({
       $._embedded_engine_name,
       optional($.attrs),
       ':',
-      $._text_block
+      $._text_nested
     ),
 
     _embedded_engine_name: $ => choice(
@@ -243,35 +238,34 @@ module.exports = grammar({
 
     verbatim_text: $ => seq(
       choice('|', $.verbatim_text_modifier_trailing_whitespace),
-      $._text_block
+      $._text
     ),
 
     verbatim_text_modifier_trailing_whitespace: $ => "'",
 
-    _text_block: $ => seq(
-      /[^\n]*/,
-      $._line_end,
-      optional($._text_block_nested)
+    _text: $ => seq(
+      $._text_line,
+      optional($._text_nested)
     ),
 
-    _text_block_continuation: $ => seq(
-      $._line_start,
-      /[^\n]*/,
-      $._line_end,
-      optional($._text_block_nested)
-    ),
+    _text_line: $ => /[^\n]+/,
 
-    _text_block_nested: $ => seq(
-      $._indent,
-      repeat1($._text_block_continuation),
-      $._dedent
+    _text_nested: $ => seq(
+      $._block_start,
+      $._text_line,
+      repeat(choice(
+        seq($._line_separator, $._text_line),
+        $._text_nested
+      )),
+      // TODO: don't generate _line_separator token here if possible
+      optional($._line_separator),
+      $._block_end
     ),
 
     html_comment_conditional: $ => seq(
       $._html_comment_conditional_marker,
       optional($.html_comment_condition),
       ']',
-      $._line_end,
       optional(field('nested', $.nested))
     ),
 
@@ -287,8 +281,7 @@ module.exports = grammar({
 
     html_comment: $ => seq(
       /\/![^\n]*/,
-      $._line_end,
-      optional($._text_block_nested)
+      optional($._text_nested)
     ),
 
     code_comment: $ => seq(
@@ -296,8 +289,7 @@ module.exports = grammar({
         $._html_comment_conditional_incomplete,
         /\/[^\n]*/
       ),
-      $._line_end,
-      optional($._text_block_nested)
+      optional($._text_nested)
     ),
 
     _space: $ => token(prec(-1, /[ \t]+/))

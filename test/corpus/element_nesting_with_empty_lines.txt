@@ -1,0 +1,16 @@
+================================
+Element nesting with empty lines
+================================
+
+p
+
+  b
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (nested
+      (element
+        (tag_name)))))
