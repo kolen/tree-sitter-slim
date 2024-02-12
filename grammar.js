@@ -226,13 +226,13 @@ module.exports = grammar({
     output_modifier_legacy_trailing_whitespace: $ => token.immediate("'"),
 
     embedded_engine: $ => seq(
-      $._embedded_engine_name,
+      $.embedded_engine_name,
       optional($.attrs),
       ':',
       $._text_nested
     ),
 
-    _embedded_engine_name: $ => choice(
+    embedded_engine_name: $ => choice(
       'markdown', 'textile', 'rdoc', 'coffee', 'less', 'sass', 'scss', 'javascript', 'css', 'ruby'
     ),
 

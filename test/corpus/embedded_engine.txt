@@ -10,4 +10,5 @@ javascript:
 ---
 
 (source_file
-  (embedded_engine))
+  (embedded_engine
+    (embedded_engine_name)))
