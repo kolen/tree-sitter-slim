@@ -187,6 +187,18 @@
             "members": [
               {
                 "type": "SYMBOL",
+                "name": "_output_modifiers"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
                 "name": "_inline"
               },
               {

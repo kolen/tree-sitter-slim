@@ -1,0 +1,31 @@
+============================
+Tag and shortcut css classes
+============================
+
+span.menu.active
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (attr_shortcuts
+      (shortcut_class
+        (css_identifier))
+      (shortcut_class
+        (css_identifier)))))
+
+===============================
+Tag with traling space modifier
+===============================
+
+.menu<
+
+---
+
+(source_file
+  (element
+    (attr_shortcuts
+      (shortcut_class
+        (css_identifier)))
+    (output_modifier_leading_whitespace)))

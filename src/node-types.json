@@ -157,7 +157,7 @@
       }
     },
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
@@ -170,6 +170,18 @@
         },
         {
           "type": "nested_inline",
+          "named": true
+        },
+        {
+          "type": "output_modifier_leading_whitespace",
+          "named": true
+        },
+        {
+          "type": "output_modifier_legacy_trailing_whitespace",
+          "named": true
+        },
+        {
+          "type": "output_modifier_trailing_whitespace",
           "named": true
         }
       ]

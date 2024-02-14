@@ -79,6 +79,7 @@ module.exports = grammar({
         )
       ),
       optional(field('attrs', $.attrs)),
+      optional($._output_modifiers),
       choice(
         $._inline,
         seq(
