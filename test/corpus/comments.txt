@@ -1,0 +1,55 @@
+============
+Code comment
+============
+
+/ Example
+  Continued example
+
+  End of comment
+
+---
+
+(source_file
+  (code_comment))
+
+============
+HTML comment
+============
+
+/! Example
+  Continued example
+
+  End of comment
+
+---
+
+(source_file
+  (html_comment))
+
+=================================
+HTML conditional comment - broken
+=================================
+
+/[if IE
+  p
+
+---
+
+(source_file
+  (code_comment))
+
+========================
+HTML conditional comment
+========================
+
+/[if IE]
+  p
+
+---
+
+(source_file
+  (html_comment_conditional
+    (html_comment_condition)
+    (nested
+      (element
+        (tag_name)))))
