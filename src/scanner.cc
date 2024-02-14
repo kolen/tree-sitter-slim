@@ -18,7 +18,9 @@ enum TokenType {
   ATTR_VALUE_RUBY_P,
   ATTR_VALUE_RUBY_S,
   ATTR_VALUE_RUBY_B,
-  RUBY
+  RUBY,
+
+  ERROR_SENTINEL
 };
 
 class Scanner {
@@ -186,7 +188,7 @@ public:
       }
     }
 
-    if (valid_symbols[RUBY]) {
+    if (valid_symbols[RUBY] && !valid_symbols[ERROR_SENTINEL]) {
       return scan_ruby(lexer);
     }
 

@@ -39,7 +39,9 @@ module.exports = grammar({
     $._attr_value_ruby_p, // ()
     $._attr_value_ruby_s, // []
     $._attr_value_ruby_b, // {}
-    $.ruby
+    $.ruby,
+
+    $._error_sentinel
   ],
 
   rules: {
