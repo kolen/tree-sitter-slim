@@ -1,0 +1,97 @@
+=================
+Inline closed tag
+=================
+
+p /
+
+---
+
+(source_file
+  (element
+    (tag_name)))
+
+=================================
+Inline closed tag with attributes
+=================================
+
+p title=example /
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value)))))
+
+======================
+Inline expansion - tag
+======================
+
+p: b Example
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (nested_inline
+      (element
+        (tag_name)
+        (element_text)))))
+
+==================================
+Inline expansion - embedded engine
+==================================
+
+p: javascript:
+  alert("Example");
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (nested_inline
+      (embedded_engine
+        (embedded_engine_name)))))
+
+=============
+Inline output
+=============
+
+p = make_text(style: "standard")
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (nested_inline
+      (ruby_block_output
+        (ruby)))))
+
+===========
+Inline text
+===========
+
+span first example text
+span title="example" example text
+
+----
+
+(source_file
+  (element
+    (tag_name)
+    (element_text))
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value)))
+    (element_text)))
