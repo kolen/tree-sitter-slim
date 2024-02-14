@@ -168,7 +168,7 @@ module.exports = grammar({
       optional($._text_nested)
     ),
 
-    _element_rest_text: $ => token(prec(-1, /\S[^\n]+/)),
+    _element_rest_text: $ => token(prec(-1, /[^ \t][^\n]*/)),
 
     // From css grammar https://github.com/tree-sitter/tree-sitter-css/blob/master/grammar.js
     // Originally: /\A(#{keys}+)((?:\p{Word}|-|\/\d+|:(\w|-)+)*)/

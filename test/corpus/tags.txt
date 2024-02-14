@@ -29,3 +29,18 @@ Tag with traling space modifier
       (shortcut_class
         (css_identifier)))
     (output_modifier_leading_whitespace)))
+
+============================================
+Tag with space before traling space modifier
+============================================
+
+.menu <
+
+---
+
+(source_file
+  (element
+    (attr_shortcuts
+      (shortcut_class
+        (css_identifier)))
+    (element_text)))
