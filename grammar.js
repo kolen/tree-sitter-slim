@@ -80,8 +80,8 @@ module.exports = grammar({
           field('attr_shortcuts', $.attr_shortcuts),
         )
       ),
-      optional(field('attrs', $.attrs)),
       optional($._output_modifiers),
+      optional(field('attrs', $.attrs)),
       choice(
         $._inline,
         seq(

@@ -170,12 +170,8 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "FIELD",
-                "name": "attrs",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "attrs"
-                }
+                "type": "SYMBOL",
+                "name": "_output_modifiers"
               },
               {
                 "type": "BLANK"
@@ -186,8 +182,12 @@
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "_output_modifiers"
+                "type": "FIELD",
+                "name": "attrs",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "attrs"
+                }
               },
               {
                 "type": "BLANK"

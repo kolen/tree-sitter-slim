@@ -45,6 +45,42 @@ Tag with space before traling space modifier
         (css_identifier)))
     (element_text)))
 
+=====================================================
+Trailing space modifier with non-delimited attributes
+=====================================================
+
+a< title="example"
+
+----
+
+(source_file
+  (element
+    (tag_name)
+    (output_modifier_leading_whitespace)
+    (attrs
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value)))))
+
+===============================================================
+Trailing space modifier with delimited attributes without space
+===============================================================
+
+a<[title="example"]
+
+----
+
+(source_file
+  (element
+    (tag_name)
+    (output_modifier_leading_whitespace)
+    (attrs
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value)))))
+
 =============================
 Extension attribute shortcuts
 =============================
