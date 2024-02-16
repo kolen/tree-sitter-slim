@@ -74,6 +74,21 @@ p = make_text(style: "standard")
       (ruby_block_output
         (ruby)))))
 
+=========================
+Inline output - immediate
+=========================
+
+p=make_text
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (nested_inline
+      (ruby_block_output
+        (ruby)))))
+
 ===========
 Inline text
 ===========

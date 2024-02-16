@@ -57,6 +57,10 @@
           "named": true
         },
         {
+          "type": "shortcut_custom",
+          "named": true
+        },
+        {
           "type": "shortcut_id",
           "named": true
         }
@@ -655,6 +659,10 @@
   {
     "type": "scss",
     "named": false
+  },
+  {
+    "type": "shortcut_custom",
+    "named": true
   },
   {
     "type": "strict",

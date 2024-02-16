@@ -119,10 +119,14 @@ module.exports = grammar({
     tag_name: $ => /(\w+|\w[\w:-]+\w)/,
     _attr_shortcut: $ => choice(
       $.shortcut_class,
-      $.shortcut_id
+      $.shortcut_id,
+      $.shortcut_custom
     ),
     shortcut_class: $ => seq('.', $.css_identifier),
     shortcut_id: $ => seq('#', $.css_identifier),
+    // In real slim, custom shortcuts only parsed if prefix is
+    // configured, otherwise parsed as inline text
+    shortcut_custom: $ => token(prec(-1, /[^ \t\na-zA-Z0-9_-]+[a-zA-Z0-9_-]*/)),
 
     nested: $ => $._block,
 
@@ -169,7 +173,7 @@ module.exports = grammar({
       optional($._text_nested)
     ),
 
-    _element_rest_text: $ => token(prec(-1, /[^ \t][^\n]*/)),
+    _element_rest_text: $ => token(prec(-2, /[^ \t][^\n]*/)),
 
     // From css grammar https://github.com/tree-sitter/tree-sitter-css/blob/master/grammar.js
     // Originally: /\A(#{keys}+)((?:\p{Word}|-|\/\d+|:(\w|-)+)*)/

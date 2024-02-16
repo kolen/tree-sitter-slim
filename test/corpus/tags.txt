@@ -44,3 +44,20 @@ Tag with space before traling space modifier
       (shortcut_class
         (css_identifier)))
     (element_text)))
+
+=============================
+Extension attribute shortcuts
+=============================
+
+span.example@@example*example
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (attr_shortcuts
+      (shortcut_class
+        (css_identifier))
+      (shortcut_custom)
+      (shortcut_custom))))

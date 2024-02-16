@@ -320,6 +320,10 @@
         {
           "type": "SYMBOL",
           "name": "shortcut_id"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "shortcut_custom"
         }
       ]
     },
@@ -348,6 +352,17 @@
           "name": "css_identifier"
         }
       ]
+    },
+    "shortcut_custom": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": -1,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^ \\t\\na-zA-Z0-9_-]+[a-zA-Z0-9_-]*"
+        }
+      }
     },
     "nested": {
       "type": "SYMBOL",
@@ -959,7 +974,7 @@
       "type": "TOKEN",
       "content": {
         "type": "PREC",
-        "value": -1,
+        "value": -2,
         "content": {
           "type": "PATTERN",
           "value": "[^ \\t][^\\n]*"
