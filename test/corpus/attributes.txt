@@ -139,3 +139,33 @@ a[
         (attr_name)
         (attr_assignment)
         (attr_value)))))
+
+================================
+Splat attributes - non-delimited
+================================
+
+a *attrs
+
+-----
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_splat)))))
+
+============================
+Splat attributes - delimited
+============================
+
+a[*attrs]
+
+-----
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_splat)))))

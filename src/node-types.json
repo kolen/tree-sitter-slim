@@ -5,7 +5,7 @@
     "fields": {
       "assignment": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "attr_assignment",
@@ -19,7 +19,7 @@
       },
       "name": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "attr_name",
@@ -29,7 +29,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "attr_value",
@@ -37,6 +37,16 @@
           }
         ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "attr_splat",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -545,6 +555,10 @@
     "named": false
   },
   {
+    "type": "*",
+    "named": false
+  },
+  {
     "type": "-",
     "named": false
   },
@@ -582,6 +596,10 @@
   },
   {
     "type": "attr_shortcut_custom",
+    "named": true
+  },
+  {
+    "type": "attr_splat",
     "named": true
   },
   {

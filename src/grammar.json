@@ -594,211 +594,303 @@
       ]
     },
     "_attr_delimited_p": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "attr_name"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "*"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_attr_value_ruby_p"
+              },
+              "named": true,
+              "value": "attr_splat"
+            }
+          ]
         },
         {
-          "type": "FIELD",
-          "name": "assignment",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "name",
+              "content": {
                 "type": "SYMBOL",
-                "name": "attr_assignment"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attr_assignment_noescape"
+                "name": "attr_name"
               }
-            ]
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "value",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_attr_value_quoted"
-                },
-                "named": true,
-                "value": "attr_value"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_attr_value_ruby_p"
-                },
-                "named": true,
-                "value": "attr_value"
+            },
+            {
+              "type": "FIELD",
+              "name": "assignment",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "attr_assignment"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "attr_assignment_noescape"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            {
+              "type": "FIELD",
+              "name": "value",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_attr_value_quoted"
+                    },
+                    "named": true,
+                    "value": "attr_value"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_attr_value_ruby_p"
+                    },
+                    "named": true,
+                    "value": "attr_value"
+                  }
+                ]
+              }
+            }
+          ]
         }
       ]
     },
     "_attr_delimited_s": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "attr_name"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "*"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_attr_value_ruby_s"
+              },
+              "named": true,
+              "value": "attr_splat"
+            }
+          ]
         },
         {
-          "type": "FIELD",
-          "name": "assignment",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "name",
+              "content": {
                 "type": "SYMBOL",
-                "name": "attr_assignment"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attr_assignment_noescape"
+                "name": "attr_name"
               }
-            ]
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "value",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_attr_value_quoted"
-                },
-                "named": true,
-                "value": "attr_value"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_attr_value_ruby_s"
-                },
-                "named": true,
-                "value": "attr_value"
+            },
+            {
+              "type": "FIELD",
+              "name": "assignment",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "attr_assignment"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "attr_assignment_noescape"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            {
+              "type": "FIELD",
+              "name": "value",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_attr_value_quoted"
+                    },
+                    "named": true,
+                    "value": "attr_value"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_attr_value_ruby_s"
+                    },
+                    "named": true,
+                    "value": "attr_value"
+                  }
+                ]
+              }
+            }
+          ]
         }
       ]
     },
     "_attr_delimited_b": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "attr_name"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "*"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_attr_value_ruby_b"
+              },
+              "named": true,
+              "value": "attr_splat"
+            }
+          ]
         },
         {
-          "type": "FIELD",
-          "name": "assignment",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "name",
+              "content": {
                 "type": "SYMBOL",
-                "name": "attr_assignment"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "attr_assignment_noescape"
+                "name": "attr_name"
               }
-            ]
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "value",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_attr_value_quoted"
-                },
-                "named": true,
-                "value": "attr_value"
-              },
-              {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_attr_value_ruby_b"
-                },
-                "named": true,
-                "value": "attr_value"
+            },
+            {
+              "type": "FIELD",
+              "name": "assignment",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "attr_assignment"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "attr_assignment_noescape"
+                  }
+                ]
               }
-            ]
-          }
+            },
+            {
+              "type": "FIELD",
+              "name": "value",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_attr_value_quoted"
+                    },
+                    "named": true,
+                    "value": "attr_value"
+                  },
+                  {
+                    "type": "ALIAS",
+                    "content": {
+                      "type": "SYMBOL",
+                      "name": "_attr_value_ruby_b"
+                    },
+                    "named": true,
+                    "value": "attr_value"
+                  }
+                ]
+              }
+            }
+          ]
         }
       ]
     },
     "attr": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "attr_name"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "assignment",
-          "content": {
-            "type": "CHOICE",
-            "members": [
-              {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "*"
+            },
+            {
+              "type": "ALIAS",
+              "content": {
                 "type": "SYMBOL",
-                "name": "attr_assignment"
+                "name": "_attr_value_ruby"
               },
-              {
-                "type": "SYMBOL",
-                "name": "attr_assignment_noescape"
-              }
-            ]
-          }
+              "named": true,
+              "value": "attr_splat"
+            }
+          ]
         },
         {
-          "type": "FIELD",
-          "name": "value",
-          "content": {
-            "type": "SYMBOL",
-            "name": "attr_value"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "name",
+              "content": {
+                "type": "SYMBOL",
+                "name": "attr_name"
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "assignment",
+              "content": {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "attr_assignment"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "attr_assignment_noescape"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "FIELD",
+              "name": "value",
+              "content": {
+                "type": "SYMBOL",
+                "name": "attr_value"
+              }
+            }
+          ]
         }
       ]
     },

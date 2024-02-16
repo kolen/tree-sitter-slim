@@ -2,13 +2,16 @@
 // Also: https://rdoc.info/gems/slim/frames
 
 const make_attr_delimited = (token_suffix) => {
-  return ($) => seq(
-    field('name', $.attr_name),
-    field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
-    field('value', choice(
-      alias($._attr_value_quoted, $.attr_value),
-      alias($[`_attr_value_ruby_${token_suffix}`], $.attr_value)
-    ))
+  return ($) => choice(
+    seq('*', alias($[`_attr_value_ruby_${token_suffix}`], $.attr_splat)),
+    seq(
+      field('name', $.attr_name),
+      field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
+      field('value', choice(
+        alias($._attr_value_quoted, $.attr_value),
+        alias($[`_attr_value_ruby_${token_suffix}`], $.attr_value)
+      ))
+    )
   )
 }
 
@@ -143,10 +146,13 @@ module.exports = grammar({
     _attr_delimited_s: make_attr_delimited('s'),
     _attr_delimited_b: make_attr_delimited('b'),
 
-    attr: $ => seq(
-      field('name', $.attr_name),
-      field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
-      field('value', $.attr_value),
+    attr: $ => choice(
+      seq('*', alias($._attr_value_ruby, $.attr_splat)),
+      seq(
+        field('name', $.attr_name),
+        field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
+        field('value', $.attr_value),
+      ),
     ),
     attr_name: $ => $._attr_name,
     _attr_name: $ => /[a-zA-Z0-9_-]+/, // TODO: very wrong
