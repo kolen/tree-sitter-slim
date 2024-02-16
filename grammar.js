@@ -15,13 +15,14 @@ const make_attr_delimited = (token_suffix) => {
 const make_attrs_delimited = (delim_open, delim_close, token_suffix) => {
   return ($) => seq(
     delim_open,
-    optional($._space),
+    optional($._space_or_newline),
     optional(
       seq(
         alias($[`_attr_delimited_${token_suffix}`], $.attr),
-        repeat(seq($._space, alias($[`_attr_delimited_${token_suffix}`], $.attr))),
+        repeat(seq($._space_or_newline, alias($[`_attr_delimited_${token_suffix}`], $.attr))),
       )
     ),
+    optional($._space_or_newline),
     delim_close
   )
 };
@@ -295,6 +296,7 @@ module.exports = grammar({
       optional($._text_nested)
     ),
 
+    _space_or_newline: $ => /[ \t\n]+/,
     _space: $ => token(prec(-1, /[ \t]+/))
   },
 

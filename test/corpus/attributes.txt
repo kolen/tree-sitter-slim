@@ -75,9 +75,9 @@ span[title=make_title]
     (attrs
       (attr (attr_name) (attr_assignment) (attr_value)))))
 
-==========================
-Multiline quoted attribute
-==========================
+====================================
+String attributes - multiline quoted
+====================================
 
 span title="example example
    example
@@ -95,6 +95,25 @@ span title="example example
         (attr_name)
         (attr_assignment)
         (attr_value))
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value)))))
+
+=======================================
+String attributes - delimited multiline
+=======================================
+
+a[
+  href="/"
+]
+
+-----
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
       (attr
         (attr_name)
         (attr_assignment)
