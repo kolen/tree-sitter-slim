@@ -118,15 +118,15 @@ module.exports = grammar({
 
     tag_name: $ => /(\w+|\w[\w:-]+\w)/,
     _attr_shortcut: $ => choice(
-      $.shortcut_class,
-      $.shortcut_id,
-      $.shortcut_custom
+      $.attr_shortcut_class,
+      $.attr_shortcut_id,
+      $.attr_shortcut_custom
     ),
-    shortcut_class: $ => seq('.', $.css_identifier),
-    shortcut_id: $ => seq('#', $.css_identifier),
+    attr_shortcut_class: $ => seq('.', $.css_identifier),
+    attr_shortcut_id: $ => seq('#', $.css_identifier),
     // In real slim, custom shortcuts only parsed if prefix is
     // configured, otherwise parsed as inline text
-    shortcut_custom: $ => token(prec(-1, /[^ \t\na-zA-Z0-9_-]+[a-zA-Z0-9_-]*/)),
+    attr_shortcut_custom: $ => token(prec(-1, /[^ \t\na-zA-Z0-9_-]+[a-zA-Z0-9_-]*/)),
 
     nested: $ => $._block,
 

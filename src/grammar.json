@@ -315,19 +315,19 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "shortcut_class"
+          "name": "attr_shortcut_class"
         },
         {
           "type": "SYMBOL",
-          "name": "shortcut_id"
+          "name": "attr_shortcut_id"
         },
         {
           "type": "SYMBOL",
-          "name": "shortcut_custom"
+          "name": "attr_shortcut_custom"
         }
       ]
     },
-    "shortcut_class": {
+    "attr_shortcut_class": {
       "type": "SEQ",
       "members": [
         {
@@ -340,7 +340,7 @@
         }
       ]
     },
-    "shortcut_id": {
+    "attr_shortcut_id": {
       "type": "SEQ",
       "members": [
         {
@@ -353,7 +353,7 @@
         }
       ]
     },
-    "shortcut_custom": {
+    "attr_shortcut_custom": {
       "type": "TOKEN",
       "content": {
         "type": "PREC",

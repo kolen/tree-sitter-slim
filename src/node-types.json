@@ -45,6 +45,36 @@
     "fields": {}
   },
   {
+    "type": "attr_shortcut_class",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "css_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attr_shortcut_id",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "css_identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attr_shortcuts",
     "named": true,
     "fields": {},
@@ -53,15 +83,15 @@
       "required": true,
       "types": [
         {
-          "type": "shortcut_class",
+          "type": "attr_shortcut_class",
           "named": true
         },
         {
-          "type": "shortcut_custom",
+          "type": "attr_shortcut_custom",
           "named": true
         },
         {
-          "type": "shortcut_id",
+          "type": "attr_shortcut_id",
           "named": true
         }
       ]
@@ -437,36 +467,6 @@
     }
   },
   {
-    "type": "shortcut_class",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "css_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "shortcut_id",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "css_identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "source_file",
     "named": true,
     "fields": {},
@@ -581,6 +581,10 @@
     "named": true
   },
   {
+    "type": "attr_shortcut_custom",
+    "named": true
+  },
+  {
     "type": "basic",
     "named": false
   },
@@ -659,10 +663,6 @@
   {
     "type": "scss",
     "named": false
-  },
-  {
-    "type": "shortcut_custom",
-    "named": true
   },
   {
     "type": "strict",

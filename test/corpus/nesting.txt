@@ -11,14 +11,14 @@ Element nesting
 
 (source_file
   (element
-    attr_shortcuts: (attr_shortcuts (shortcut_class (css_identifier)))
+    attr_shortcuts: (attr_shortcuts (attr_shortcut_class (css_identifier)))
     (nested
       (element
-        attr_shortcuts: (attr_shortcuts (shortcut_class (css_identifier))))
+        attr_shortcuts: (attr_shortcuts (attr_shortcut_class (css_identifier))))
       (element
-        attr_shortcuts: (attr_shortcuts (shortcut_class (css_identifier))))))
+        attr_shortcuts: (attr_shortcuts (attr_shortcut_class (css_identifier))))))
   (element
-    attr_shortcuts: (attr_shortcuts (shortcut_class (css_identifier)))))
+    attr_shortcuts: (attr_shortcuts (attr_shortcut_class (css_identifier)))))
 
 ===================
 Element nesting (2)

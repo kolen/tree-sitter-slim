@@ -29,7 +29,7 @@ Ruby block with nested blocks
     (nested
       (element
         (attr_shortcuts
-          (shortcut_class (css_identifier)))
+          (attr_shortcut_class (css_identifier)))
         (nested
           (ruby_block_output
             (ruby)))))))
@@ -53,5 +53,5 @@ Ruby block - nested blocks
         (nested
           (element
             (attr_shortcuts
-              (shortcut_class
+              (attr_shortcut_class
                 (css_identifier)))))))))

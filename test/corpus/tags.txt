@@ -10,9 +10,9 @@ span.menu.active
   (element
     (tag_name)
     (attr_shortcuts
-      (shortcut_class
+      (attr_shortcut_class
         (css_identifier))
-      (shortcut_class
+      (attr_shortcut_class
         (css_identifier)))))
 
 ===============================
@@ -26,7 +26,7 @@ Tag with traling space modifier
 (source_file
   (element
     (attr_shortcuts
-      (shortcut_class
+      (attr_shortcut_class
         (css_identifier)))
     (output_modifier_leading_whitespace)))
 
@@ -41,7 +41,7 @@ Tag with space before traling space modifier
 (source_file
   (element
     (attr_shortcuts
-      (shortcut_class
+      (attr_shortcut_class
         (css_identifier)))
     (element_text)))
 
@@ -57,7 +57,7 @@ span.example@@example*example
   (element
     (tag_name)
     (attr_shortcuts
-      (shortcut_class
+      (attr_shortcut_class
         (css_identifier))
-      (shortcut_custom)
-      (shortcut_custom))))
+      (attr_shortcut_custom)
+      (attr_shortcut_custom))))
