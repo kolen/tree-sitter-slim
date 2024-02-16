@@ -15,13 +15,9 @@ const make_attr_delimited = (token_suffix) => {
 const make_attrs_delimited = (delim_open, delim_close, token_suffix) => {
   return ($) => seq(
     delim_open,
-    optional($._space_or_newline),
-    optional(
-      seq(
-        alias($[`_attr_delimited_${token_suffix}`], $.attr),
-        repeat(seq($._space_or_newline, alias($[`_attr_delimited_${token_suffix}`], $.attr))),
-      )
-    ),
+    repeat(seq(
+      optional($._space_or_newline), alias($[`_attr_delimited_${token_suffix}`], $.attr)
+    )),
     optional($._space_or_newline),
     delim_close
   )
@@ -134,7 +130,7 @@ module.exports = grammar({
       $._attrs_plain,
       $._attrs_delimited
     ),
-    _attrs_plain: $ => repeat1($._attr_with_space),
+    _attrs_plain: $ => seq($._space, repeat1(seq(optional($._space), $.attr))),
     _attrs_delimited: $ => choice(
       $._attrs_delimited_p,
       $._attrs_delimited_s,
@@ -152,7 +148,6 @@ module.exports = grammar({
       field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
       field('value', $.attr_value),
     ),
-    _attr_with_space: $ => seq($._space, $.attr),
     attr_name: $ => $._attr_name,
     _attr_name: $ => /[a-zA-Z0-9_-]+/, // TODO: very wrong
     attr_assignment: $ => /[ \t]*=[ \t]*/,
@@ -305,7 +300,7 @@ module.exports = grammar({
   },
 
   conflicts: $ => [
-    [$.attrs],
+    [$._attrs_plain],
   ],
 
   extras: $ => []

@@ -100,6 +100,27 @@ span title="example example
         (attr_assignment)
         (attr_value)))))
 
+=================================
+String attributes - without space
+=================================
+
+a href="/"title="root"
+
+-----
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value))
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value)))))
+
 =======================================
 String attributes - delimited multiline
 =======================================
