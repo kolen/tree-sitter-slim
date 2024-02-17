@@ -261,7 +261,7 @@ module.exports = grammar({
 
     verbatim_text: $ => seq(
       choice('|', $.verbatim_text_modifier_trailing_whitespace),
-      $._text
+      optional($._text)
     ),
 
     verbatim_text_modifier_trailing_whitespace: $ => "'",

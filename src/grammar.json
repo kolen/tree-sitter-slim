@@ -1503,8 +1503,16 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "_text"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_text"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },

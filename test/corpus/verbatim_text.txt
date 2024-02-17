@@ -20,3 +20,26 @@ Verbatim text with trailing space
 (source_file
   (verbatim_text
     (verbatim_text_modifier_trailing_whitespace)))
+
+===================
+Empty verbatim text
+===================
+
+|
+
+---
+
+(source_file
+  (verbatim_text))
+
+=======================================
+Empty verbatim text with trailing space
+=======================================
+
+'
+
+---
+
+(source_file
+  (verbatim_text
+    (verbatim_text_modifier_trailing_whitespace)))
