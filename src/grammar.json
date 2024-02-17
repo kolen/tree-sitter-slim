@@ -2,13 +2,8 @@
   "name": "slim",
   "rules": {
     "source_file": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_block"
-        }
-      ]
+      "type": "SYMBOL",
+      "name": "_block"
     },
     "_block": {
       "type": "SEQ",
