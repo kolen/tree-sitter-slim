@@ -2,8 +2,16 @@
   "name": "slim",
   "rules": {
     "source_file": {
-      "type": "SYMBOL",
-      "name": "_block"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_block"
+        },
+        {
+          "type": "BLANK"
+        }
+      ]
     },
     "_block": {
       "type": "SEQ",

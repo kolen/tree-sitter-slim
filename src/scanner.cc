@@ -126,8 +126,13 @@ public:
       if (indents.empty()) {
         // Found initial indentation level
         indents.push_back(indent_length);
-        lexer->result_symbol = BLOCK_START;
-        return true;
+
+        if (valid_symbols[BLOCK_START] && !lexer->eof(lexer)) {
+          lexer->result_symbol = BLOCK_START;
+          return true;
+        } else {
+          return false;
+        }
       }
 
       int last_indent_length = (int)indents.back();

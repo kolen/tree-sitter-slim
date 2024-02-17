@@ -52,3 +52,18 @@ p
     (nested
       (element
         (tag_name)))))
+
+==========
+Empty file
+==========
+---
+
+(source_file)
+
+==============================
+Empty file with one empty line
+==============================
+
+---
+
+(source_file)

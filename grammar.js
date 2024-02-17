@@ -46,7 +46,7 @@ module.exports = grammar({
   ],
 
   rules: {
-    source_file: $ => $._block,
+    source_file: $ => optional($._block),
 
     _block: $ => seq(
       $._block_start,
