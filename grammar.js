@@ -4,6 +4,7 @@
 const make_attr_delimited = (token_suffix) => {
   return ($) => choice(
     seq('*', alias($[`_attr_value_ruby_${token_suffix}`], $.attr_splat)),
+    $.attr_boolean,
     seq(
       field('name', $.attr_name),
       field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
@@ -163,6 +164,7 @@ module.exports = grammar({
       $._attr_value_ruby
       // TODO: many more
     ),
+    attr_boolean: $ => $.attr_name,
 
     element_text: $ => seq(
       optional($._space),

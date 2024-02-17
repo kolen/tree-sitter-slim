@@ -615,6 +615,10 @@
           ]
         },
         {
+          "type": "SYMBOL",
+          "name": "attr_boolean"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -695,6 +699,10 @@
           ]
         },
         {
+          "type": "SYMBOL",
+          "name": "attr_boolean"
+        },
+        {
           "type": "SEQ",
           "members": [
             {
@@ -773,6 +781,10 @@
               "value": "attr_splat"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "attr_boolean"
         },
         {
           "type": "SEQ",
@@ -922,6 +934,10 @@
           "name": "_attr_value_ruby"
         }
       ]
+    },
+    "attr_boolean": {
+      "type": "SYMBOL",
+      "name": "attr_name"
     },
     "element_text": {
       "type": "SEQ",

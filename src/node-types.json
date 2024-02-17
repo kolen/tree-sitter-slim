@@ -43,7 +43,26 @@
       "required": false,
       "types": [
         {
+          "type": "attr_boolean",
+          "named": true
+        },
+        {
           "type": "attr_splat",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "attr_boolean",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "attr_name",
           "named": true
         }
       ]

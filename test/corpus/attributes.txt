@@ -169,3 +169,19 @@ a[*attrs]
     (attrs
       (attr
         (attr_splat)))))
+
+==================
+Boolean attributes
+==================
+
+button[disabled]
+
+-----
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_boolean
+          (attr_name))))))
