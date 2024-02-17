@@ -1315,8 +1315,40 @@
           "value": ":"
         },
         {
-          "type": "SYMBOL",
-          "name": "_text_nested"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_space"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_element_rest_text"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_text_nested"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -1324,44 +1356,114 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "STRING",
-          "value": "markdown"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "markdown"
+            }
+          }
         },
         {
-          "type": "STRING",
-          "value": "textile"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "textile"
+            }
+          }
         },
         {
-          "type": "STRING",
-          "value": "rdoc"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "rdoc"
+            }
+          }
         },
         {
-          "type": "STRING",
-          "value": "coffee"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "coffee"
+            }
+          }
         },
         {
-          "type": "STRING",
-          "value": "less"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "less"
+            }
+          }
         },
         {
-          "type": "STRING",
-          "value": "sass"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "sass"
+            }
+          }
         },
         {
-          "type": "STRING",
-          "value": "scss"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "scss"
+            }
+          }
         },
         {
-          "type": "STRING",
-          "value": "javascript"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "javascript"
+            }
+          }
         },
         {
-          "type": "STRING",
-          "value": "css"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "css"
+            }
+          }
         },
         {
-          "type": "STRING",
-          "value": "ruby"
+          "type": "TOKEN",
+          "content": {
+            "type": "PREC",
+            "value": 1,
+            "content": {
+              "type": "STRING",
+              "value": "ruby"
+            }
+          }
         }
       ]
     },

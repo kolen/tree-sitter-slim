@@ -12,3 +12,39 @@ javascript:
 (source_file
   (embedded_engine
     (embedded_engine_name)))
+
+===================================
+Embedded engine with inline content
+===================================
+
+javascript: alert();
+
+---
+
+(source_file
+  (embedded_engine
+    (embedded_engine_name)))
+
+=============================================
+Embedded engine with inline content, no space
+=============================================
+
+javascript:alert();
+
+---
+
+(source_file
+  (embedded_engine
+    (embedded_engine_name)))
+
+=====================
+Empty embedded engine
+=====================
+
+javascript:
+
+---
+
+(source_file
+  (embedded_engine
+    (embedded_engine_name)))
