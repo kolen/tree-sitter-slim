@@ -156,7 +156,7 @@ module.exports = grammar({
       ),
     ),
     attr_name: $ => $._attr_name,
-    _attr_name: $ => /[a-zA-Z0-9_-]+/, // TODO: very wrong
+    _attr_name: $ => token(prec(-2, /[^ \t\n\\0\"\'></=()\[\]{}]+/)),
     attr_assignment: $ => /[ \t]*=[ \t]*/,
     attr_assignment_noescape: $ => /[ \t]*==[ \t]*/,
     attr_value: $ => choice(
@@ -176,7 +176,7 @@ module.exports = grammar({
       optional($._text_nested)
     ),
 
-    _element_rest_text: $ => token(prec(-2, /[^ \t][^\n]*/)),
+    _element_rest_text: $ => token(prec(-3, /[^ \t][^\n]*/)),
 
     // From css grammar https://github.com/tree-sitter/tree-sitter-css/blob/master/grammar.js
     // Originally: /\A(#{keys}+)((?:\p{Word}|-|\/\d+|:(\w|-)+)*)/

@@ -914,8 +914,15 @@
       "name": "_attr_name"
     },
     "_attr_name": {
-      "type": "PATTERN",
-      "value": "[a-zA-Z0-9_-]+"
+      "type": "TOKEN",
+      "content": {
+        "type": "PREC",
+        "value": -2,
+        "content": {
+          "type": "PATTERN",
+          "value": "[^ \\t\\n\\\\0\\\"\\'></=()\\[\\]{}]+"
+        }
+      }
     },
     "attr_assignment": {
       "type": "PATTERN",
@@ -1020,7 +1027,7 @@
       "type": "TOKEN",
       "content": {
         "type": "PREC",
-        "value": -2,
+        "value": -3,
         "content": {
           "type": "PATTERN",
           "value": "[^ \\t][^\\n]*"
