@@ -1194,8 +1194,20 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "[ \\t]*="
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_space"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "="
         },
         {
           "type": "CHOICE",
@@ -1235,8 +1247,20 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "PATTERN",
-          "value": "[ \\t]*=="
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "_space"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": "=="
         },
         {
           "type": "CHOICE",
@@ -1806,4 +1830,3 @@
   "inline": [],
   "supertypes": []
 }
-

@@ -213,14 +213,16 @@ module.exports = grammar({
     ),
 
     ruby_block_output: $ => seq(
-      /[ \t]*=/,
+      optional($._space),
+      '=',
       optional($._output_modifiers),
       $.ruby,
       optional(field('nested', $.nested))
     ),
 
     ruby_block_output_noescape: $ => seq(
-      /[ \t]*==/,
+      optional($._space),
+      '==',
       optional($._output_modifiers),
       $.ruby,
       optional(field('nested', $.nested))
