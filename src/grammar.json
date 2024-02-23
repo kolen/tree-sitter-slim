@@ -600,22 +600,13 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "*"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_attr_value_ruby_p"
-              },
-              "named": true,
-              "value": "attr_splat"
-            }
-          ]
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_delimited_splat_p"
+          },
+          "named": true,
+          "value": "attr_splat"
         },
         {
           "type": "SYMBOL",
@@ -653,27 +644,13 @@
               "type": "FIELD",
               "name": "value",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_attr_value_quoted"
-                    },
-                    "named": true,
-                    "value": "attr_value"
-                  },
-                  {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_attr_value_ruby_p"
-                    },
-                    "named": true,
-                    "value": "attr_value"
-                  }
-                ]
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_attr_delimited_value_p"
+                },
+                "named": true,
+                "value": "attr_value"
               }
             }
           ]
@@ -684,22 +661,13 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "*"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_attr_value_ruby_s"
-              },
-              "named": true,
-              "value": "attr_splat"
-            }
-          ]
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_delimited_splat_s"
+          },
+          "named": true,
+          "value": "attr_splat"
         },
         {
           "type": "SYMBOL",
@@ -737,27 +705,13 @@
               "type": "FIELD",
               "name": "value",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_attr_value_quoted"
-                    },
-                    "named": true,
-                    "value": "attr_value"
-                  },
-                  {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_attr_value_ruby_s"
-                    },
-                    "named": true,
-                    "value": "attr_value"
-                  }
-                ]
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_attr_delimited_value_s"
+                },
+                "named": true,
+                "value": "attr_value"
               }
             }
           ]
@@ -768,22 +722,13 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "*"
-            },
-            {
-              "type": "ALIAS",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_attr_value_ruby_b"
-              },
-              "named": true,
-              "value": "attr_splat"
-            }
-          ]
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_delimited_splat_b"
+          },
+          "named": true,
+          "value": "attr_splat"
         },
         {
           "type": "SYMBOL",
@@ -821,30 +766,124 @@
               "type": "FIELD",
               "name": "value",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_attr_value_quoted"
-                    },
-                    "named": true,
-                    "value": "attr_value"
-                  },
-                  {
-                    "type": "ALIAS",
-                    "content": {
-                      "type": "SYMBOL",
-                      "name": "_attr_value_ruby_b"
-                    },
-                    "named": true,
-                    "value": "attr_value"
-                  }
-                ]
+                "type": "ALIAS",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_attr_delimited_value_b"
+                },
+                "named": true,
+                "value": "attr_value"
               }
             }
           ]
+        }
+      ]
+    },
+    "_attr_delimited_value_p": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_attr_value_quoted"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_value_ruby_p"
+          },
+          "named": true,
+          "value": "ruby_expr"
+        }
+      ]
+    },
+    "_attr_delimited_value_s": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_attr_value_quoted"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_value_ruby_s"
+          },
+          "named": true,
+          "value": "ruby_expr"
+        }
+      ]
+    },
+    "_attr_delimited_value_b": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_attr_value_quoted"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_value_ruby_b"
+          },
+          "named": true,
+          "value": "ruby_expr"
+        }
+      ]
+    },
+    "_attr_delimited_splat_p": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_value_ruby_p"
+          },
+          "named": true,
+          "value": "ruby_expr"
+        }
+      ]
+    },
+    "_attr_delimited_splat_s": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_value_ruby_s"
+          },
+          "named": true,
+          "value": "ruby_expr"
+        }
+      ]
+    },
+    "_attr_delimited_splat_b": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_value_ruby_b"
+          },
+          "named": true,
+          "value": "ruby_expr"
         }
       ]
     },
@@ -940,8 +979,13 @@
           "name": "_attr_value_quoted"
         },
         {
-          "type": "SYMBOL",
-          "name": "_attr_value_ruby"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_value_ruby"
+          },
+          "named": true,
+          "value": "ruby_expr"
         }
       ]
     },

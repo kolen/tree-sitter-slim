@@ -1,17 +1,28 @@
 // See: https://github.com/slim-template/slim/blob/master/lib/slim/parser.rb
 // Also: https://rdoc.info/gems/slim/frames
 
+const make_attr_delimited_value = (token_suffix) => {
+  return ($) => choice(
+    $._attr_value_quoted,
+    alias($[`_attr_value_ruby_${token_suffix}`], $.ruby_expr)
+  );
+}
+
+const make_attr_delimited_splat = (token_suffix) => {
+  return ($) => seq(
+    '*',
+    alias($[`_attr_value_ruby_${token_suffix}`], $.ruby_expr)
+  )
+}
+
 const make_attr_delimited = (token_suffix) => {
   return ($) => choice(
-    seq('*', alias($[`_attr_value_ruby_${token_suffix}`], $.attr_splat)),
+    alias($[`_attr_delimited_splat_${token_suffix}`], $.attr_splat),
     $.attr_boolean,
     seq(
       field('name', $.attr_name),
       field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
-      field('value', choice(
-        alias($._attr_value_quoted, $.attr_value),
-        alias($[`_attr_value_ruby_${token_suffix}`], $.attr_value)
-      ))
+      field('value', alias($[`_attr_delimited_value_${token_suffix}`], $.attr_value))
     )
   )
 }
@@ -146,6 +157,12 @@ module.exports = grammar({
     _attr_delimited_p: make_attr_delimited('p'),
     _attr_delimited_s: make_attr_delimited('s'),
     _attr_delimited_b: make_attr_delimited('b'),
+    _attr_delimited_value_p: make_attr_delimited_value('p'),
+    _attr_delimited_value_s: make_attr_delimited_value('s'),
+    _attr_delimited_value_b: make_attr_delimited_value('b'),
+    _attr_delimited_splat_p: make_attr_delimited_splat('p'),
+    _attr_delimited_splat_s: make_attr_delimited_splat('s'),
+    _attr_delimited_splat_b: make_attr_delimited_splat('b'),
 
     attr: $ => choice(
       seq('*', alias($._attr_value_ruby, $.attr_splat)),
@@ -161,7 +178,7 @@ module.exports = grammar({
     attr_assignment_noescape: $ => /[ \t]*==[ \t]*/,
     attr_value: $ => choice(
       $._attr_value_quoted,
-      $._attr_value_ruby
+      alias($._attr_value_ruby, $.ruby_expr)
       // TODO: many more
     ),
     attr_boolean: $ => $.attr_name,

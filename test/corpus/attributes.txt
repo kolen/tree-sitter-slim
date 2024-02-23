@@ -27,8 +27,8 @@ span title=generate_title("example title") data = { a: 10, b: [20, 30] }
   (element
     (tag_name)
     (attrs
-      (attr (attr_name) (attr_assignment) (attr_value))
-      (attr (attr_name) (attr_assignment) (attr_value)))))
+      (attr (attr_name) (attr_assignment) (attr_value (ruby_expr)))
+      (attr (attr_name) (attr_assignment) (attr_value (ruby_expr))))))
 
 ===========================
 Ruby attributes - multiline
@@ -44,7 +44,7 @@ span title=make_title(style: :standard,
   (element
     (tag_name)
     (attrs
-      (attr (attr_name) (attr_assignment) (attr_value)))))
+      (attr (attr_name) (attr_assignment) (attr_value (ruby_expr))))))
 
 ===========================
 Ruby attributes - delimited
@@ -58,7 +58,7 @@ span(title = Title::Generator.generate(type: :simple) data-visible = "yes")
   (element
     (tag_name)
     (attrs
-      (attr (attr_name) (attr_assignment) (attr_value))
+      (attr (attr_name) (attr_assignment) (attr_value (ruby_expr)))
       (attr (attr_name) (attr_assignment) (attr_value)))))
 
 =================================================
@@ -73,7 +73,7 @@ span[title=make_title]
   (element
     (tag_name)
     (attrs
-      (attr (attr_name) (attr_assignment) (attr_value)))))
+      (attr (attr_name) (attr_assignment) (attr_value (ruby_expr))))))
 
 ====================================
 String attributes - multiline quoted
@@ -168,7 +168,7 @@ a[*attrs]
     (tag_name)
     (attrs
       (attr
-        (attr_splat)))))
+        (attr_splat (ruby_expr))))))
 
 ==================
 Boolean attributes

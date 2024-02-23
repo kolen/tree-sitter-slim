@@ -25,7 +25,7 @@ p title=example /
       (attr
         (attr_name)
         (attr_assignment)
-        (attr_value)))))
+        (attr_value (ruby_expr))))))
 
 ======================
 Inline expansion - tag

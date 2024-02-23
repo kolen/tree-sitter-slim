@@ -127,9 +127,34 @@
     }
   },
   {
+    "type": "attr_splat",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "ruby_expr",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attr_value",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "ruby_expr",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "attrs",
@@ -626,10 +651,6 @@
     "named": true
   },
   {
-    "type": "attr_splat",
-    "named": true
-  },
-  {
     "type": "basic",
     "named": false
   },
@@ -695,11 +716,15 @@
   },
   {
     "type": "ruby",
-    "named": true
+    "named": false
   },
   {
     "type": "ruby",
-    "named": false
+    "named": true
+  },
+  {
+    "type": "ruby_expr",
+    "named": true
   },
   {
     "type": "sass",
