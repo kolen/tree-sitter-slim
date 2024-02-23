@@ -1,42 +1,11 @@
 // See: https://github.com/slim-template/slim/blob/master/lib/slim/parser.rb
 // Also: https://rdoc.info/gems/slim/frames
 
-const make_attr_delimited_value = (token_suffix) => {
-  return ($) => choice(
-    $._attr_value_quoted,
-    alias($[`_attr_value_ruby_${token_suffix}`], $.ruby_expr)
-  );
+const each_token_suffix = (suffixes, template) => {
+  return suffixes.reduce((tokens, suffix) => {
+    return {...tokens, ...template(suffix)}
+  }, {})
 }
-
-const make_attr_delimited_splat = (token_suffix) => {
-  return ($) => seq(
-    '*',
-    alias($[`_attr_value_ruby_${token_suffix}`], $.ruby_expr)
-  )
-}
-
-const make_attr_delimited = (token_suffix) => {
-  return ($) => choice(
-    alias($[`_attr_delimited_splat_${token_suffix}`], $.attr_splat),
-    $.attr_boolean,
-    seq(
-      field('name', $.attr_name),
-      field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
-      field('value', alias($[`_attr_delimited_value_${token_suffix}`], $.attr_value))
-    )
-  )
-}
-
-const make_attrs_delimited = (delim_open, delim_close, token_suffix) => {
-  return ($) => seq(
-    delim_open,
-    repeat(seq(
-      optional($._space_or_newline), alias($[`_attr_delimited_${token_suffix}`], $.attr)
-    )),
-    optional($._space_or_newline),
-    delim_close
-  )
-};
 
 module.exports = grammar({
   name: 'slim',
@@ -151,18 +120,45 @@ module.exports = grammar({
       $._attrs_delimited_s,
       $._attrs_delimited_b,
     ),
-    _attrs_delimited_p: make_attrs_delimited('(', ')', 'p'),
-    _attrs_delimited_s: make_attrs_delimited('[', ']', 's'),
-    _attrs_delimited_b: make_attrs_delimited('{', '}', 'b'),
-    _attr_delimited_p: make_attr_delimited('p'),
-    _attr_delimited_s: make_attr_delimited('s'),
-    _attr_delimited_b: make_attr_delimited('b'),
-    _attr_delimited_value_p: make_attr_delimited_value('p'),
-    _attr_delimited_value_s: make_attr_delimited_value('s'),
-    _attr_delimited_value_b: make_attr_delimited_value('b'),
-    _attr_delimited_splat_p: make_attr_delimited_splat('p'),
-    _attr_delimited_splat_s: make_attr_delimited_splat('s'),
-    _attr_delimited_splat_b: make_attr_delimited_splat('b'),
+
+    ...each_token_suffix(
+      ['p', 's', 'b'],
+      (suffix) => {
+        const delim_open = { p: '(', s: '[', b: '{' }[suffix];
+        const delim_close = { p: ')', s: ']', b: '}' }[suffix];
+
+        return {
+          [`_attr_delimited_value_${suffix}`]: $ => choice(
+            $._attr_value_quoted,
+            alias($[`_attr_value_ruby_${suffix}`], $.ruby_expr)
+          ),
+
+          [`_attr_delimited_splat_${suffix}`]: $ => seq(
+            '*',
+            alias($[`_attr_value_ruby_${suffix}`], $.ruby_expr)
+          ),
+
+          [`_attr_delimited_${suffix}`]: $ => choice(
+            alias($[`_attr_delimited_splat_${suffix}`], $.attr_splat),
+            $.attr_boolean,
+            seq(
+              field('name', $.attr_name),
+              field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
+              field('value', alias($[`_attr_delimited_value_${suffix}`], $.attr_value))
+            )
+          ),
+
+          [`_attrs_delimited_${suffix}`]: $ => seq(
+            delim_open,
+            repeat(seq(
+              optional($._space_or_newline), alias($[`_attr_delimited_${suffix}`], $.attr)
+            )),
+            optional($._space_or_newline),
+            delim_close
+          ),
+        }
+      }
+    ),
 
     attr: $ => choice(
       seq('*', alias($._attr_value_ruby, $.attr_splat)),
