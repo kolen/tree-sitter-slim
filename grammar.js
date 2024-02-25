@@ -338,5 +338,12 @@ module.exports = grammar({
     [$._attrs_plain],
   ],
 
-  extras: $ => []
+  extras: $ => [],
+
+  supertypes: $ => [
+    $._line,
+    $._ruby_block,
+    $._attr_shortcut,
+    $._output_modifier
+  ]
 });

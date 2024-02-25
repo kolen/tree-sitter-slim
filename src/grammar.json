@@ -1872,5 +1872,10 @@
     }
   ],
   "inline": [],
-  "supertypes": []
+  "supertypes": [
+    "_line",
+    "_ruby_block",
+    "_attr_shortcut",
+    "_output_modifier"
+  ]
 }

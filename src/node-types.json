@@ -1,5 +1,97 @@
 [
   {
+    "type": "_attr_shortcut",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "attr_shortcut_class",
+        "named": true
+      },
+      {
+        "type": "attr_shortcut_custom",
+        "named": true
+      },
+      {
+        "type": "attr_shortcut_id",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_line",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "_ruby_block",
+        "named": true
+      },
+      {
+        "type": "code_comment",
+        "named": true
+      },
+      {
+        "type": "doctype",
+        "named": true
+      },
+      {
+        "type": "element",
+        "named": true
+      },
+      {
+        "type": "embedded_engine",
+        "named": true
+      },
+      {
+        "type": "html_comment",
+        "named": true
+      },
+      {
+        "type": "html_comment_conditional",
+        "named": true
+      },
+      {
+        "type": "verbatim_text",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_output_modifier",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "output_modifier_leading_whitespace",
+        "named": true
+      },
+      {
+        "type": "output_modifier_legacy_trailing_whitespace",
+        "named": true
+      },
+      {
+        "type": "output_modifier_trailing_whitespace",
+        "named": true
+      }
+    ]
+  },
+  {
+    "type": "_ruby_block",
+    "named": true,
+    "subtypes": [
+      {
+        "type": "ruby_block_control",
+        "named": true
+      },
+      {
+        "type": "ruby_block_output",
+        "named": true
+      },
+      {
+        "type": "ruby_block_output_noescape",
+        "named": true
+      }
+    ]
+  },
+  {
     "type": "attr",
     "named": true,
     "fields": {
@@ -112,15 +204,7 @@
       "required": true,
       "types": [
         {
-          "type": "attr_shortcut_class",
-          "named": true
-        },
-        {
-          "type": "attr_shortcut_custom",
-          "named": true
-        },
-        {
-          "type": "attr_shortcut_id",
+          "type": "_attr_shortcut",
           "named": true
         }
       ]
@@ -249,6 +333,10 @@
       "required": false,
       "types": [
         {
+          "type": "_output_modifier",
+          "named": true
+        },
+        {
           "type": "element_text",
           "named": true
         },
@@ -258,18 +346,6 @@
         },
         {
           "type": "nested_inline",
-          "named": true
-        },
-        {
-          "type": "output_modifier_leading_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_legacy_trailing_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_trailing_whitespace",
           "named": true
         }
       ]
@@ -346,46 +422,10 @@
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "code_comment",
-          "named": true
-        },
-        {
-          "type": "doctype",
-          "named": true
-        },
-        {
-          "type": "element",
-          "named": true
-        },
-        {
-          "type": "embedded_engine",
-          "named": true
-        },
-        {
-          "type": "html_comment",
-          "named": true
-        },
-        {
-          "type": "html_comment_conditional",
-          "named": true
-        },
-        {
-          "type": "ruby_block_control",
-          "named": true
-        },
-        {
-          "type": "ruby_block_output",
-          "named": true
-        },
-        {
-          "type": "ruby_block_output_noescape",
-          "named": true
-        },
-        {
-          "type": "verbatim_text",
+          "type": "_line",
           "named": true
         }
       ]
@@ -464,15 +504,7 @@
       "required": true,
       "types": [
         {
-          "type": "output_modifier_leading_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_legacy_trailing_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_trailing_whitespace",
+          "type": "_output_modifier",
           "named": true
         },
         {
@@ -502,15 +534,7 @@
       "required": true,
       "types": [
         {
-          "type": "output_modifier_leading_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_legacy_trailing_whitespace",
-          "named": true
-        },
-        {
-          "type": "output_modifier_trailing_whitespace",
+          "type": "_output_modifier",
           "named": true
         },
         {
@@ -529,43 +553,7 @@
       "required": false,
       "types": [
         {
-          "type": "code_comment",
-          "named": true
-        },
-        {
-          "type": "doctype",
-          "named": true
-        },
-        {
-          "type": "element",
-          "named": true
-        },
-        {
-          "type": "embedded_engine",
-          "named": true
-        },
-        {
-          "type": "html_comment",
-          "named": true
-        },
-        {
-          "type": "html_comment_conditional",
-          "named": true
-        },
-        {
-          "type": "ruby_block_control",
-          "named": true
-        },
-        {
-          "type": "ruby_block_output",
-          "named": true
-        },
-        {
-          "type": "ruby_block_output_noescape",
-          "named": true
-        },
-        {
-          "type": "verbatim_text",
+          "type": "_line",
           "named": true
         }
       ]
@@ -716,11 +704,11 @@
   },
   {
     "type": "ruby",
-    "named": false
+    "named": true
   },
   {
     "type": "ruby",
-    "named": true
+    "named": false
   },
   {
     "type": "ruby_expr",
