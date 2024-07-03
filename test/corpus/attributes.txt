@@ -140,6 +140,25 @@ a[
         (attr_assignment)
         (attr_value)))))
 
+===================================================================
+String attributes - delimited multiline with space before delimiter
+===================================================================
+
+a {
+  href="/"
+}
+
+-----
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value)))))
+
 ================================
 Splat attributes - non-delimited
 ================================
