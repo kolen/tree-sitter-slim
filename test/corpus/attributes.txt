@@ -140,13 +140,13 @@ a[
         (attr_assignment)
         (attr_value)))))
 
-===============================================
-String attributes - delimited multiline variant
-===============================================
+===================================================================
+String attributes - delimited multiline with space before delimiter
+===================================================================
 
 a {
-    href="/"
-  }
+  href="/"
+}
 
 -----
 
