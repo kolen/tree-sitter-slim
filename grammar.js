@@ -149,6 +149,7 @@ module.exports = grammar({
           ),
 
           [`_attrs_delimited_${suffix}`]: $ => seq(
+            optional($._space),
             delim_open,
             repeat(seq(
               optional($._space_or_newline), alias($[`_attr_delimited_${suffix}`], $.attr)
