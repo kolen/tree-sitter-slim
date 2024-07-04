@@ -61,7 +61,7 @@ a< title="example"
       (attr
         (attr_name)
         (attr_assignment)
-        (attr_value)))))
+        (attr_value_quoted)))))
 
 ===============================================================
 Trailing space modifier with delimited attributes without space
@@ -79,7 +79,7 @@ a<[title="example"]
       (attr
         (attr_name)
         (attr_assignment)
-        (attr_value)))))
+        (attr_value_quoted)))))
 
 =============================
 Extension attribute shortcuts

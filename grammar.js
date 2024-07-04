@@ -15,7 +15,7 @@ module.exports = grammar({
     $._block_end,
     $._line_separator,
 
-    $._attr_value_quoted,
+    $.attr_value_quoted,
     $._attr_value_ruby,
     $._attr_value_ruby_p, // ()
     $._attr_value_ruby_s, // []
@@ -129,13 +129,13 @@ module.exports = grammar({
 
         return {
           [`_attr_delimited_value_${suffix}`]: $ => choice(
-            $._attr_value_quoted,
-            alias($[`_attr_value_ruby_${suffix}`], $.ruby_expr)
+            $.attr_value_quoted,
+            alias($[`_attr_value_ruby_${suffix}`], $.attr_value_ruby)
           ),
 
           [`_attr_delimited_splat_${suffix}`]: $ => seq(
             '*',
-            alias($[`_attr_value_ruby_${suffix}`], $.ruby_expr)
+            $[`_attr_value_ruby_${suffix}`]
           ),
 
           [`_attr_delimited_${suffix}`]: $ => choice(
@@ -144,7 +144,7 @@ module.exports = grammar({
             seq(
               field('name', $.attr_name),
               field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
-              field('value', alias($[`_attr_delimited_value_${suffix}`], $.attr_value))
+              field('value', $[`_attr_delimited_value_${suffix}`])
             )
           ),
 
@@ -166,16 +166,16 @@ module.exports = grammar({
       seq(
         field('name', $.attr_name),
         field('assignment', choice($.attr_assignment, $.attr_assignment_noescape)),
-        field('value', $.attr_value),
+        field('value', $._attr_value),
       ),
     ),
     attr_name: $ => $._attr_name,
     _attr_name: $ => token(prec(-2, /[^ \t\n\\0\"\'></=()\[\]{}]+/)),
     attr_assignment: $ => /[ \t]*=[ \t]*/,
     attr_assignment_noescape: $ => /[ \t]*==[ \t]*/,
-    attr_value: $ => choice(
-      $._attr_value_quoted,
-      alias($._attr_value_ruby, $.ruby_expr)
+    _attr_value: $ => choice(
+      $.attr_value_quoted,
+      alias($._attr_value_ruby, $.attr_value_ruby)
       // TODO: many more
     ),
     attr_boolean: $ => $.attr_name,

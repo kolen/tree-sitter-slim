@@ -439,7 +439,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_attr_value_quoted"
+          "name": "attr_value_quoted"
         },
         {
           "type": "ALIAS",
@@ -448,7 +448,7 @@
             "name": "_attr_value_ruby_p"
           },
           "named": true,
-          "value": "ruby_expr"
+          "value": "attr_value_ruby"
         }
       ]
     },
@@ -460,13 +460,8 @@
           "value": "*"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_attr_value_ruby_p"
-          },
-          "named": true,
-          "value": "ruby_expr"
+          "type": "SYMBOL",
+          "name": "_attr_value_ruby_p"
         }
       ]
     },
@@ -518,13 +513,8 @@
               "type": "FIELD",
               "name": "value",
               "content": {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_attr_delimited_value_p"
-                },
-                "named": true,
-                "value": "attr_value"
+                "type": "SYMBOL",
+                "name": "_attr_delimited_value_p"
               }
             }
           ]
@@ -602,7 +592,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_attr_value_quoted"
+          "name": "attr_value_quoted"
         },
         {
           "type": "ALIAS",
@@ -611,7 +601,7 @@
             "name": "_attr_value_ruby_s"
           },
           "named": true,
-          "value": "ruby_expr"
+          "value": "attr_value_ruby"
         }
       ]
     },
@@ -623,13 +613,8 @@
           "value": "*"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_attr_value_ruby_s"
-          },
-          "named": true,
-          "value": "ruby_expr"
+          "type": "SYMBOL",
+          "name": "_attr_value_ruby_s"
         }
       ]
     },
@@ -681,13 +666,8 @@
               "type": "FIELD",
               "name": "value",
               "content": {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_attr_delimited_value_s"
-                },
-                "named": true,
-                "value": "attr_value"
+                "type": "SYMBOL",
+                "name": "_attr_delimited_value_s"
               }
             }
           ]
@@ -765,7 +745,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_attr_value_quoted"
+          "name": "attr_value_quoted"
         },
         {
           "type": "ALIAS",
@@ -774,7 +754,7 @@
             "name": "_attr_value_ruby_b"
           },
           "named": true,
-          "value": "ruby_expr"
+          "value": "attr_value_ruby"
         }
       ]
     },
@@ -786,13 +766,8 @@
           "value": "*"
         },
         {
-          "type": "ALIAS",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_attr_value_ruby_b"
-          },
-          "named": true,
-          "value": "ruby_expr"
+          "type": "SYMBOL",
+          "name": "_attr_value_ruby_b"
         }
       ]
     },
@@ -844,13 +819,8 @@
               "type": "FIELD",
               "name": "value",
               "content": {
-                "type": "ALIAS",
-                "content": {
-                  "type": "SYMBOL",
-                  "name": "_attr_delimited_value_b"
-                },
-                "named": true,
-                "value": "attr_value"
+                "type": "SYMBOL",
+                "name": "_attr_delimited_value_b"
               }
             }
           ]
@@ -977,7 +947,7 @@
               "name": "value",
               "content": {
                 "type": "SYMBOL",
-                "name": "attr_value"
+                "name": "_attr_value"
               }
             }
           ]
@@ -1007,12 +977,12 @@
       "type": "PATTERN",
       "value": "[ \\t]*==[ \\t]*"
     },
-    "attr_value": {
+    "_attr_value": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_attr_value_quoted"
+          "name": "attr_value_quoted"
         },
         {
           "type": "ALIAS",
@@ -1021,7 +991,7 @@
             "name": "_attr_value_ruby"
           },
           "named": true,
-          "value": "ruby_expr"
+          "value": "attr_value_ruby"
         }
       ]
     },
@@ -1880,7 +1850,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_attr_value_quoted"
+      "name": "attr_value_quoted"
     },
     {
       "type": "SYMBOL",

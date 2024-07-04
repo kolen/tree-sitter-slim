@@ -25,7 +25,7 @@ p title=example /
       (attr
         (attr_name)
         (attr_assignment)
-        (attr_value (ruby_expr))))))
+        (attr_value_ruby)))))
 
 ======================
 Inline expansion - tag
@@ -108,5 +108,5 @@ span title="example" example text
       (attr
         (attr_name)
         (attr_assignment)
-        (attr_value)))
+        (attr_value_quoted)))
     (element_text)))
