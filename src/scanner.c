@@ -138,7 +138,7 @@ static bool scan_attr_ruby(TSLexer *lexer, char closing_delimiter, TSSymbol resu
   for(;;) {
     if (lexer->lookahead == '\n') {
       if (line_continuation) {
-        lexer->advance(lexer, true);
+        lexer->advance(lexer, false);
         continue;
       } else {
         break;
@@ -151,14 +151,14 @@ static bool scan_attr_ruby(TSLexer *lexer, char closing_delimiter, TSSymbol resu
       }
     } else if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
       if (line_continuation) {
-        lexer->advance(lexer, true);
+        lexer->advance(lexer, false);
         continue;
       } else if (!internal_delimiter_nesting) {
         break;
       }
     } else if (lexer->lookahead == '\\' || lexer->lookahead == ',') {
       line_continuation = true;
-      lexer->advance(lexer, true);
+      lexer->advance(lexer, false);
       continue;
     } else if (lexer->lookahead == ' ' || lexer->lookahead == '\t') {
       if (!line_continuation && !internal_delimiter_nesting) {
@@ -193,7 +193,7 @@ static bool scan_attr_ruby(TSLexer *lexer, char closing_delimiter, TSSymbol resu
     }
 
     line_continuation = false;
-    lexer->advance(lexer, true);
+    lexer->advance(lexer, false);
   }
 
   if (internal_delimiter_nesting) {
