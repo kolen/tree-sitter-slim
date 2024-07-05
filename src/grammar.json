@@ -1080,7 +1080,7 @@
         "value": -3,
         "content": {
           "type": "PATTERN",
-          "value": "[^ \\t][^\\n]*"
+          "value": "[^ =\\t][^\\n]*"
         }
       }
     },
