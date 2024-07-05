@@ -1,3 +1,16 @@
+===========
+Default tag
+===========
+
+.
+
+---
+
+(source_file
+  (element
+    (attr_shortcuts
+      (attr_shortcut_class))))
+
 ============================
 Tag and shortcut css classes
 ============================

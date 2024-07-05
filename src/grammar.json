@@ -338,8 +338,16 @@
           "value": "."
         },
         {
-          "type": "SYMBOL",
-          "name": "css_identifier"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "css_identifier"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
