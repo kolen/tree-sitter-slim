@@ -15,6 +15,25 @@ span.menu.active
       (attr_shortcut_class
         (css_identifier)))))
 
+================================
+Tag and css classes with : and /
+================================
+
+span.hidden.lg:block.w-1/2
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (attr_shortcuts
+      (attr_shortcut_class
+        (css_identifier))
+      (attr_shortcut_class
+        (css_identifier))
+      (attr_shortcut_class
+        (css_identifier)))))
+
 ===============================
 Tag with traling space modifier
 ===============================
