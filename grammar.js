@@ -102,7 +102,7 @@ module.exports = grammar({
       $.attr_shortcut_id,
       $.attr_shortcut_custom
     ),
-    attr_shortcut_class: $ => seq('.', $.css_identifier),
+    attr_shortcut_class: $ => seq('.', optional($.css_identifier)),
     attr_shortcut_id: $ => seq('#', $.css_identifier),
     // In real slim, custom shortcuts only parsed if prefix is
     // configured, otherwise parsed as inline text
