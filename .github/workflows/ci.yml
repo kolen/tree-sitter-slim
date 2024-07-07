@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-14]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up tree-sitter
+      uses: tree-sitter/setup-action/cli@v1
+    - name: Run tests
+      uses: tree-sitter/parser-test-action@v2
