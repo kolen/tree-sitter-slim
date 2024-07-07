@@ -36,6 +36,26 @@ span
       (element
         (tag_name)))))
 
+=======================
+Nesting with attributes
+=======================
+
+div foo='value1' bar='value2' baz='value3'
+  div
+-----
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr (attr_name) (attr_assignment) (attr_value_quoted))
+      (attr (attr_name) (attr_assignment) (attr_value_quoted))
+      (attr (attr_name) (attr_assignment) (attr_value_quoted)))
+    (nested
+      (element
+        (tag_name)))
+    ))
+
 ================================
 Element nesting with empty lines
 ================================
