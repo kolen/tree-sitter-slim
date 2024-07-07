@@ -193,8 +193,9 @@ module.exports = grammar({
     _element_rest_text: $ => token(prec(-3, /[^ \t][^\n]*/)),
 
     // From css grammar https://github.com/tree-sitter/tree-sitter-css/blob/master/grammar.js
-    // Originally: /\A(#{keys}+)((?:\p{Word}|-|\/\d+|:(\w|-)+)*)/
-    css_identifier: $ => /(--|-?[a-zA-Z_])[a-zA-Z0-9-_]*/,
+    // Originally from Slim: /\A(#{keys}+)((?:\p{Word}|-|\/\d+|:(\w|-)+)*)/
+    // With added support for `:` and `/`
+    css_identifier: $ => /(--|-?[a-zA-Z_])[a-zA-Z0-9-_:\/]*/,
 
     // From doc, mostly unclear, which means which
     doctype: $ => seq(
