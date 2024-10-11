@@ -1,0 +1,29 @@
+{
+  "grammars": [
+    {
+      "name": "slim",
+      "camelcase": "Slim",
+      "scope": "text.slim",
+      "path": ".",
+      "file-types": [
+        "slim"
+      ]
+    }
+  ],
+  "metadata": {
+    "version": "0.0.1",
+    "license": "MIT",
+    "description": "A tree-sitter based parser for slim template language",
+    "links": {
+      "repository": "https://github.com/tree-sitter/tree-sitter-slim"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}

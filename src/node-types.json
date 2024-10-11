@@ -526,6 +526,7 @@
   {
     "type": "source_file",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -575,6 +576,10 @@
   },
   {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": "/[",
     "named": false
   },
   {
@@ -691,11 +696,11 @@
   },
   {
     "type": "ruby",
-    "named": false
+    "named": true
   },
   {
     "type": "ruby",
-    "named": true
+    "named": false
   },
   {
     "type": "sass",
