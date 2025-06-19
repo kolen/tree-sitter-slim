@@ -1892,5 +1892,6 @@
     "_ruby_block",
     "_attr_shortcut",
     "_output_modifier"
-  ]
+  ],
+  "reserved": {}
 }
