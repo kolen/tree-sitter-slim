@@ -220,6 +220,11 @@
     "fields": {}
   },
   {
+    "type": "attr_value_quoted",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "attrs",
     "named": true,
     "fields": {},
@@ -555,7 +560,20 @@
     }
   },
   {
+    "type": "verbatim_text_modifier_trailing_whitespace",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -620,10 +638,6 @@
   },
   {
     "type": "attr_shortcut_custom",
-    "named": true
-  },
-  {
-    "type": "attr_value_quoted",
     "named": true
   },
   {
@@ -725,10 +739,6 @@
   {
     "type": "transitional",
     "named": false
-  },
-  {
-    "type": "verbatim_text_modifier_trailing_whitespace",
-    "named": true
   },
   {
     "type": "xml",

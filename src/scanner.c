@@ -7,7 +7,13 @@ enum TokenType {
   BLOCK_END,
   LINE_SEPARATOR,
 
-  ATTR_VALUE_QUOTED,
+  ATTR_VALUE_OPENING_QUOTE_SINGLE,
+  ATTR_VALUE_OPENING_QUOTE_DOUBLE,
+  ATTR_VALUE_STATIC,
+  ATTR_VALUE_INTERPOLATION_START,
+  ATTR_VALUE_INTERPOLATION_CONTENTS,
+  ATTR_VALUE_INTERPOLATION_END,
+
   ATTR_VALUE_RUBY,
   ATTR_VALUE_RUBY_P,
   ATTR_VALUE_RUBY_S,
@@ -22,12 +28,16 @@ typedef struct {
   // 1 more than number of dedents to output. Value of 1 means need to
   // output line_separator.
   int dedents_to_output;
+  char string_quote;
+  int string_braces_level;
 } Scanner;
 
 void *tree_sitter_slim_external_scanner_create(void) {
   Scanner *scanner = ts_malloc(sizeof(Scanner));
   array_init(&scanner->indents);
   scanner->dedents_to_output = 0;
+  scanner->string_quote = 0;
+  scanner->string_braces_level = 0;
   return scanner;
 }
 
@@ -36,38 +46,46 @@ void tree_sitter_slim_external_scanner_destroy(void *payload) {
   array_delete(&scanner->indents);
 }
 
+#define serialize_write(type, value)                                    \
+  length += sizeof(type);                                               \
+  if (length > TREE_SITTER_SERIALIZATION_BUFFER_SIZE) {                 \
+    return 0;                                                           \
+  }                                                                     \
+  *(type*)writer = (type)(value);                                       \
+  writer += sizeof(type);
+
 unsigned tree_sitter_slim_external_scanner_serialize(
                                                      void *payload,
                                                      char *buffer
                                                      ) {
   Scanner *scanner = (Scanner*)payload;
 
-  uint16_t *writer = (uint16_t*)buffer;
-  size_t left_to_write = TREE_SITTER_SERIALIZATION_BUFFER_SIZE / sizeof(uint16_t);
+  char *writer = buffer;
   size_t length = 0;
 
-  if (left_to_write < 1) {
-    return 0;
-  }
+  serialize_write(uint16_t, scanner->dedents_to_output);
+  serialize_write(uint8_t, scanner->string_quote);
+  serialize_write(uint8_t, scanner->string_braces_level);
 
-  *writer = (uint16_t)scanner->dedents_to_output;
-  left_to_write--;
-  length += sizeof(uint16_t);
-  writer++;
-
+  serialize_write(uint8_t, scanner->indents.size);
   uint16_t *current_indent = array_front(&scanner->indents);
   uint32_t indents_items_left = scanner->indents.size;
-  while(left_to_write > 0 && indents_items_left > 0) {
-    *writer = *current_indent;
-    left_to_write--;
-    indents_items_left--;
-    length += sizeof(uint16_t);
+  while(indents_items_left > 0) {
+    serialize_write(uint16_t, *current_indent);
     current_indent++;
-    writer++;
+    indents_items_left--;
   }
 
   return length;
 }
+
+#define deserialize_read(type, lhs)             \
+  if (left_to_read < sizeof(type)) {            \
+    return;                                     \
+  }                                             \
+  lhs = *(type*)(reader);                       \
+  reader += sizeof(type);                       \
+  left_to_read -= sizeof(type);
 
 void tree_sitter_slim_external_scanner_deserialize(
                                                    void *payload,
@@ -76,56 +94,24 @@ void tree_sitter_slim_external_scanner_deserialize(
                                                    ) {
   Scanner *scanner = (Scanner*)payload;
   array_clear(&scanner->indents);
+  scanner->dedents_to_output = 0;
+  scanner->string_quote = 0;
+  scanner->string_braces_level = 0;
 
-  uint16_t *reader = (uint16_t*)buffer;
-  size_t left_to_read = length / sizeof(uint16_t);
+  char *reader = (char*)buffer;
+  unsigned left_to_read = length;
 
-  if (left_to_read < 1) {
-    scanner->dedents_to_output = 0;
-    return;
-  }
-  scanner->dedents_to_output = (int)(*reader);
-  left_to_read--;
-  reader++;
+  deserialize_read(uint16_t, scanner->dedents_to_output);
+  deserialize_read(uint8_t, scanner->string_quote);
+  deserialize_read(uint8_t, scanner->string_braces_level);
 
-  while(left_to_read > 0) {
-    array_push(&scanner->indents, *reader);
-    left_to_read--;
-    reader++;
-  }
-}
-
-static bool scan_attr_quoted(TSLexer *lexer, char quote_type) {
-  int braces_level = 0;
-
-  for(;;) {
-    if (lexer->eof(lexer)) {
-      return false;
-    }
-
-    if (braces_level == 0 && lexer->lookahead == quote_type) {
-      lexer->advance(lexer, false);
-      lexer->result_symbol = ATTR_VALUE_QUOTED;
-      return true;
-    }
-
-    if (lexer->lookahead == '{') {
-      braces_level += 1;
-    } else if (lexer->lookahead == '}') {
-      if (braces_level > 0) {
-        braces_level -= 1;
-      }
-    }
-
-    lexer->advance(lexer, false);
-  }
-
-  if (!lexer->eof(lexer)) {
-    lexer->advance(lexer, false);
-    lexer->result_symbol = ATTR_VALUE_QUOTED;
-    return true;
-  } else {
-    return false;
+  int indents_size;
+  deserialize_read(uint8_t, indents_size);
+  while(indents_size > 0) {
+    uint16_t indent;
+    deserialize_read(uint16_t, indent);
+    array_push(&scanner->indents, indent);
+    indents_size--;
   }
 }
 
@@ -228,6 +214,36 @@ static bool scan_ruby(TSLexer *lexer) {
   return true;
 }
 
+static bool scan_attr_value_static(Scanner *scanner, TSLexer *lexer) {
+  for (;;) {
+    if (lexer->eof(lexer)) {
+      return false;
+    } else if (lexer->lookahead == '{') {
+      scanner->string_braces_level++;
+    } else if (lexer->lookahead == '}') {
+      if (scanner->string_braces_level <= 0) {
+        // Unmatched braces inside string literal cause error in slim
+        scanner->string_braces_level = 0;
+        scanner->string_quote = 0;
+        return false;
+      }
+      scanner->string_braces_level--;
+    } else if (lexer->lookahead == '#') {
+      lexer->advance(lexer, false);
+      if (lexer->lookahead == '{') {
+        lexer->result_symbol = ATTR_VALUE_STATIC;
+        return true;
+      }
+    } else if (lexer->lookahead == scanner->string_quote &&
+               scanner->string_braces_level == 0) {
+      lexer->result_symbol = ATTR_VALUE_STATIC;
+      return true;
+    }
+
+    lexer->advance(lexer, false);
+    lexer->mark_end(lexer);
+  }
+}
 
 bool tree_sitter_slim_external_scanner_scan(
                                             void *payload,
@@ -353,11 +369,62 @@ bool tree_sitter_slim_external_scanner_scan(
     return scan_ruby(lexer);
   }
 
-  if (valid_symbols[ATTR_VALUE_QUOTED]) {
-    char quote_type = lexer->lookahead;
-    if (quote_type == '\'' || quote_type == '"') {
+  if (valid_symbols[ATTR_VALUE_OPENING_QUOTE_SINGLE] ||
+      valid_symbols[ATTR_VALUE_OPENING_QUOTE_DOUBLE]) {
+    if (lexer->lookahead == '\'') {
       lexer->advance(lexer, false);
-      return scan_attr_quoted(lexer, quote_type);
+      lexer->result_symbol = ATTR_VALUE_OPENING_QUOTE_SINGLE;
+      scanner->string_quote = '\'';
+      scanner->string_braces_level = 0;
+      return true;
+    } else if (lexer->lookahead == '"') {
+      lexer->advance(lexer, false);
+      lexer->result_symbol = ATTR_VALUE_OPENING_QUOTE_DOUBLE;
+      scanner->string_quote = '"';
+      scanner->string_braces_level = 0;
+      return true;
+    }
+  }
+
+  if (valid_symbols[ATTR_VALUE_INTERPOLATION_START] && valid_symbols[ATTR_VALUE_STATIC]) {
+    if (lexer->lookahead == '#') {
+      lexer->advance(lexer, false);
+      if (lexer->lookahead == '{') {
+        lexer->advance(lexer, false);
+        lexer->result_symbol = ATTR_VALUE_INTERPOLATION_START;
+        return true;
+      } else {
+        return scan_attr_value_static(scanner, lexer);
+      }
+    } else {
+      return scan_attr_value_static(scanner, lexer);
+    }
+  } else if (valid_symbols[ATTR_VALUE_INTERPOLATION_CONTENTS]) {
+    int interpolation_braces_level = 0;
+    for (;;) {
+      if (lexer->eof(lexer)) {
+        return false;
+      } else if (lexer->lookahead == '{') {
+        scanner->string_braces_level++;
+        interpolation_braces_level++;
+      } else if (lexer->lookahead == '}') {
+        if (interpolation_braces_level == 0) {
+          lexer->result_symbol = ATTR_VALUE_INTERPOLATION_CONTENTS;
+          return true;
+        }
+        scanner->string_braces_level--;
+        interpolation_braces_level--;
+      }
+      lexer->advance(lexer, false);
+    }
+  } else if (valid_symbols[ATTR_VALUE_INTERPOLATION_END]) {
+    if (lexer->lookahead == '}') {
+      if (scanner->string_braces_level <= 0) {
+        return false;
+      }
+      scanner->string_braces_level--;
+      lexer->advance(lexer, false);
+      lexer->result_symbol = ATTR_VALUE_INTERPOLATION_END;
     }
   }
 
