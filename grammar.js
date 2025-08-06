@@ -1,3 +1,6 @@
+/// <reference types="tree-sitter-cli/dsl" />
+// @ts-check
+
 // See: https://github.com/slim-template/slim/blob/master/lib/slim/parser.rb
 // Also: https://rdoc.info/gems/slim/frames
 
