@@ -2,6 +2,7 @@
   "name": "tree-sitter-slim",
   "version": "0.0.1",
   "description": "A tree-sitter based parser for slim template language",
+  "repository": "https://github.com/kolen/tree-sitter-slim",
   "main": "bindings/node",
   "types": "bindings/node",
   "scripts": {
