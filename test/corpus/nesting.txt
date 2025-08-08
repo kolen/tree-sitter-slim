@@ -48,13 +48,15 @@ div foo='value1' bar='value2' baz='value3'
   (element
     (tag_name)
     (attrs
-      (attr (attr_name) (attr_assignment) (attr_value_quoted))
-      (attr (attr_name) (attr_assignment) (attr_value_quoted))
-      (attr (attr_name) (attr_assignment) (attr_value_quoted)))
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted (attr_value_content)))
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted (attr_value_content)))
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted (attr_value_content))))
     (nested
       (element
-        (tag_name)))
-    ))
+        (tag_name)))))
 
 ================================
 Element nesting with empty lines

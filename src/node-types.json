@@ -220,6 +220,30 @@
     "fields": {}
   },
   {
+    "type": "attr_value_interpolation",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "attr_value_quoted",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attr_value_content",
+          "named": true
+        },
+        {
+          "type": "attr_value_interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "attrs",
     "named": true,
     "fields": {},
@@ -555,7 +579,20 @@
     }
   },
   {
+    "type": "verbatim_text_modifier_trailing_whitespace",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
     "type": "#",
+    "named": false
+  },
+  {
+    "type": "'",
     "named": false
   },
   {
@@ -623,7 +660,7 @@
     "named": true
   },
   {
-    "type": "attr_value_quoted",
+    "type": "attr_value_content",
     "named": true
   },
   {
@@ -725,10 +762,6 @@
   {
     "type": "transitional",
     "named": false
-  },
-  {
-    "type": "verbatim_text_modifier_trailing_whitespace",
-    "named": true
   },
   {
     "type": "xml",
