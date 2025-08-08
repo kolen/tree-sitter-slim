@@ -220,9 +220,28 @@
     "fields": {}
   },
   {
-    "type": "attr_value_quoted",
+    "type": "attr_value_interpolation",
     "named": true,
     "fields": {}
+  },
+  {
+    "type": "attr_value_quoted",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "attr_value_content",
+          "named": true
+        },
+        {
+          "type": "attr_value_interpolation",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "attrs",
@@ -638,6 +657,10 @@
   },
   {
     "type": "attr_shortcut_custom",
+    "named": true
+  },
+  {
+    "type": "attr_value_content",
     "named": true
   },
   {

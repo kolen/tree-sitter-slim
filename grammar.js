@@ -20,7 +20,7 @@ module.exports = grammar({
 
     $._attr_value_opening_quote_single,
     $._attr_value_opening_quote_double,
-    $._attr_value_static,
+    $.attr_value_content,
     $._attr_value_interpolation_start,
     $._attr_value_interpolation_contents,
     $._attr_value_interpolation_end,
@@ -192,24 +192,24 @@ module.exports = grammar({
       seq($._attr_value_opening_quote_single, optional($._attr_value_quoted_contents), "'"),
       seq($._attr_value_opening_quote_double, optional($._attr_value_quoted_contents), '"'),
     ),
-    _attr_value_interpolation: $ => seq(
+    attr_value_interpolation: $ => seq(
       $._attr_value_interpolation_start,
       $._attr_value_interpolation_contents,
       $._attr_value_interpolation_end
     ),
     _attr_value_quoted_contents_static_and_interpolation: $ => repeat1(
       seq(
-        $._attr_value_static,
-        repeat1($._attr_value_interpolation)
+        $.attr_value_content,
+        repeat1($.attr_value_interpolation)
       )
     ),
     _attr_value_quoted_contents: $ => choice(
-      $._attr_value_static,
-      repeat1($._attr_value_interpolation),
+      $.attr_value_content,
+      repeat1($.attr_value_interpolation),
       seq(
-        repeat($._attr_value_interpolation),
+        repeat($.attr_value_interpolation),
         $._attr_value_quoted_contents_static_and_interpolation,
-        optional($._attr_value_static),
+        optional($.attr_value_content),
       ),
     ),
 
