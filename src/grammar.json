@@ -1117,6 +1117,22 @@
           "type": "SEQ",
           "members": [
             {
+              "type": "REPEAT1",
+              "content": {
+                "type": "SYMBOL",
+                "name": "attr_value_interpolation"
+              }
+            },
+            {
+              "type": "SYMBOL",
+              "name": "attr_value_content"
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
               "type": "REPEAT",
               "content": {
                 "type": "SYMBOL",

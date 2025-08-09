@@ -207,6 +207,10 @@ module.exports = grammar({
       $.attr_value_content,
       repeat1($.attr_value_interpolation),
       seq(
+        repeat1($.attr_value_interpolation),
+        $.attr_value_content
+      ),
+      seq(
         repeat($.attr_value_interpolation),
         $._attr_value_quoted_contents_static_and_interpolation,
         optional($.attr_value_content),
