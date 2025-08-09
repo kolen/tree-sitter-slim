@@ -214,7 +214,7 @@ static bool scan_ruby(TSLexer *lexer) {
   return true;
 }
 
-static bool scan_attr_value_static(Scanner *scanner, TSLexer *lexer) {
+static bool scan_attr_value_static(Scanner *scanner, TSLexer *lexer, bool at_start_of_token) {
   for (;;) {
     if (lexer->eof(lexer)) {
       return false;
@@ -236,12 +236,16 @@ static bool scan_attr_value_static(Scanner *scanner, TSLexer *lexer) {
       }
     } else if (lexer->lookahead == scanner->string_quote &&
                scanner->string_braces_level == 0) {
+      if (at_start_of_token) {
+        return false;
+      }
       lexer->result_symbol = ATTR_VALUE_STATIC;
       return true;
     }
 
     lexer->advance(lexer, false);
     lexer->mark_end(lexer);
+    at_start_of_token = false;
   }
 }
 
@@ -390,14 +394,15 @@ bool tree_sitter_slim_external_scanner_scan(
     if (lexer->lookahead == '#') {
       lexer->advance(lexer, false);
       if (lexer->lookahead == '{') {
+        scanner->string_braces_level++;
         lexer->advance(lexer, false);
         lexer->result_symbol = ATTR_VALUE_INTERPOLATION_START;
         return true;
       } else {
-        return scan_attr_value_static(scanner, lexer);
+        return scan_attr_value_static(scanner, lexer, false);
       }
     } else {
-      return scan_attr_value_static(scanner, lexer);
+      return scan_attr_value_static(scanner, lexer, true);
     }
   } else if (valid_symbols[ATTR_VALUE_INTERPOLATION_CONTENTS]) {
     int interpolation_braces_level = 0;
