@@ -1,0 +1,32 @@
+================================
+Interpolation and static content
+================================
+
+span title="#{a}test"
+span title="test#{a}"
+span title="#{a}"
+span title="#{a}#{b}"
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted (attr_value_interpolation) (attr_value_content)))))
+  (element
+    (tag_name)
+    (attrs
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted (attr_value_content) (attr_value_interpolation)))))
+  (element
+    (tag_name)
+    (attrs
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted (attr_value_interpolation)))))
+  (element
+    (tag_name)
+    (attrs
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted (attr_value_interpolation) (attr_value_interpolation))))))
