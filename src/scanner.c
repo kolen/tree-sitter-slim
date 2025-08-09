@@ -425,6 +425,7 @@ bool tree_sitter_slim_external_scanner_scan(
       scanner->string_braces_level--;
       lexer->advance(lexer, false);
       lexer->result_symbol = ATTR_VALUE_INTERPOLATION_END;
+      return true;
     }
   }
 
