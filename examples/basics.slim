@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    title Example
+    javascript:
+      window.example = {}
+
+  body
+    #main
+      img[src="/images/#{Image.first.filename}"]
+      p
+        | Example content
+      = render "content"
