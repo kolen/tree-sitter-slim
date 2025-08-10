@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches: [ "master" ]
-    paths: &paths
+    paths:
       - grammar.js
       - src/**
       - test/**
@@ -11,7 +11,12 @@ on:
       - tree-sitter.json
   pull_request:
     branches: [ "master" ]
-    paths: *paths
+    paths:
+      - grammar.js
+      - src/**
+      - test/**
+      - bindings/**
+      - tree-sitter.json
 
 jobs:
   test:
