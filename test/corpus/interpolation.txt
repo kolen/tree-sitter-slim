@@ -15,22 +15,26 @@ span title="#{a}test#{b}#{c}test"
     (tag_name)
     (attrs
       (attr (attr_name) (attr_assignment)
-        (attr_value_quoted (attr_value_interpolation) (attr_value_content)))))
+        (attr_value_quoted
+          (attr_value_interpolation (ruby)) (attr_value_content)))))
   (element
     (tag_name)
     (attrs
       (attr (attr_name) (attr_assignment)
-        (attr_value_quoted (attr_value_content) (attr_value_interpolation)))))
+        (attr_value_quoted
+          (attr_value_content) (attr_value_interpolation (ruby))))))
   (element
     (tag_name)
     (attrs
       (attr (attr_name) (attr_assignment)
-        (attr_value_quoted (attr_value_interpolation)))))
+        (attr_value_quoted
+          (attr_value_interpolation (ruby))))))
   (element
     (tag_name)
     (attrs
       (attr (attr_name) (attr_assignment)
-        (attr_value_quoted (attr_value_interpolation) (attr_value_interpolation)))))
+        (attr_value_quoted
+          (attr_value_interpolation (ruby)) (attr_value_interpolation (ruby))))))
   (element
     (tag_name)
     (attrs
@@ -38,10 +42,10 @@ span title="#{a}test#{b}#{c}test"
         (attr_name)
         (attr_assignment)
         (attr_value_quoted
-          (attr_value_interpolation)
+          (attr_value_interpolation (ruby))
           (attr_value_content)
-          (attr_value_interpolation)
-          (attr_value_interpolation)
+          (attr_value_interpolation (ruby))
+          (attr_value_interpolation (ruby))
           (attr_value_content))))))
 
 ===================
@@ -58,7 +62,7 @@ span title="test#{}test"
     (attrs
       (attr (attr_name) (attr_assignment)
         (attr_value_quoted
-          (attr_value_content) (attr_value_interpolation) (attr_value_content))))))
+          (attr_value_content) (attr_value_interpolation (ruby)) (attr_value_content))))))
 
 =========================
 Interpolation with braces
@@ -77,7 +81,7 @@ span title="{{#{example['{}']}}}"
         (attr_assignment)
         (attr_value_quoted
           (attr_value_content)
-          (attr_value_interpolation)
+          (attr_value_interpolation (ruby))
           (attr_value_content))))))
 
 ==========================

@@ -227,7 +227,7 @@ static const char * const ts_symbol_names[] = {
   [sym__attr_value_opening_quote_double] = "_attr_value_opening_quote_double",
   [sym_attr_value_content] = "attr_value_content",
   [sym__attr_value_interpolation_start] = "_attr_value_interpolation_start",
-  [sym__attr_value_interpolation_contents] = "_attr_value_interpolation_contents",
+  [sym__attr_value_interpolation_contents] = "ruby",
   [sym__attr_value_interpolation_end] = "_attr_value_interpolation_end",
   [sym__attr_value_ruby] = "attr_splat",
   [sym__attr_value_ruby_p] = "_attr_value_ruby_p",
@@ -371,7 +371,7 @@ static const TSSymbol ts_symbol_map[] = {
   [sym__attr_value_opening_quote_double] = sym__attr_value_opening_quote_double,
   [sym_attr_value_content] = sym_attr_value_content,
   [sym__attr_value_interpolation_start] = sym__attr_value_interpolation_start,
-  [sym__attr_value_interpolation_contents] = sym__attr_value_interpolation_contents,
+  [sym__attr_value_interpolation_contents] = sym_ruby,
   [sym__attr_value_interpolation_end] = sym__attr_value_interpolation_end,
   [sym__attr_value_ruby] = sym__attr_value_ruby,
   [sym__attr_value_ruby_p] = sym__attr_value_ruby_p,
@@ -708,7 +708,7 @@ static const TSSymbolMetadata ts_symbol_metadata[] = {
     .named = true,
   },
   [sym__attr_value_interpolation_contents] = {
-    .visible = false,
+    .visible = true,
     .named = true,
   },
   [sym__attr_value_interpolation_end] = {

@@ -194,7 +194,7 @@ module.exports = grammar({
     ),
     attr_value_interpolation: $ => seq(
       $._attr_value_interpolation_start,
-      $._attr_value_interpolation_contents,
+      alias($._attr_value_interpolation_contents, $.ruby),
       $._attr_value_interpolation_end
     ),
     _attr_value_quoted_contents_static_and_interpolation: $ => repeat1(

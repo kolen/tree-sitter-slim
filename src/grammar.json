@@ -1071,8 +1071,13 @@
           "name": "_attr_value_interpolation_start"
         },
         {
-          "type": "SYMBOL",
-          "name": "_attr_value_interpolation_contents"
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_attr_value_interpolation_contents"
+          },
+          "named": true,
+          "value": "ruby"
         },
         {
           "type": "SYMBOL",
