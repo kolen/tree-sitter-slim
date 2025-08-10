@@ -27,3 +27,8 @@ jobs:
       uses: tree-sitter/setup-action/cli@v2
     - name: Run tests
       uses: tree-sitter/parser-test-action@v2
+    - name: Parse sample files
+      uses: tree-sitter/parse-action@v4
+      id: parse-files
+      with:
+        files: examples/**
