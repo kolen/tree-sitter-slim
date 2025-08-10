@@ -18,7 +18,13 @@ module.exports = grammar({
     $._block_end,
     $._line_separator,
 
-    $.attr_value_quoted,
+    $._attr_value_opening_quote_single,
+    $._attr_value_opening_quote_double,
+    $.attr_value_content,
+    $._attr_value_interpolation_start,
+    $._attr_value_interpolation_contents,
+    $._attr_value_interpolation_end,
+
     $._attr_value_ruby,
     $._attr_value_ruby_p, // ()
     $._attr_value_ruby_s, // []
@@ -182,6 +188,34 @@ module.exports = grammar({
       // TODO: many more
     ),
     attr_boolean: $ => $.attr_name,
+    attr_value_quoted: $ => choice(
+      seq($._attr_value_opening_quote_single, optional($._attr_value_quoted_contents), "'"),
+      seq($._attr_value_opening_quote_double, optional($._attr_value_quoted_contents), '"'),
+    ),
+    attr_value_interpolation: $ => seq(
+      $._attr_value_interpolation_start,
+      alias($._attr_value_interpolation_contents, $.ruby),
+      $._attr_value_interpolation_end
+    ),
+    _attr_value_quoted_contents_static_and_interpolation: $ => repeat1(
+      seq(
+        $.attr_value_content,
+        repeat1($.attr_value_interpolation)
+      )
+    ),
+    _attr_value_quoted_contents: $ => choice(
+      $.attr_value_content,
+      repeat1($.attr_value_interpolation),
+      seq(
+        repeat1($.attr_value_interpolation),
+        $.attr_value_content
+      ),
+      seq(
+        repeat($.attr_value_interpolation),
+        $._attr_value_quoted_contents_static_and_interpolation,
+        optional($.attr_value_content),
+      ),
+    ),
 
     element_text: $ => seq(
       optional($._space),

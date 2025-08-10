@@ -108,5 +108,5 @@ span title="example" example text
       (attr
         (attr_name)
         (attr_assignment)
-        (attr_value_quoted)))
+        (attr_value_quoted (attr_value_content))))
     (element_text)))

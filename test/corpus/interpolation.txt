@@ -1,0 +1,111 @@
+================================
+Interpolation and static content
+================================
+
+span title="#{a}test"
+span title="test#{a}"
+span title="#{a}"
+span title="#{a}#{b}"
+span title="#{a}test#{b}#{c}test"
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted
+          (attr_value_interpolation (ruby)) (attr_value_content)))))
+  (element
+    (tag_name)
+    (attrs
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted
+          (attr_value_content) (attr_value_interpolation (ruby))))))
+  (element
+    (tag_name)
+    (attrs
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted
+          (attr_value_interpolation (ruby))))))
+  (element
+    (tag_name)
+    (attrs
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted
+          (attr_value_interpolation (ruby)) (attr_value_interpolation (ruby))))))
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value_quoted
+          (attr_value_interpolation (ruby))
+          (attr_value_content)
+          (attr_value_interpolation (ruby))
+          (attr_value_interpolation (ruby))
+          (attr_value_content))))))
+
+===================
+Empty interpolation
+===================
+
+span title="test#{}test"
+
+----
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr (attr_name) (attr_assignment)
+        (attr_value_quoted
+          (attr_value_content) (attr_value_interpolation (ruby)) (attr_value_content))))))
+
+=========================
+Interpolation with braces
+=========================
+
+span title="{{#{example['{}']}}}"
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value_quoted
+          (attr_value_content)
+          (attr_value_interpolation (ruby))
+          (attr_value_content))))))
+
+==========================
+Interpolation ending early
+:error
+==========================
+
+span title="#{example"
+
+---
+
+=================================
+Number sign without interpolation
+=================================
+
+span title="example#example"
+
+---
+
+(source_file
+  (element
+    (tag_name)
+    (attrs
+      (attr
+        (attr_name)
+        (attr_assignment)
+        (attr_value_quoted (attr_value_content))))))
