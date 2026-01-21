@@ -89,3 +89,14 @@ Empty file with one empty line
 ---
 
 (source_file)
+
+========================================
+First line indented more than next lines
+:error
+:skip
+========================================
+
+  div
+div
+
+---
