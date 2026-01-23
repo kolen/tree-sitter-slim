@@ -336,7 +336,6 @@ bool tree_sitter_slim_external_scanner_scan(
       uint16_t *first_indent = array_front(&scanner->indents);
 
       for(;;) {
-
         if (indent_length == *indent) {
           break;
         } else if (indent_length > *indent) {
