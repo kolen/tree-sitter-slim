@@ -93,7 +93,6 @@ Empty file with one empty line
 ========================================
 First line indented more than next lines
 :error
-:skip
 ========================================
 
   div

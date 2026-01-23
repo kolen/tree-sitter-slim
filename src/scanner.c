@@ -352,9 +352,14 @@ bool tree_sitter_slim_external_scanner_scan(
         }
         indent--;
       }
+
       // Should not dedent to less than first indentation level
-      assert((int)scanner->indents.size > scanner->dedents_to_output);
+      assert((int)scanner->indents.size >= scanner->dedents_to_output);
       scanner->indents.size -= scanner->dedents_to_output;
+      if (scanner->indents.size == 0) {
+        scanner->indents.size = 1;
+        scanner->indents.contents[0] = indent_length;
+      }
 
       if (scanner->dedents_to_output > 0) {
         lexer->result_symbol = BLOCK_END;
