@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.1] - 2026-01-24
+
+- Fixed crash when some line has indentation that is less than first
+  line indentation
+
 ## [0.1.0] - 2025-08-10
 
 - Added parsing of string interpolation in attribute values. Now
